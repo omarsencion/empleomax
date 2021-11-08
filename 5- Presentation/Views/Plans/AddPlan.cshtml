@@ -1,0 +1,89 @@
+﻿@model EmpleosWebMax.Application.ViewModels.PlanViewModel
+@using EmpleosWebMax.Common.Enum;
+@{
+    ViewData["Title"] = "Agregar Plan";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Agregar Plan</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddPlan">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="PlanDto.Code" class="control-label"></label>
+                <input asp-for="PlanDto.Code" class="form-control" readonly />
+                <span asp-validation-for="PlanDto.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.Name" class="control-label"></label>
+                <input asp-for="PlanDto.Name" class="form-control" />
+                <span asp-validation-for="PlanDto.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.Description" class="control-label"></label>
+                <input asp-for="PlanDto.Description" class="form-control" />
+                <span asp-validation-for="PlanDto.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.Category" class="control-label"></label>
+                <select asp-for="PlanDto.Category" class="form-control" asp-items="Html.GetEnumSelectList<Category>()"></select>
+                <span asp-validation-for="PlanDto.Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.Price" class="control-label"></label>
+                <input asp-for="PlanDto.Price" class="form-control" />
+                <span asp-validation-for="PlanDto.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PlanDto.IsDefaultPlan" /> @Html.DisplayNameFor(model => model.PlanDto.IsDefaultPlan)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.JobVacancyNumber" class="control-label"></label>
+                <input asp-for="PlanDto.JobVacancyNumber" class="form-control" />
+                <span asp-validation-for="PlanDto.JobVacancyNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.PriorityJobNumber" class="control-label"></label>
+                <input asp-for="PlanDto.PriorityJobNumber" class="form-control" />
+                <span asp-validation-for="PlanDto.PriorityJobNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.CanditateMessageNumber" class="control-label"></label>
+                <input asp-for="PlanDto.CanditateMessageNumber" class="form-control" />
+                <span asp-validation-for="PlanDto.CanditateMessageNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="PlanDto.IsCanditateSearch" /> @Html.DisplayNameFor(model => model.PlanDto.IsCanditateSearch)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlanDto.PriceOfJobVacancyBonus" class="control-label"></label>
+                <input asp-for="PlanDto.PriceOfJobVacancyBonus" class="form-control" />
+                <span asp-validation-for="PlanDto.PriceOfJobVacancyBonus" class="text-danger"></span>
+            </div>
+            <input asp-for="ModuleSequenceDto.Module" class="form-control" hidden />
+            <input asp-for="ModuleSequenceDto.Id" class="form-control" hidden />
+            <input asp-for="ModuleSequenceDto.Sequence" class="form-control" hidden />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

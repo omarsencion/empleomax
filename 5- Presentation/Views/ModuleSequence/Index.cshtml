@@ -1,0 +1,54 @@
+﻿@model IEnumerable<EmpleosWebMax.Domain.Dtos.ModuleSequenceDto>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="AddModuleSequence">Create </a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sequence)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Module)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModuleString)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CodeSequences)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sequence)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Module)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModuleString)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CodeSequences)
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

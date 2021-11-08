@@ -1,0 +1,132 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@model EmpleosWebMax.Domain.Entity.Educacion
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+@{
+    var id = _userManager.GetUserId(User);
+    var mail = _userManager.GetUserName(User);
+    ViewBag.id = id;
+    ViewBag.mail = mail;
+    DateTime date = DateTime.Now;
+
+}
+<div class="container-fluid">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background: linear-gradient(#E2ECF7, #c9d9eb);">
+                <div class="container-fluid">
+                    <div class="row justify-content-center align-self-center">
+                        <div class="col-md-8 justify-content-center align-self-center"><h1 class="TitleRes3">Educación</h1></div>
+                        <div class="col-md-4 justify-content-center align-self-center"><a href="#close-modal" rel="modal:open">Cerrar <i class="fas fa-times-circle text-danger"></i></a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row myModal">
+                    <div class="col-lg-12">
+                        <form asp-action="Edit">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" asp-for="IdUser" class="form-control" />
+                            <input type="hidden" asp-for="email" class="form-control" />
+                            <input type="hidden" class="form-check-input" asp-for="status" />
+                            <input type="hidden" asp-for="dateadd" class="form-control" value="@date" />
+
+
+                            @{
+                                int tipoe = Model.tipoestudio;
+                                var tipotex = "";
+
+                                if (tipoe == 2) { tipotex = "Básica/Primaria"; }
+                                else if (tipoe == 3) { tipotex = "Liceo/Secundaria"; }
+                                else if (tipoe == 6) { tipotex = "Curso"; }
+                                else if (tipoe == 9) { tipotex = "Técnico"; }
+                                else if (tipoe == 12) { tipotex = "Diplomado"; }
+                                else if (tipoe == 19) { tipotex = "Universidad"; }
+                                else if (tipoe == 22) { tipotex = "Maestría"; }
+                                else if (tipoe == 24) { tipotex = "Doctorado"; }
+                                else if (tipoe == 12) { tipotex = "Diplomado"; }
+                                else if (tipoe == 30) { tipotex = "Habilidades"; }
+                                else if (tipoe == 35) { tipotex = "Reconocimientos"; }
+                            }
+                            <div class="form-group">
+                                <label asp-for="tipoestudio" class="control-label"></label>
+                                @*<input asp-for="tipoestudio" class="form-control" />*@
+                            <select asp-for="tipoestudio" class="form-control">
+                                <option value="@tipoe" selected>@tipotex</option>
+                                <option value="2">Primaria</option>
+                                <option value="3">Secundaria</option>
+                                <option value="6">Curso</option>
+                                <option value="9">Técnico</option>
+                                <option value="12">Diplomado</option>
+                                <option value="19">Universidad</option>
+                                <option value="22">Maestría</option>
+                                <option value="24">Doctorado</option>
+                                <option value="30">Habilidades</option>
+                                <option value="35">Reconocimientos</option>
+                            </select>
+                                <span asp-validation-for="tipoestudio" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Institucion" class="control-label"></label>
+                                <input asp-for="Institucion" class="form-control" />
+                                <span asp-validation-for="Institucion" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="InstitucionLugar" class="control-label"></label>
+                                <input asp-for="InstitucionLugar" class="form-control" />
+                                <span asp-validation-for="InstitucionLugar" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Titulo" class="control-label"></label>
+                                <input asp-for="Titulo" class="form-control" />
+                                <span asp-validation-for="Titulo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Descripcion" class="control-label"></label>
+                                <input asp-for="Descripcion" class="form-control" />
+                                <span asp-validation-for="Descripcion" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="desde" class="control-label"></label>
+                                <input asp-for="desde" class="form-control" />
+                                <span asp-validation-for="desde" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="hasta" class="control-label"></label>
+                                <input asp-for="hasta" class="form-control" />
+                                <span asp-validation-for="hasta" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div>
+
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

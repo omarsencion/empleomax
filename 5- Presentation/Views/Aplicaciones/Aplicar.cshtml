@@ -1,0 +1,54 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@{
+    ViewData["Title"] = "Aplicar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var id          = _userManager.GetUserId(User);
+    var mail        = _userManager.GetUserName(User);
+    ViewBag.id      = id;
+    ViewBag.mail    = mail;
+    DateTime date   = DateTime.Now;
+
+}
+<div class="container">
+    <p class="title1">Aplicar a empleo</p><br><br><br>
+    @if (@ViewBag.nnId == 0)
+    {
+        <script>
+                window.onload = function () {
+                    window.location.href = "https://localhost:44353/Home/Empleos";
+                }
+        </script>
+    }
+    else if (@ViewBag.nnId > 0)
+    {
+
+        @foreach (var item in ViewBag.UserxList)
+        {
+            if (item.TypeUser == 255485)
+            {
+                <p class="title1"> @item.FirstName  @item.LastName</p>
+                <p class="TextRes"> @item.Email</p>
+                <br><br>@ViewBag.nnId
+            }
+            else
+            {
+                var msg = "Usted debe registrarse como candidato para poder aplicar a una oferta de empleo";
+                <div class="row">
+                    <div class="col-sm-8">
+                        <p class="title1"> @item.FirstName  @item.LastName</p>
+                        <text class="TextRes">@item.Email</text><br><br>@ViewBag.nnId<br>
+                        <h1 class="TextRes"><i class="fas fa-exclamation-circle"></i> @msg</h1>
+                        <form class="form-inline" asp-controller="Home" asp-action="Empleos">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-circle-left"></i> Regresar </button>
+                        </form>
+                    </div>
+                    <hr />
+                </div>
+            }
+        }
+    }
+</div>

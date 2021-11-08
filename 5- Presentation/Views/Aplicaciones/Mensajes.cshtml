@@ -1,0 +1,228 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@using Microsoft.AspNetCore.Mvc;
+
+@{
+    var user = await _userManager.GetUserAsync(User); // ver datos adicionales
+    int CheckUserType = user.TypeUser;
+    string fName = user.FirstName;
+    string lName = user.LastName;
+    string sCandidato = fName + " " + lName;
+    var usuarioguid2 = user.Id;
+    Guid usuarioguid = new Guid(usuarioguid2);
+    if (CheckUserType == 69784)
+    {
+    }
+    else
+    {
+        //Context.Response.Redirect(Url.Content("~/Identity/Account/Logout"));
+    }
+}
+
+@{
+    ViewData["Title"] = "VerAplicaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .tooltip-inner {
+        color: #000;
+        font-weight: 400;
+        background-color: #94C120;
+    }
+
+    .tooltip.bs-tooltip-auto[x-placement^=right] .arrow::before, .tooltip.bs-tooltip-right .arrow::before {
+        border-right-color: #94C120;
+    }
+</style>
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    Hola!, <h1 class="title1">@fName @lName</h1>
+    <h3 class="TitleRes">Aplicaciones a ofertas de empleo</h3>
+    <p>Usted podrá ver sus mensajes:</p>
+    <br>
+
+    @{int canapl = 0;
+        string bgDiv = "bg-white";}
+    @foreach (var item in ViewBag.MsgList)
+    {
+        canapl++;
+        int nMsg = 1;
+        string empresa = "";
+        Int64 QuienUser = item.Vistopor;
+        string deQuien = "";
+        string aQuien = "";
+        string aQuien2 = "";
+
+        if (item.publicosino == true)
+        {
+            empresa = item.EmpresaCentro;
+            aQuien2 = empresa;
+        }
+        else if (item.publicosino == false)
+        {
+            empresa = "Información reservada";
+            aQuien2 = empresa;
+        }
+
+        if (QuienUser == 255485)
+        {
+            if (usuarioguid == item.From_) { empresa = sCandidato; } else { empresa = "Candidato"; }
+        }
+        else if (QuienUser == 69784) { empresa = empresa; } else { empresa = ""; }
+
+        if (canapl == 0 || canapl == 1) { bgDiv = "bg-white"; }
+        if (bgDiv == "bg-white") { bgDiv = "bg-light"; } else { bgDiv = "bg-white"; }
+
+        if (item.To_ == usuarioguid) { aQuien = sCandidato; } else { aQuien = aQuien2; }
+
+        <div class="Container row shadow-sm p-0 mb-1 @bgDiv">
+            <div class="col-sm-1">
+                <p class="TextA">
+                    <br>
+                    <span class="badge badge-pill badge-secondary">
+                        @canapl
+                    </span>
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="letraSmallA">Mensajes De:</p>
+                <p class="TextA">@empresa</p>
+                <p class="letraSmallA">Vacante: </p>
+                <p class="TextA">@item.Titulotrabajo</p>
+            </div>
+            @*<div class="col-sm-3">
+                    <p class="letraSmallA">Vacante: </p>
+                    <p class="TextA">@item.Titulotrabajo</p>
+                </div>*@
+            <div class="col-sm-3">
+                <br>
+                <p class="TextA">@item.TrackingAdd</p>
+                <p class="TextA"><b>@item.Tracking_title</b></p>
+            </div>
+            <div class="col-sm-2">
+                <p class="letraSmallA">Mensajes Recibidos:</p>
+                <p class="TextA">
+                    @*<a href="#" title="@item.Tracking_title" data-toggle="popover" data-trigger="focus" data-content="@item.Msg"></a>*@
+                    @if (nMsg == 1)
+                    {
+                        @*@Html.Raw("<img src='../images/email-receive-icon.png'  height='35px'>");*@
+
+                        @*<button type="button" class="btn btn-sm btn-link" data-toggle="modal" data-target="#myModal_@item.Id">
+                                <i class="fas fa-comments"></i> detalles
+                            </button>*@
+                        <a href="#" data-toggle="collapse" data-target="#b2_@item.Id">
+                            @if (nMsg == 1)
+                            {
+                                @Html.Raw("<img src='../images/email-receive-icon.png'  height='35px'>");
+
+                            }
+                            else { }
+                        </a>
+
+                    }
+                    else { }
+
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p class="letraSmallA">Enviar Mensaje:</p>
+                <p class="TextA">
+                    <a href="#" data-toggle="collapse" data-target="#b_@item.Id">
+                        @if (nMsg == 1)
+                        {
+                            @Html.Raw("<img src='../images/email-send-icon.png'  height='35px'>");
+
+                        }
+                        else { }
+                    </a>
+                </p>
+            </div>
+
+        </div>
+        <div id="b2_@item.Id" class="container collapse p-4 bg-primary text-white">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="letraSmallA">Asunto: </p>
+                    <p class="TextA"><b>@item.Tracking_title</b></p>
+                    <p class="letraSmallA">Mensaje: </p>
+                    <p class="TextA">@item.Msg</p>
+                </div>
+            </div>
+        </div>
+            <div id="b_@item.Id" class="container collapse bg-light p-0">
+                <form class="" asp-controller="Aplicaciones" asp-action="EnviarMensajeU">
+                    <input type="hidden" name="sdhtrtggwe" class="form-control" value="@item.Tracking" />
+                    <input type="hidden" name="sdhggwe" class="form-control" value="@item.Id" />
+                    <input type="hidden" name="Oportunidad" class="form-control" value="@item.Job" />
+                    <input type="hidden" name="Id" class="form-control" value="@item.IdEmppleoAdd" />
+                    <input type="hidden" name="hdwdewttweggew" class="form-control" value="@item.IdUserEmpresa" />
+                    <div class="container row">
+                        <div class="col-sm-12">
+                            <p class="letraSmallA">Titulo:</p>
+                            <input type="text" name="titulo" class="form-control" placeholder="ej: información" />
+                        </div>
+                    </div>
+
+                    <div class="container row">
+                        <div class="col-sm-12">
+                            <p class="letraSmallA">Mensaje:</p>
+                            @*<input type="text" name="dfgfdgd2244" class="form-control" value="msg" />*@
+                            <textarea name="dfgfdgd2244" class="form-control" placeholder="ej: Puede por favor decirme si es necesario licencia de conducir:"></textarea>
+
+                        </div>
+                        <div class="col-sm-12">
+                            <p class="letraSmallA"> Enviar:</p>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-circle-right"></i> Enviar Mensaje</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            @*////////////////////////////////////////////// Mensajes ////////////////////////////////////////////////////*@
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            <!-- Button to Open the Modal -->
+            <!-- The Modal -->
+            <div class="modal" id="myModal_@item.Id">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h1 class="modal-title">Modal Heading</h1>
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <h3>@item.Id</h3>
+                        </div>
+
+                        <!-- Modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @*//----------------------------------------------------------------------------------------------*@
+            }
+
+            <br>
+            <button class="btn btn-outline-danger hBack" type="button"><i class="fas fa-arrow-circle-left"></i> Regresar</button>
+
+        </div>
+        <script>
+            $(document).ready(function () {
+                $('[data-toggle="popover"]').popover();
+            });
+        </script>
+        <script>
+            $(".hBack").on("click", function (e) {
+                e.preventDefault();
+                window.history.back();
+            });
+        </script>

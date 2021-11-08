@@ -1,0 +1,30 @@
+﻿@using Microsoft.AspNetCore.Http
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<style>
+    text.letraSmall {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 12px;
+        margin: 0;
+    }
+</style>
+@{
+    Layout = "";
+    string mensaje = @ViewBag.mensajeUserName;
+}
+@if (mensaje == "ab")
+{<a href="#" data-toggle="tooltip" title="Ya estas siguiendo!"><i class="fas fa-walking text-primary"></i><text class="letraSmall text-primary"> solicitado</text></a>
+}
+else if (mensaje == "aenr")
+{
+    <a href="#" data-toggle="tooltip" title="Ya estas siguiendo!"><i class="fas fa-walking text-primary"></i><text class="letraSmall text-primary"> esperando</text></a>
+}
+else if (mensaje == "aera")
+{
+    <a href="#" data-toggle="tooltip" title="Ya estas siguiendo!"><i class="fas fa-walking text-primary"></i><text class="letraSmall text-primary"> amigos</text></a>
+}
+else
+{
+    Context.Response.Redirect(
+        $"{Context.Request.PathBase}/Home/Candidatos", false);
+
+}

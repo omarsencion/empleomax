@@ -1,0 +1,162 @@
+﻿@model EmpleosWebMax.Application.ViewModels.InvoiceViewModel
+
+@{
+    ViewData["Title"] = "AddInvoice";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+
+<form asp-action="AddInvoice">
+ <div class="content-wrapper">
+     <section class="content">
+         <div class="row">
+             <div class="col-md-9">
+                 <div class="box box-primary">
+                     <div class="box-body">
+                         <div class="row">
+                             <div class="col-md-12">
+                                 @*<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="customerInvoiceId" />*@
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group">
+                                             <label asp-for="ModuleSequenceDto.CodeSequences" class="control-label"></label>
+                                             <input asp-for="ModuleSequenceDto.CodeSequences" class="form-control" readonly />
+                                             <span asp-validation-for="ModuleSequenceDto.CodeSequences" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                     @*<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="invoiceDto.Date" class="control-label"></label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input asp-for="invoiceDate" class="form-control pull-right datepicker" type="text" />
+                                        </div>
+                                        <span asp-validation-for="invoiceDate" class="text-danger"></span>
+                                    </div>
+                                </div>*@
+                                 </div>
+                                 <div class="row">
+                                     @*<div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="invoiceReference" class="control-label"></label>
+                                        <input asp-for="invoiceReference" class="form-control" />
+                                        <span asp-validation-for="invoiceReference" class="text-danger"></span>
+                                    </div>
+                                </div>*@
+                                     <div class="col-md-6">
+                                         <div class="form-group">
+                                             <label asp-for="InvoiceDto.Date" class="control-label"></label>
+                                             <div class="input-group date">
+                                                 <div class="input-group-addon">
+                                                     <i class="fa fa-calendar"></i>
+                                                 </div>
+                                                 <input asp-for="InvoiceDto.Date" class="form-control pull-right datepicker" type="text" />
+                                             </div>
+                                             <span asp-validation-for="InvoiceDto.Date" class="text-danger"></span>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div class="row">
+                                     <div class="col-md-6">
+                                         <div class="form-group">
+                                             <label asp-for="UserId" class="control-label"></label>
+                                             <select asp-for="UserId" class="form-control select2" asp-items="Model.UserDto"></select>
+                                         </div>
+                                     </div>
+                                     @*<div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="customerId" class="control-label"></label>
+                                            <select asp-for="customerId" class="form-control select2" asp-items="ViewBag.customerId"></select>
+                                        </div>
+                                    </div>
+                                </div>*@
+                                     <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 <label asp-for="InvoiceDto.NoteToRecipient" class="control-label"></label>
+                                                 <input asp-for="InvoiceDto.NoteToRecipient" class="form-control" />
+                                                 <span asp-validation-for="InvoiceDto.NoteToRecipient" class="text-danger"></span>
+                                             </div>
+                                         </div>
+                                         @*<div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="termsAndCondition" class="control-label"></label>
+                                            <input asp-for="termsAndCondition" class="form-control" />
+                                            <span asp-validation-for="termsAndCondition" class="text-danger"></span>
+                                        </div>
+                                    </div>*@
+                                     </div>
+                                     <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 <label asp-for="InvoiceDto.Subtotal" class="control-label"></label>
+                                                 <input asp-for="InvoiceDto.Subtotal" class="form-control" readonly />
+                                                 <span asp-validation-for="InvoiceDto.Subtotal" class="text-danger"></span>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 <label asp-for="InvoiceDto.TaxAmount" class="control-label"></label>
+                                                 <input asp-for="InvoiceDto.TaxAmount" class="form-control" readonly />
+                                                 <span asp-validation-for="InvoiceDto.TaxAmount" class="text-danger"></span>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 <label asp-for="InvoiceDto.Discount" class="control-label"></label>
+                                                 <input asp-for="InvoiceDto.Discount" class="form-control" />
+                                                 <span asp-validation-for="InvoiceDto.Discount" class="text-danger"></span>
+                                             </div>
+                                         </div>
+                                         @*<div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="shipping" class="control-label"></label>
+                                            <input asp-for="shipping" class="form-control" />
+                                            <span asp-validation-for="shipping" class="text-danger"></span>
+                                        </div>
+                                    </div>*@
+                                     </div>
+                                     <div class="row">
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 <label asp-for="InvoiceDto.Total" class="control-label"></label>
+                                                 <input asp-for="InvoiceDto.Total" class="form-control" readonly />
+                                                 <span asp-validation-for="InvoiceDto.Total" class="text-danger"></span>
+                                             </div>
+                                         </div>
+                                         <div class="col-md-6">
+                                             <div class="form-group">
+                                                 <div class="checkbox">
+                                                     <label>
+                                                         <input asp-for="InvoiceDto.IsPaid" /> @Html.DisplayNameFor(model => model.InvoiceDto.IsPaid)
+                                                     </label>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+
+                                 </div>
+                             </div>
+                         </div>
+                         <div class="box-footer">
+                             <div class="form-group">
+                                 <input type="submit" value="Create" class="btn btn-primary" />
+                                 <a asp-action="Index" class="btn btn-default">Back to List</a>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+  </div>
+</form>
+
+    @section Scripts {
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    }

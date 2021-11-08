@@ -1,0 +1,168 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+
+@using System.Security.Claims;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using EmpleosWebMax.Domain.Entity;
+@model IEnumerable<EmpleoDto>
+
+@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+@{
+    var id = _userManager.GetUserId(User);
+    var mail = _userManager.GetUserName(User);
+    ViewBag.id = id;
+    ViewBag.mail = mail;
+    DateTime date = DateTime.Now;
+
+}
+
+<p></p>
+<div class="container-fluid bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Listado de Empleos</h1>
+    <p>Vacantes:</p>
+    <div class="container-fluid border-0">
+        <form enctype="multipart/form-data" asp-controller="Admin" asp-action="VerEmpleos" asp-route-returnUrl="@Context.Request.QueryString">
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-control" name="buscarpor">
+                        <option value=""> Seleccione: </option>
+                        <option value="empresa">Por nombre de empresa</option>
+                        <option value="vacante">Por nombre de vacante</option>
+                    </select>
+                </div>
+                <div class="col-md-5"><input type="text" name="buscar" class="form-control" value="" placeholder="digite lo que desee buscar" /></div>
+                <div class="col-md-2">
+
+                    <select class="form-control" name="all">
+                        <option value="0">Todas las Empresas</option>
+                        <option value="1">Empresas Administradas</option>
+                    </select>
+                </div>
+                <div class="col-md-1"><button type="submit" class="btn btn-primary text-white"> <i class="fas fa-search"></i> </button></div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="align-items-md-start">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("VerEmpleos", "Admin", new { page = page , all = ViewBag.all}),
+     new X.PagedList.Web.Common.PagedListRenderOptionsBase
+     {
+            //en que pagina estas?
+            DisplayItemSliceAndTotal = true,
+            ContainerDivClasses = new[] { "navigation" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+
+            //ItemSliceAndTotalFormat = "Mostrando {0} a {1} de {2} vacantes.",
+            ItemSliceAndTotalFormat = "{1} de {2}",
+            LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+            LinkToPreviousPageFormat = "<i class='fas fa-angle-left'></i>",
+            LinkToNextPageFormat = "<i class='fas fa-angle-right'></i>",
+            LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>"
+     })
+    </div>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Orden</th>
+            <th>Empresa</th>
+            <th>Empleo</th>
+            <th>Ciudad</th>
+            <th>Empleo Publico</th>
+            <th>Dias</th>
+            <th>Publicado</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{int canapl = 0; }
+        @foreach (var item in Model)
+{
+string sino = "";
+
+canapl++;
+
+<tr>
+    <td>@canapl</td>
+    <td>@item.EmpresaCentro</td>
+    <td>@item.Titulotrabajo</td>
+    <td>@item.Ciudadtrabajo</td>
+    @if (item.publicosino == true) { sino = "Sí"; } else if (item.publicosino == false) { sino = "No"; }
+    <td>@sino</td>
+    <td>@item.diaslaborables</td>
+    <td>@item.dateadd</td>
+    <td>
+        <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditVacante" asp-route-returnUrl="@Context.Request.QueryString">
+            <div class="row">
+                <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                <input type="hidden" name="St" class="form-control" value="a" />
+                <button type="submit" class="btn text-danger"> <i class="fas fa-trash-alt"></i> </button>
+            </div>
+        </form>
+    </td>
+    <td>
+        @{if (@item.statusGral == 0)
+            {
+                <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditVacante" asp-route-returnUrl="@Context.Request.QueryString">
+                    <div class="row">
+                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                        <input type="hidden" name="St" class="form-control" value="r" />
+                        <button type="submit" class="btn text-success"> <i class="far fa-eye"></i> </button>
+                    </div>
+                </form> }
+            else if (@item.statusGral == 1)
+            {
+                <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditVacante" asp-route-returnUrl="@Context.Request.QueryString">
+                    <div class="row">
+                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                        <input type="hidden" name="St" class="form-control" value="x" />
+                        <button type="submit" class="btn text-danger"> <i class="far fa-eye-slash"></i> </button>
+                    </div>
+                </form>}
+        }
+
+    </td>
+    <td>
+        <form enctype="multipart/form-data" asp-controller="Empleoofertas" asp-action="EditarA" asp-route-returnUrl="@Context.Request.QueryString">
+            <div class="row">
+                <input type="hidden" name="Id" class="form-control" value="@item.Id" />
+                <input type="hidden" name="gdtdstds" class="form-control" value="@item.Job" />
+                <input type="hidden" name="pag" class="form-control" value="@ViewBag.sPagereturnUrl" />
+                <input type="hidden" name="buscar" class="form-control" value="@ViewBag.buscar" />
+                <input type="hidden" name="buscarpor" class="form-control" value="@ViewBag.buscarpor" />
+                <input type="hidden" name="all" value="@ViewBag.all" />
+
+                <button type="submit" class="btn text-dark">&nbsp;&nbsp;&nbsp;&nbsp; <i class="far fa-edit"></i> </button>
+            </div>
+        </form>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+
+<br>
+<br>
+</div>
+<div class="divAlto"></div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}

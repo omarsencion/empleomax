@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewData["Title"] = "VerEmresas2";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<p></p>
+<div class="container-fluid bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Listado de Empresas agregadas por el Administrador</h1>
+    <p>Vacantes:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th></th>
+                <th>Empresa</th>
+                <th>RNC</th>
+                <th>Ciudad</th>
+                <th>Publicado</th>
+                <th>Agregar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+            <tr>
+                <td>@canapl</td>
+                <td><img src="~/logo/@item.Foto" class="responsive" height="10"></td>
+                <td>@item.EmpresaCentro</td>
+                <td>@item.RNC</td>
+                <td>@item.Ciudad</td>
+                <td>@item.dateadd</td>
+                <td>
+                    <form class="form-inline" asp-controller="Admin" asp-action="CEV2a" asp-route-returnUrl="@Context.Request.QueryString">
+                        <input type="hidden" name="Id" class="form-control" value="@item.Id" />
+                        <input type="hidden" name="Ide" class="form-control" value="@item.Idempresa" />
+                        <input type="hidden" name="IdU" class="form-control" value="@item.IdUser" />
+                        <button type="submit" class="btn btn-warning"><i class="fas fa-address-card"></i> Crear Vacante </button>
+                    </form>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+    <br><br>
+</div>
+<div class="divAlto"></div>
+
+

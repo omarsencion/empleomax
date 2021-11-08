@@ -1,0 +1,57 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using System.Security.Claims;
+@{
+    ViewData["Title"] = "Aplicar";
+    Layout = "";
+
+}
+@{
+    var user = await UserManager.GetUserAsync(User); 
+    TempData["CUT"] = 0;
+    int UserLogedIn = 0;
+
+}
+@if (SignInManager.IsSignedIn(User))
+{
+    //*********type********
+    int CheckUserType = user.TypeUser;
+    TempData["CUT"] = CheckUserType;
+    UserLogedIn = 1;
+
+}
+else
+{
+    UserLogedIn = 2;
+}
+
+
+@if (UserLogedIn == 2)
+{
+
+int nPage = ViewBag.nPagina;
+    <partial name="_Login2" />
+
+}
+else if (UserLogedIn == 1)
+{
+    @ViewBag.id_abc
+    <br>
+    @ViewBag.id2_abc
+    <br>
+    @UserLogedIn
+    <br>
+    @ViewBag.UserLogedIn
+    <br>
+    <p class="alert-danger">
+        logeado
+    </p>
+
+}
+else
+{
+    <p class="alert-danger">
+        nothing
+    </p>
+}

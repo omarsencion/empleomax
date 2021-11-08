@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Email";
+    Layout = "";
+
+}
+<div class="container">
+    @ViewBag.id_abc<br>
+    @ViewBag.id2_abc<br>
+    @ViewBag.RefPage
+    <div class="row">
+        <div class="col-md-12">
+            <form class="" asp-controller="Aplicaciones" asp-action="EmailSend2" asp-route-returnUrl="@Context.Request.QueryString">
+                <table class="table table-borderless">
+                    <tbody>
+                        <tr>
+                            <td>
+                                Vacante:<br>
+                                <p class="TextRes">@ViewBag.titulo</p><br>
+                                Escribe tu email:<br>
+                                <input type="text" name="From_" class="form-control" placeholder="@Html.Raw("miCorreo@ejemplo.com")" />
+                                <input type="hidden" name="RefPage" value="@ViewBag.RefPage" />
+                                <input type="hidden" name="Oportunidad" value="@ViewBag.id2_abc" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Email destinatario:<br>
+                                <input type="text" name="To_" class="form-control" placeholder="@Html.Raw("aQuien@ejemplo.com")" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Asunto:<br>
+                                <input type="text" name="Asunto_" class="form-control" placeholder="ej: mira esta vacante, es tu opotunidad!" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Mensaje:<br>
+                                <textarea class="form-control" name="mensaje_" rows="3"></textarea>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="container row">
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-user-check"></i> Compartir </button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

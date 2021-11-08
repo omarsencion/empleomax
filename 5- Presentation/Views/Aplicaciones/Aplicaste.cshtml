@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "Aplicaste";
+    int rfet2 = 0;
+    int botonnext = 0;
+    rfet2 = @ViewBag._reft;
+    if (rfet2 == 0 || rfet2 == null)
+    {
+        Layout = "";
+        botonnext = 0;
+    }
+    else if (rfet2 == 1)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        botonnext = 1;
+    }
+}
+
+<div class="divAlto"></div>
+
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1 text-primary"><i class="fas fa-thumbs-up"></i> Aplicaste a la oferta de empleo</h1>
+    <p class="TextRes">Te deseamos muchas suerte!</p>
+    <br><br>
+    @if (botonnext == 1)
+    {
+        <a href="../Home/Empleos?page=@ViewBag.npage" class="btn btn-link" role="button">Continuar <i class="fas fa-chevron-right"></i></a>
+    }
+</div>
+<div class="container">
+    <a href="/Home/Empleos/?page=@ViewBag.sPagereturnUrl" class="btn btn-danger btn-sm" role="button"><i class="far fa-window-close"></i> Cerrar</a>
+</div>
+<div class="divAlto"></div>

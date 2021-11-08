@@ -1,0 +1,56 @@
+﻿
+    @{
+        ViewData["Title"] = "Create";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h1>Create</h1>
+
+    <h4>Foro</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form action="Forosall/CreatePost" method="post">
+                <div class="form-group">
+                    <label name="IdForo" class="control-label"></label>
+                    <input name="IdForo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="IdUser" class="control-label"></label>
+                    <input name="IdUser" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="IdCategoria" class="control-label"></label>
+                    <input name="IdCategoria" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="Titulo" class="control-label"></label>
+                    <input name="Titulo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="Contenido" class="control-label"></label>
+                    <input name="Contenido" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="Foto" class="control-label"></label>
+                    <input name="Foto" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="StatusForo" class="control-label"></label>
+                    <input name="StatusForo" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="Autor" class="control-label"></label>
+                    <input name="Autor" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label name="Publicado" class="control-label"></label>
+                    <input name="Publicado" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+

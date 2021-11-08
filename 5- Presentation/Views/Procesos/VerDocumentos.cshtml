@@ -1,0 +1,134 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@model EmpleosWebMax.Domain.Entity.DocsDto
+@{
+    ViewData["Title"] = "Ver Documentos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p></p>
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Documentos para tu CV</h1>
+    <p>Usted podrá ver un listado de todos los documentos que subes a la plataforma:</p>
+
+    <div class="container">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+            <i class="fas fa-cloud-upload-alt"></i>   Suba un documento <i class="far fa-file-word"></i> <i class="far fa-file-pdf"></i> <i class="far fa-image"></i>
+        </button>
+        <br><br>
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <div class="row">
+                            <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                            <div class="col-12">
+                                <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-body">
+                        <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="MyDoc" asp-route-returnUrl="@Context.Request.QueryString">
+                            <div class="form-group">
+                                <label for="DocNameTitle" class="control-label"> Nombre del Documento</label>
+                                <input onkeyup="success()" id="DocNameTitle" name="DocNameTitle" class="form-control" placeholder="ej. Certificado de Estudios UASD" />
+                            </div>
+                            <div class="form-group">
+                                <label for="DocName" class="control-label">Suba el documento</label>
+                                <div class="form-group">
+                                    <input type="file" name="file" />
+
+                                </div>
+                            </div>
+                            <div class="row border-light shadow-lg p-4 mb-4 bg-white">
+                                <div class="col-md-12 divAltoc">
+                                    <br>
+                                    <input type="submit" value="Subir Documento" class="btn btn-primary btn-block" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Documento</th>
+                <th>Descargar</th>
+                <th>Eliminar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+                <tr>
+                    <td>@canapl</td>
+                    <td>@item.DocNameTitle<p class="letraSmallA">@item.Fecha </p></td>
+                    <td>
+
+                        <a href="@Url.Action("Descarga", "Procesos", new { DocName = @item.DocName })"><i class="fas fa-cloud-download-alt"></i> Descargar</a>
+
+                    </td>
+
+
+
+                    <td>
+                        <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditDocument" asp-route-returnUrl="@Context.Request.QueryString">
+                            <div class="row">
+                                <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                <input type="hidden" name="St" class="form-control" value="a" />
+                                <button type="submit" class="btn text-danger">&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-trash-alt"></i> </button>
+                            </div>
+                        </form>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a href="#" onclick="goBack()" class="btn-event-show-video">
+        <i class="fas fa-chevron-circle-left"></i> Regresar
+    </a>
+    <br><br>
+</div>
+
+<div class="divAlto"></div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+
+
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+

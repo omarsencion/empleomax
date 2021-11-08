@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+}
+
+<p></p>
+<div class="container-fluid bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Listado General de Empresas</h1>
+    <p>empresas:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Empresa</th>
+                <th>RNC</th>
+                <th>Email</th>
+                <th>Pais</th>
+                <th>Ciudad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+            <tr>
+                <td>@canapl</td>
+                <td>@item.EmpresaCentro</td>
+                <td>@item.RNC</td>
+                <td>@item.email</td>
+                <td>@item.Pais</td>
+                <td>@item.Ciudad</td>
+            </tr>
+
+
+            }
+        </tbody>
+    </table>
+
+    <br><br>
+</div>
+<div class="divAlto"></div>
+
+

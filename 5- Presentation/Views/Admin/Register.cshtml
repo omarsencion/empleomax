@@ -1,0 +1,56 @@
+﻿@model EmpleosWebMax.Domain.Entity.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1>Register</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-controller="Admin" asp-action="Register" asp-route-returnUrl="@Context.Request.QueryString">
+            <div class="form-group">
+                <input asp-for="FirstName" class="form-control" placeholder="Nombres" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="LastName" class="form-control" placeholder="Apellidos" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="radio1">
+                        <input type="radio" asp-for="Sexo" id="Sexo" value="true">  Hombre
+                    </label>
+                </div>
+                <div class="form-check-inline">
+                    <label class="form-check-label" for="radio2">
+                        <input type="radio" asp-for="Sexo" Id="Sexor" value="false">  Mujer
+                    </label>
+                </div>
+                <span asp-validation-for="Sexo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Email" class="form-control" placeholder="Email@example.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+                <div class="text-danger"><h6>@ViewData["erroremail"]</h6></div>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Password" class="form-control" placeholder="Password" />
+            </div>
+            <div class="form-group">
+                <input asp-for="ConfirmPassword" class="form-control" placeholder="Repita el Password" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+
+        </form>
+
+    </div>
+</div>

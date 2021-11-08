@@ -1,0 +1,371 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+
+
+@{
+    ViewData["Title"] = "Candidatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string zSexo = "";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4"><p class="title1">Candidatos</p></div>
+        <div class="col-sm-8">
+        </div>
+    </div>        <nav class="navbar navbar-expand-md navbar-light bg-light shadow p-2 mb-2">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../Experiencias/Create" rel="modal:open" role="button"><i class="fas fa-briefcase"></i>  Experiencia</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../Educacions/Create" rel="modal:open" role="button"><i class="fas fa-certificate"></i> Estudios</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../Referencias/Create" rel="modal:open" role="button"><i class="far fa-handshake"></i> Referencia</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="VerAplicaciones"><i class="far fa-eye"></i> Mis vacantes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Procesos" asp-action="VerDocumentos"><i class="fas fa-file-pdf"></i> Mis Documentos</a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="myTicket" asp-action="Index" class="btn btn-warning" role="button"><i class="far fa-life-ring"></i> HelpDesk</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<br />
+
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                        <div class="col-12">
+                            <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-controller="Home" asp-action="FriendsMe" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Email2" class="control-label">ingresa el Email a invitar</label>
+                            <input type="text" name="userName" id="username" class="form-control" value="" />
+                        </div>
+                        <div class="validaremail"></div>
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    @*----------------------------------------------------------------------*@
+
+    <div class="bg-light border border-light shadow p-4 mb-2 bg-white">
+        @foreach (var item in ViewBag.UserxList)
+        {
+            if (item.Sexo == true)
+            {
+                zSexo = "Hombre";
+            }
+            else if (item.Sexo == false) { zSexo = "Mujer"; }
+        <div class="row">
+            <div class="col-sm-8">
+                <p class="title1"> @item.FirstName  @item.LastName</p>
+                <text class="TextRes">@item.Email</text>
+            </div>
+            <div class="col-sm-6">
+                <p>Plan: @ViewBag.PlanName</p>
+            </div>
+            <div class="col-sm-4">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    <i class="fas fa-user-plus"></i> invita a un amigo
+                </button>
+            </div>
+            <hr />
+        </div>
+
+        }
+        @{
+            int candi = 0;
+            string scandi = "";
+        }
+        @foreach (var item in ViewBag.CandidatoList)
+        {
+
+            if (item.Id > 0)
+            {
+                candi = 1;
+                scandi = "Si";
+            }
+            else
+            {
+                candi = 0;
+                scandi = "No";
+            }
+
+        }
+        @if (candi == 0)
+        {
+            <div class="row">
+                <div class="col-md-12"><a href="../UserInfoes/Create" rel="modal:open" role="button" class="url1"><i class="fas fa-plus"></i> <i class="fas fa-address-card"></i> Agrega datos personales a tu Curriculum Vitae</a></div>
+                <div class="col-md-12">
+                    Nota: luego de registrar tus datos de candidato podrás aplicar a las ofertas de empleo o recibir ofertas de empleo.<br>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in ViewBag.CandidatoList)
+            {
+
+                <style>
+                    .responsive {
+                        max-height: 150px;
+                        width: auto;
+                    }
+                </style>
+                <div class="row border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                    <div class="col-sm-4">
+                        <img src="~/fotos/@item.Foto" class="responsive" height="50"><br>
+
+                        <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myFoto" data-backdrop="static" data-keyboard="false"><i class="fas fa-cloud-upload-alt"></i> Cambiar foto</button>
+                        <br>
+                        <a class="btn-link" asp-controller="UserInfoes" asp-action="Edit"><i class="fas fa-user-edit"></i> Actualizar mis datos</a>
+                        <br>
+                        <a class="btn-link" asp-controller="Maintenance" asp-action="UpdForm"><i class="fas fa-key"></i> Cambiar contraseña</a>
+                        <br>
+                        <div class="modal fade" tabindex="-1" role="dialog" id="myFoto">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <div class="row">
+                                            <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                            <div class="col-12">
+                                                <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditFoto" asp-route-returnUrl="@Context.Request.QueryString">
+                                            <div class="form-group">
+                                                <input type="file" name="file" />
+                                            </div>
+                                            <br><br>
+                                            <div class="form-group container row">
+                                                <div class="col-sm-6">
+                                                    <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-cloud-upload-alt"></i> subir </button>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <text class="TextResCV">@item.DocumentoIDt @item.DocumentoIDn</text><br>
+                        <text class="TextResCV">Sexo: @zSexo.ToUpper()</text>
+                    </div>
+                    <div class="col-sm-4">
+                        <text class="TextResCV">Fecha de nacimiento:<br>@item.nacimiento</text><br><br>
+                        <text class="TextResCV">Nacionalidad:<br>@item.Nacionalidad</text><br><br>
+                        <text class="TextResCV">Estado Civil: @item.Estadocivil</text><br>
+                    </div>
+
+                </div>
+                //-------------------------------------------
+                <div class="row border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                    <div class="col-sm-4">
+                        <text class="TextResCV">Télefono:<br>@item.Telefono2</text><br><br>
+                        <text class="TextResCV">último salario:<br>@item.salarioultimoMON @item.Ultimosalario</text><br><br>
+                        <text class="TextResCV">salario aspira:<br>@item.salarioaspiraMON @item.Salarioaspira</text>
+                    </div>
+                    <div class="col-sm-4">
+                        <text class="TextResCV">País:<br>@item.Pais</text><br><br>
+                        <text class="TextResCV">Ciudad:<br>@item.Ciudad</text><br><br>
+                        <text class="TextResCV">Dirección:<br>@item.Direccion</text>
+                    </div>
+                    <div class="col-sm-4">
+                        <text class="TextResCV">Area de trabajo:<br>@item.Areaprofesional</text><br><br>
+                        <text class="TextResCV">Facebook:<br>@item.Facebook</text><br><br>
+                        <text class="TextResCV">Twitter:<br>@item.Twitter</text>
+                    </div>
+                </div>
+            }
+        }
+        @*---------------------------------------------------------------------------------------------------------*@
+        <div class="m-auto bg-white">
+
+            @foreach (var item in ViewBag.lasexperienciasList)
+            {
+                <h1 class="title1">EXPERIENCIA LABORAL</h1>
+                <div class="CV1 row">
+                    <div class="col-sm-4 border-light border-right border-bottom shadow-sm p-4 mb-4 bg-white">
+                        @{
+                            var fBold = "";
+                            var Fechadesde = item.desde;
+                            Fechadesde = Fechadesde.ToString("dd MMM yyyy");
+                            var Fechahasta = item.hasta;
+                            Fechahasta = Fechahasta.ToString("dd MMM yyyy");
+                            @if (Fechahasta == Fechadesde)
+                            {
+                                Fechahasta = "Actual";
+                                fBold = "font-weight-bold";
+                            }
+                        }
+                        <p class="TextResCV @fBold">Desde: @Fechadesde<br />Hasta: @Fechahasta</p>
+                    </div>
+                    <div class="col-sm-8 border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                        <p class="TitleRes4">@item.Empresa</p>
+                        <text class="TextResCV">@item.Posicion</text><br>
+                        <text class="TextResCV">@item.FuncionesRol</text>
+                        <p class="TextResCV">@item.Aportes</p>
+
+                        <div class="container-fluid">
+
+
+                            <div class="row">
+                                <a href="../Experiencias/Edit/@item.Id" rel="modal:open" class="btn btn-info" role="button">Editar</a>&nbsp;&nbsp;<a href="../Experiencias/Delete/@item.Id" rel="modal:open" class="btn btn-danger" role="button">Eliminar</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        @*======================*@
+        <div class="m-auto bg-white">
+
+            @{ var xInst = "";}
+            @foreach (var item in ViewBag.EducacionList)
+            {
+                <h1 class="title1">EDUCACION</h1>
+
+                xInst = item.Institucion;
+                <div class="CV1 row">
+                    <div class="col-sm-4 border-light border-right border-bottom shadow-sm p-4 mb-4 bg-white">
+                        @{
+                            var Fechadesde = item.desde;
+                            Fechadesde = Fechadesde.ToString("dd MMM yyyy");
+                            var Fechahasta = item.hasta;
+                            Fechahasta = Fechahasta.ToString("dd MMM yyyy");
+                        }
+                        <p class="TextResCV">Desde: @Fechadesde<br />Hasta: @Fechahasta</p>
+                    </div>
+                    <div class="col-sm-8 border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                        @{
+                            int tipoe = item.tipoestudio;
+                            var tipotex = "";
+
+                            if (tipoe == 2) { tipotex = "Básica/Primaria"; }
+                            else if (tipoe == 3) { tipotex = "Liceo/Secundaria"; }
+                            else if (tipoe == 6) { tipotex = "Curso"; }
+                            else if (tipoe == 9) { tipotex = "Técnico"; }
+                            else if (tipoe == 12) { tipotex = "Diplomado"; }
+                            else if (tipoe == 19) { tipotex = "Universidad"; }
+                            else if (tipoe == 22) { tipotex = "Maestría"; }
+                            else if (tipoe == 24) { tipotex = "Doctorado"; }
+                            else if (tipoe == 12) { tipotex = "Diplomado"; }
+                            else if (tipoe == 30) { tipotex = "Habilidades"; }
+                            else if (tipoe == 35) { tipotex = "Reconocimientos"; }
+                        }
+
+
+
+                        <p class="TitleRes3">@tipotex</p>
+                        <p class="TitleRes4">@item.Institucion</p>
+                        <text class="TextResCV">@item.Titulo</text><br>
+                        <text class="TextResCV">@item.InstitucionLugar</text>
+                        <p class="TextResCV">@item.Descripcion</p>
+
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <a href="../Educacions/Edit/@item.Id" rel="modal:open" class="btn btn-info" role="button">Editar</a>&nbsp;&nbsp;<a href="../Educacions/Delete/@item.Id" rel="modal:open" class="btn btn-danger" role="button">Eliminar</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (xInst == "")
+            {
+                <br /><br /><br />
+            }
+        </div>
+        @*=========================*@
+
+        <div class="m-auto bg-white">
+
+            @foreach (var item in ViewBag.ReferenciaList)
+            {
+                <h1 class="title1">REFERENCIAS</h1>
+
+                <div class="CV1 row">
+                    <div class="col-sm-4 border-light border-right border-bottom shadow-sm p-4 mb-4 bg-white">
+
+                    </div>
+                    <div class="col-sm-8 border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                        <p class="TitleRes4">@item.Persona</p>
+                        <text class="TextResCV">@item.Empresa</text><br>
+                        <text class="TextResCV">@item.PhoneNumber</text>
+                        <text class="TextResCV">@item.Parentezco</text>
+                        <p class="TextResCV">@item.Email2</p>
+
+                        <div class="container-fluid">
+
+                            <div class="row">
+                                <a href="../Referencias/Edit/@item.Id" rel="modal:open" class="btn btn-info" role="button">Editar</a>&nbsp;&nbsp;<a href="../Referencias/Delete/@item.Id" rel="modal:open" class="btn btn-danger" role="button">Eliminar</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @*======================*@
+    </div>
+</div>
+<div class="divAltog"></div>
+
+@section Scripts {
+    <script type="text/javascript" lang="js">
+        $(function () {
+            $("#username").keyup(function () {
+                var userName = $(this).val();
+                if (userName.length >= 1) {
+                    $('.validaremail').load(`../Procesos/CheckGuest?username=${userName}`);
+                }
+            });
+        });
+    </script>
+}

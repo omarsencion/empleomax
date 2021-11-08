@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Datos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+    <div class="container-fluid bg-light border border-light p-4 mb-2 bg-white">
+        <h1 class="title1">Actualizar Datos de Usuarios Adm</h1>
+        <hr />
+        <br>
+
+        @foreach (var item in ViewBag.UserxList)
+        {
+            <div class="row">
+                <div class="col-md-4">
+                    <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditarUser" asp-route-returnUrl="@Context.Request.QueryString">
+                        <input type="hidden" name="fcaffsafs" class="form-control" value="@item.Id" />
+                        <div class="form-group">
+                            <label for="FirstName" class="control-label">Nombres:</label>
+                            <input name="FirstName" class="form-control" value="@item.FirstName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="LastName" class="control-label">Apellidos:</label>
+                            <input name="LastName" class="form-control" value="@item.LastName" />
+                        </div>
+                        <div class="form-group">
+                            <label for="PhoneNumber" class="control-label">Telefono:</label>
+                            <input name="PhoneNumber" class="form-control" value="@item.PhoneNumber" />
+                        </div>
+                        <br><br>
+                        <div class="form-group">
+                            <input type="submit" value="Actualizar" class="btn btn-primary" />
+                        </div>
+                        <br><br><br><br>
+
+                    </form>
+                </div>
+            </div>
+        }
+    </div>

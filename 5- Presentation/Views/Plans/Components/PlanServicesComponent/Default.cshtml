@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EmpleosWebMax.Domain.Dtos.PlanServiceDto>
+
+
+<div class="panel card-header">
+    <div class="panel-default">
+        <strong>Servicios</strong>
+    </div>
+</div>
+
+
+
+<table class="table table-res">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceDescription)
+            </th>
+          
+            <th>
+                <a onclick="showInPopup('@Url.Action("AddPlanService","PlanServices",new {planId = ViewBag.planId, category= ViewBag.Category })', 'Agregar Servicio')" class="btn btn-success text-white">Agregar Servicio</a>
+               
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+     
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ServiceDescription)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete","PlanServices" ,new { id =item.Id }, new {@class="btn btn-danger" })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

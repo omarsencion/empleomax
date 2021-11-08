@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewData["Title"] = "Ticket Comentarios";
+    Layout = "";
+}
+
+@{
+    int mens = ViewBag.nForoid;
+    int showmens = 0;
+    if (mens == 0 || mens == 1) { showmens = 1; } else { showmens = 2; }
+}
+
+
+<br>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <td class="bg-white">
+                @if (showmens == 1)
+                {
+                    <a href="#comentar" class="btn btn-link" data-toggle="collapse"><i class="fas fa-comment-dots text-danger"></i> Comentar</a>
+                    <div id="comentar" class="collapse bg-white">
+                        <form class="" asp-controller="myTicket" asp-action="TicketUpdate" asp-route-returnUrl="@Context.Request.QueryString">
+                            <table class="table table-borderless container-fluid">
+                                <tbody>
+                                    <tr>
+                                        <td class="bg-white">
+                                            Mensaje:<br>
+                                            <textarea class="form-control" name="Mensaje" rows="3"> </textarea>
+                                            <input type="hidden" name="Categoria" class="form-control" value="@ViewBag.iddelforo" />
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="container row">
+                                <div class="col-sm-6">
+                                    <button type="submit" class="btn btn-warning btn-block">Enviar </button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                }
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        @{int canapl = 0; }
+
+        @foreach (var msg in ViewBag.MSGList)
+        {
+            canapl++;
+
+            <tr>
+                <td>
+                    <p class="letraSmallA"><b>@msg.NameFrom_</b> escribió:</p>
+                    @msg.Respuesta<br>
+                    <p class="letraSmallA">Publicado el @msg.FechaResponse</p>
+
+                </td>
+            </tr>
+
+        }
+        <tr class="container bg-warning">
+            <td>
+                Primer Mensaje:
+                <p class="text-dark">@ViewBag.Ticketmensaje</p>
+            </td>
+        </tr>
+    </tbody>
+    @if (canapl == 0)
+    {
+        <br />
+        <br />
+        <p class="text-danger text-center"> <i class="fas fa-exclamation-circle"></i> No se encontraron resultados</p>
+
+    }
+</table>

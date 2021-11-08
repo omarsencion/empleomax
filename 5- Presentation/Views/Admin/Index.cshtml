@@ -1,0 +1,18 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using System.Security.Claims;
+@{ 
+    Layout = "";
+}
+<body onload="function()">
+
+</body>
+<partial name="_HomeLogin" />
+@section Scripts {
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        Context.Response.Redirect("./Main");
+    }
+}

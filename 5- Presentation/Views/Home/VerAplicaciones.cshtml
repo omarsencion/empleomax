@@ -1,0 +1,68 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@{
+    ViewData["Title"] = "VerAplicaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p></p>
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Aplicaciones a ofertas de empleo</h1>
+    <p>Usted podrá ver y dar seguimiento a sus vacantes:</p>
+    <form class="form-inline" asp-controller="Aplicaciones" asp-action="Mensajes">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-chevron-circle-right"></i> Mensajes</button>
+    </form>
+    <br />
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Empresa</th>
+                <th>Vacante</th>
+                <th>Oportunidad</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+                <tr>
+                    <td>@canapl</td>
+                    <td>@item.empresa</td>
+                    <td>@item.Titulotrabajo</td>
+                    <td>
+                        <form class="form-inline" asp-controller="Vacantes" asp-action="VerOferta">
+                            <input type="hidden" name="nOferta" class="form-control" value="@item.IdJob" />
+                            <input type="hidden" name="sOferta" class="form-control" value="@item.Job" />
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-eye"></i> Ver detalles de la vacante</button>
+                        </form>
+                    </td>
+
+                </tr>
+
+
+            }
+        </tbody>
+    </table>
+
+
+
+    <a href="#" onclick="goBack()" class="btn-event-show-video">
+        <i class="fas fa-chevron-circle-left"></i> Regresar
+    </a>
+    <br><br>
+</div>
+<div class="divAlto"></div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+}

@@ -1,0 +1,152 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1 class="title1">Foros</h1>
+
+    <form action="Forosall/GoPost" method="post">
+
+        <div class="row">
+            <div class="col-md-4 input-group">
+                <select class="form-control" name="Ct" data-live-search="true">
+                    <option value="0">Seleccione una Categoría</option>
+                    @foreach (var itemCatg in ViewBag.CategoriasList)
+                    {
+                        @itemCatg.Categoria
+                        <option value="@itemCatg.Id">@itemCatg.Categoria</option>
+                    }
+                </select>
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <i class="fas fa-chevron-circle-right"></i> Crear Post
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+
+                <th>
+                    Categoria
+                </th>
+                <th>
+                    Titulo
+                </th>
+
+                <th>
+                </th>
+                <th>Editar</th>
+
+                <th>
+                </th>
+                <th>
+                </th>
+
+                <th>
+                    Publicado
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Foros)
+            {
+            <tr>
+                <td>
+                    @item.Categoria
+                </td>
+                <td>
+                    @item.Titulo
+                </td>
+
+                <td>
+                    <img src="~/foro/@item.Foto" class="responsive" height="20">
+                </td>
+                <td>
+
+                    <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myFoto_@item.Id" data-backdrop="static" data-keyboard="false"><i class="fas fa-cloud-upload-alt"></i> Cambiar foto</button>
+                    <br>
+                    <div class="modal fade" tabindex="-1" role="dialog" id="myFoto_@item.Id">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <div class="row">
+                                        <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                        <div class="col-12">
+                                            <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal-body">
+                                    <form enctype="multipart/form-data" asp-controller="Home" asp-action="Editimgforo" asp-route-returnUrl="@Context.Request.QueryString">
+                                        <div class="form-group">
+                                            <input type="file" name="file" />
+                                        </div>
+                                        <br><br>
+                                        <div class="form-group container row">
+                                            <div class="col-sm-6">
+                                                <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-cloud-upload-alt"></i> subir </button>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <input type="hidden" name="hsdbhsha" class="form-control" value="@item.Id" />
+                                                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @*//=====================================================================================================*@
+                </td>
+                
+
+                <td>
+                    <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="EditForostatus" asp-route-returnUrl="@Context.Request.QueryString">
+                        <div class="row">
+                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                            <input type="hidden" name="St" class="form-control" value="a" />
+                            <button type="submit" class="btn bg-white text-danger"> <i class="fas fa-trash-alt"></i> </button>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    @{if (@item.StatusForo == 0)
+                        {
+                            <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="EditForostatus" asp-route-returnUrl="@Context.Request.QueryString">
+                                <div class="row">
+                                    <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="St" class="form-control" value="r" />
+                                    <button type="submit" class="btn bg-white text-success"> <i class="far fa-eye"></i> </button>
+                                </div>
+                            </form> }
+                        else if (@item.StatusForo == 1)
+                        {
+                            <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="EditForostatus" asp-route-returnUrl="@Context.Request.QueryString">
+                                <div class="row">
+                                    <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="St" class="form-control" value="x" />
+                                    <button type="submit" class="btn bg-white text-danger"> <i class="far fa-eye-slash"></i> </button>
+                                </div>
+                            </form>}
+                    }
+
+                </td>
+                <td>
+                    @item.Publicado
+                </td>
+
+            </tr>
+            }
+        </tbody>
+    </table>

@@ -1,0 +1,455 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<EmpleosWebMax.Domain.Entity.ApplicationUser> SignInManager
+@inject UserManager<EmpleosWebMax.Domain.Entity.ApplicationUser> _userManager
+@{
+    ViewData["Title"] = "CEV";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";//
+}
+
+<h1 class="title1">CREAR EMPRESA Y VACANTE DE TRABAJO @ViewBag.myuser  @ViewBag.asu</h1>
+
+<form enctype="multipart/form-data" asp-controller="Admin" asp-action="CEV2" asp-route-returnUrl="@Context.Request.QueryString">
+    <div class="container-fluid">
+        <input type="hidden" name="Id" class="form-control" value="@ViewBag.newIdnumempresa" />
+        <input type="hidden" name="Ide" class="form-control" value="@ViewBag.newIdempresa" />
+        <input type="hidden" name="IdU" class="form-control" value="@ViewBag.IdU" />
+
+    </div>
+    <div class="container-fluid">
+
+
+        <h1 class="title1">Crear oferta de empleo</h1>
+        @*----------------------TEXTO ENRIQUECIDO ----------------------------------------*@
+        <div>
+            <script>
+                tinymce.init({
+                    selector: '.mytextarea',
+                    menubar: 'edit view',
+                    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage',
+                });
+            </script>
+        </div>
+        @**********************************************************************************@
+        <div class="row border border-light shadow-lg p-4 mb-4 bg-white">
+            <div class="col-md-4" style="background-color:#F4F4F4;">
+                <div class="form-group">
+                    <br>
+                    <label for="Titulotrabajo" class="control-label"> Titulo del trabajo</label>
+                    <input name="Titulotrabajo" class="form-control" placeholder="Ej: Abogado Sr" />
+                </div>
+                <div class="form-group">
+                    <label for="Ciudadtrabajo" class="control-label">Ciudad</label>
+                    <input name="Ciudadtrabajo" class="form-control" placeholder="Santiago" />
+                </div>
+                <div class="form-group">
+                    <label for="Salariotratar" class="control-label">Salario a tratar</label>
+                    <select name="Salariotratar" class="form-control" style="width:70px;">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Salario" class="control-label">Salario</label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select name="salarioultimoMON" class="form-control">
+                                <option value="RD$">RD$</option>
+                                <option value="USD$">USD$</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6"><input name="Salario" class="form-control" /></div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label for="Salariohasta" class="control-label">salario hasta</label>
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <select name="salarioaspiraMON" class="form-control">
+                                <option value="RD$">RD$</option>
+                                <option value="USD$">USD$</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6"><input name="Salariohasta" class="form-control" /></div>
+                    </div>
+
+                </div>
+            </div>
+            @*---------------------*@
+            <div class="col-md-4 border-light border" style="background-color:#f9F9F9;">
+                <div class="form-group">
+                    <br>
+                    <label for="idiomas" class="control-label">Idiomas (escriba el deseados(s))</label>
+                    <input name="idiomas" class="form-control" placeholder="ej: ingles, frances..." />
+                </div>
+                <div class="form-group">
+                    <label for="publicosino" class="control-label">Datos de empresa publicos?</label>
+                <select name="publicosino" class="form-control" style="width:70px;">
+                    <option value="false">No</option>
+                    <option value="true">Sí</option>
+
+                </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="TipoContrato" class="control-label">Tipo de contrato</label>
+                    <select name="TipoContrato" class="form-control" style="width:150px;">
+                        <option value="6">A tratar</option>
+                        <option value="1">Fijo</option>
+                        <option value="2">Temporal</option>
+                        <option value="3">Sin contrato</option>
+                        <option value="4">Independiente</option>
+                        <option value="5">Por hora</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="jornadahrs" class="control-label">Jornada (ej: 8 horas x día)</label>
+                    <input name="jornadahrs" class="form-control" value="a tratar" placeholder="ej: 8 horas/día" />
+                </div>
+                <div class="form-group">
+                    <label for="diaslaborables" class="control-label">Días Laborables</label>
+                    <input name="diaslaborables" class="form-control" value="a tratar" placeholder="ej: de Lunes a Viernes" />
+                </div>
+            </div>
+            @*------------------------*@
+            <div class="col-md-4" style="background-color:#F4F4F4;">
+                <div class="form-group">
+                    <br>
+                    <div class="form-group">
+                        <label for="edadminima" class="control-label">Edad aprox.</label>
+                        <div class="row h-100 justify-content-start align-items-center">
+                            <div class="col-sm-2"><input name="edadminima" class="form-control" placeholder="18" style="width:60px;" /></div>
+                            <div class="col-sm-1"> a</div>
+                            <div class="col-sm-2"><input name="edadmaxima" class="form-control" placeholder="60" style="width:60px;" /></div>
+                            <div class="col-sm-2"> años</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group border border-dark border-left-0 border-right-0">
+                    <label for="sexo" class="control-label bg-light">Sexo</label>
+                    <br>
+                    <div class="form-check-inline bg-light">
+                        <label class="form-check-label" for="radio1">
+                            <input type="radio" name="sexo" id="Sexo" value="1">  Hombre
+                        </label>
+                    </div>
+                    <div class="form-check-inline bg-light">
+                        <label class="form-check-label" for="radio2">
+                            <input type="radio" name="sexo" Id="Sexor" value="0">  Mujer
+                        </label>
+                    </div>
+
+                    <div class="form-check-inline bg-light">
+                        <label class="form-check-label" for="radio3">
+                            <input type="radio" name="sexo" Id="Sexod" value="3">  Sin preferencia
+                        </label>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="desde" class="control-label">Fecha de publicación</label>
+                    <input type="datetime-local" name="desde" class="form-control" style="width:250px;" />
+                </div>
+                <div class="form-group">
+                    <label for="hasta" class="control-label">Fecha Valida hasta</label>
+                    <input type="datetime-local" name="hasta" class="form-control" style="width:250px;" />
+                </div>
+                <style>
+                    ul, li {
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                    }
+
+                    .xcontainer {
+                        padding: 20px;
+                        position: relative;
+                    }
+                </style>
+                <div class="form-group">
+                    <label for="Areaprofesional" class="control-label">Categoría</label>
+                    <select name="Areaprofesional" multiple id="Areaprofesional">
+                        <option>Abogado Consultor Jurídico</option>
+                        <option>Administración Agraria</option>
+                        <option>Administración de Empresas</option>
+                        <option>Administración Rural</option>
+                        <option>Aeronáutica </option>
+                        <option>Agrimensura</option>
+                        <option>Agronomía Agricultura</option>
+                        <option>Análisis Ambiental</option>
+                        <option>Análisis de Sistemas</option>
+                        <option>Análisis Químicos y Bromatológicos</option>
+                        <option>Arquitectura Construcción</option>
+                        <option>Artes gráficas</option>
+                        <option>Atención al Cliente</option>
+                        <option>Banca Servicios Financieros</option>
+                        <option>Biblioteconomía Documentación</option>
+                        <option>Bioimágenes</option>
+                        <option>Bioinformática</option>
+                        <option>Bioingeniería  Bioquímica</option>
+                        <option>Biología</option>
+                        <option>Biotecnología</option>
+                        <option>Bromatología</option>
+                        <option>Ciencias Ambientales</option>
+                        <option>Ciencias Básicas</option>
+                        <option>Ciencias de la Atmósfera</option>
+                        <option>Ciencias de la Computación</option>
+                        <option>Ciencias de la Información</option>
+                        <option>Ciencias de los Alimentos</option>
+                        <option>Ciencias del Ambiente</option>
+                        <option>Ciencias Económicas</option>
+                        <option>Ciencias Empresariales</option>
+                        <option>Ciencias Geológicas</option>
+                        <option>Ciencias Oceanográficas</option>
+                        <option>Ciencias Sociales</option>
+                        <option>Ciencias y Tecnología de los Alimentos</option>
+                        <option>Comercio electrónico</option>
+                        <option>Comercio exterior</option>
+                        <option>Compras </option>
+                        <option>Computación</option>
+                        <option>Comunicación Publicidad Medios</option>
+                        <option>Confección industrial</option>
+                        <option>Consultoría Análisis Consultoría</option>
+                        <option>Contabilidad </option>
+                        <option>Creatividad Diseño Multimedia</option>
+                        <option>Cuidado de niños y mayores </option>
+                        <option>Derecho </option>
+                        <option>Desabolladura de vehículos</option>
+                        <option>Diagnóstico por Imágenes</option>
+                        <option>Diagnóstico y Gestión Ambiental</option>
+                        <option>Dirección de arte </option>
+                        <option>Diseño de Indumentaria</option>
+                        <option>Diseño Industrial</option>
+                        <option>Diseño Multimedial  Ecología</option>
+                        <option>Diseño y decorador (a) de interiores</option>
+                        <option>Diseño y desarrollo de aplicaciones</option>
+                        <option>Dropshiping</option>
+                        <option>Ebanistería</option>
+                        <option>Ecología Urbana</option>
+                        <option>Economía Industrial</option>
+                        <option>Electricidad automotriz</option>
+                        <option>Electricidad Electrónica</option>
+                        <option>Electrónica industrial</option>
+                        <option>Energías Renovables</option>
+                        <option>Enología</option>
+                        <option>Estadística</option>
+                        <option>Esteticista</option>
+                        <option>Estilista</option>
+                        <option>Farmacia </option>
+                        <option>Finanzas </option>
+                        <option>Física </option>
+                        <option>Física Médica</option>
+                        <option>Formación Docencia Formación</option>
+                        <option>Genética</option>
+                        <option>Geofísica</option>
+                        <option>Geología</option>
+                        <option>Geoquímica</option>
+                        <option>Gestión Ambiental</option>
+                        <option>Gestión Alta Dirección</option>
+                        <option>Guiones para medios audiovisuales</option>
+                        <option>Hidrogeología</option>
+                        <option>Hidrología</option>
+                        <option>Higiene y Seguridad</option>
+                        <option>Impuestos </option>
+                        <option>Industria Producción Calidad</option>
+                        <option>Información Ambiental</option>
+                        <option>Informática Sistemas Internet</option>
+                        <option>Ingeniería Aeronáutica</option>
+                        <option>Ingeniería Agroindustrial</option>
+                        <option>Ingeniería Agronómica</option>
+                        <option>Ingeniería Agropecuaria</option>
+                        <option>Ingeniería Ambiental</option>
+                        <option>Ingeniería Ambiental</option>
+                        <option>Ingeniería Azucarera</option>
+                        <option>Ingeniería Biomédica</option>
+                        <option>Ingeniería Civil Estructural</option>
+                        <option>Ingeniería Eléctrica</option>
+                        <option>Ingeniería Electromecánica</option>
+                        <option>Ingeniería Electrónica</option>
+                        <option>Ingeniería Electrónica</option>
+                        <option>Ingeniería Electrotécnica</option>
+                        <option>Ingeniería en Alimentos</option>
+                        <option>Ingeniería en Automatización y Control Industrial</option>
+                        <option>Ingeniería en Biotecnología</option>
+                        <option>Ingeniería en Computación</option>
+                        <option>Ingeniería en Geografía</option>
+                        <option>Ingeniería en Industrias de la Madera</option>
+                        <option>Ingeniería en Industrias Forestales</option>
+                        <option>Ingeniería en Materiales</option>
+                        <option>Ingeniería en Mecatrónica</option>
+                        <option>Ingeniería en Minas</option>
+                        <option>Ingeniería en Paisajes</option>
+                        <option>Ingeniería en Perforaciones</option>
+                        <option>Ingeniería en Petróleo</option>
+                        <option>Ingeniería en Producción</option>
+                        <option>Ingeniería en Propulsión Naval</option>
+                        <option>Ingeniería en Recursos Hídricos</option>
+                        <option>Ingeniería en Recursos Naturales</option>
+                        <option>Ingeniería en Sistemas de la Información</option>
+                        <option>Ingeniería en Sonido</option>
+                        <option>Ingeniería en Telecomunicaciones</option>
+                        <option>Ingeniería Forestal</option>
+                        <option>Ingeniería Geodésica y Geofísica</option>
+                        <option>Ingeniería Hidráulica</option>
+                        <option>Ingeniería Industrial</option>
+                        <option>Ingeniería Informática</option>
+                        <option>Ingeniería Mecánica</option>
+                        <option>Ingeniería Mecatrónica</option>
+                        <option>Ingeniería Metalúrgica</option>
+                        <option>Ingeniería Montes Caminos</option>
+                        <option>Ingeniería Naval</option>
+                        <option>Ingeniería Nuclear</option>
+                        <option>Ingeniería Pesquera</option>
+                        <option>Ingeniería Química</option>
+                        <option>Ingeniería Sanitaria Ambiental</option>
+                        <option>Ingeniería Sistemas</option>
+                        <option>Ingeniería Telecomunicaciones</option>
+                        <option>Ingeniería Textil</option>
+                        <option>Ingeniería Vial</option>
+                        <option>Ingeniería Zootecnista</option>
+                        <option>Instalación y mantenimiento eléctrico industrial</option>
+                        <option>Investigación de Mercado</option>
+                        <option>Investigación y Desarrollo</option>
+                        <option>Letras Humanidades Filosofía</option>
+                        <option>Logística Distribución</option>
+                        <option>Marketing </option>
+                        <option>Masaje corporal y terapéutico</option>
+                        <option>Matemática</option>
+                        <option>Mecánica automotriz</option>
+                        <option>Mecánica industrial y de mantenimiento</option>
+                        <option>Medio Ambiente</option>
+                        <option>Oceanografía</option>
+                        <option>Oficios diversos</option>
+                        <option>Óptica Ocular y Optometría</option>
+                        <option>Organización Industrial</option>
+                        <option>Ortesis y Prótesis</option>
+                        <option>Panadería</option>
+                        <option>Personal de limpieza conserjería</option>
+                        <option>Pintura de vehículos</option>
+                        <option>Producción Animal</option>
+                        <option>Producción de Bioimágenes</option>
+                        <option>Producción Vegetal</option>
+                        <option>Producción/realización para televisión</option>
+                        <option>Profesor Maestro Facilitador</option>
+                        <option>Psicología </option>
+                        <option>Psicología Industrial</option>
+                        <option>Química</option>
+                        <option>Química Biología</option>
+                        <option>Recepción Centralita</option>
+                        <option>RRHH</option>
+                        <option>Recursos Naturales</option>
+                        <option>Redes de Comunicaciones</option>
+                        <option>Redes y comunicación de datos </option>
+                        <option>Reparación de equipos de audio y video</option>
+                        <option>Reparación de equipos de refrigeración  y a/a</option>
+                        <option>Repostería</option>
+                        <option>Salud Medicina</option>
+                        <option>Saneamiento y Protección Ambiental</option>
+                        <option>Secretariado </option>
+                        <option>Seguridad y Salud Ocupacional </option>
+                        <option>Seguros </option>
+                        <option>Servicio Doméstico</option>
+                        <option>Servicio/Soporte Técnico</option>
+                        <option>Sin clasificar</option>
+                        <option>Tapicería</option>
+                        <option>Tecnología Ambiental</option>
+                        <option>Tecnología de los Alimentos</option>
+                        <option>Tecnología Minera</option>
+                        <option>Tecnologías de la Información y Comunicación</option>
+                        <option>Telecomunicaciones </option>
+                        <option>Telefonía y planta externa</option>
+                        <option>Telemarketing Help Desk</option>
+                        <option>Teletrabajo </option>
+                        <option>Terminación de muebles</option>
+                        <option>Topografía</option>
+                        <option>Trabajo Social</option>
+                        <option>Traducción Interpretación Idiomas</option>
+                        <option>Transporte </option>
+                        <option>Turismo Hostelería</option>
+                        <option>Ventas </option>
+
+                    </select>
+                    <script>
+                        $('#Areaprofesional').multiselect(
+                            {
+                                columns: 1,
+                                placeholder: 'Selecciona todas tus áreas'
+                            }
+                        );
+                    </script>
+                </div>
+            </div>
+        </div>
+
+
+        @**********************************************************************************@
+        <div class="row shadow-lg p-4 mb-4 bg-white">
+            @*--------------------------------------------------------------*@
+            <div class="col-md-12 border border-light" style="background-color:#EEEEEE;">
+                <div class="form-group">
+                    <label for="Descripciontrabajo" class="control-label">Descripción de la vacante</label>
+
+                    <textarea class="mytextarea form-control" name="Descripciontrabajo" id="Descripciontrabajo" rows="5"></textarea>
+                </div>
+            </div>
+            @*--------------------------------------------------------------*@
+        </div>
+        <div class="row shadow-lg p-4 mb-4 bg-white">
+            @*--------------------------------------------------------------*@
+            <div class="col-md-12 border border-light" style="background-color:#F4F4F4;">
+                <div class="form-group">
+                    <label for="Requisitostrabajo" class="control-label">Requesitos</label>
+
+                    <textarea class="mytextarea form-control" name="Requisitostrabajo" id="Requisitostrabajo" rows="5"></textarea>
+                </div>
+            </div>
+            @*--------------------------------------------------------------*@
+        </div>
+        <div class="row border-light shadow-lg p-4 mb-4 bg-white">
+            <div class="col-md-12 divAltoc" style="background-color:#EEEEEE;">
+                <br>
+                <input type="submit" value="Crear oferta de empleo" class="btn btn-primary btn-block" />
+            </div>
+        </div>
+    </div>
+</form>
+@section Scripts {
+    <script type="text/javascript" lang="js">
+        $(function () {
+            $("#username").keyup(function () {
+                var userName = $(this).val();
+                if (userName.length >= 7) {
+                    $('.validaremail').load(`./CheckUserName?username=${userName}`);
+
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#mipais').on('change', function () {
+                if (this.value == 'República Dominicana') {
+                    $("#paisx").show();
+                    $("#paisx2").hide();
+                }
+                else {
+                    $("#paisx").hide();
+                    $("#paisx2").show();
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+

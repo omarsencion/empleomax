@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\1- Domain\EmpleosWebMax.Domain.Core\EmpleosWebMax.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\1- Domain\EmpleosWebMax.Domain.Entity\EmpleosWebMax.Domain.Entity.csproj" />
+    <ProjectReference Include="..\EmpleosWebMax.Infrastructure.Interface\EmpleosWebMax.Infrastructure.Interface.csproj" />
+  </ItemGroup>
+
+</Project>

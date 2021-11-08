@@ -1,0 +1,96 @@
+﻿@model EmpleosWebMax.Domain.Dtos.PlanDto
+@using EmpleosWebMax.Common.Enum
+@using EmpleosWebMax.Infrastructure.AspNet.Helpers
+@{
+    ViewData["Title"] = "Editar Plan";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Editar Plan</h1>
+
+<hr />
+<div class="row" id="editPlan">
+    <div class="col-md-4">
+        <form asp-action="EditService">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" readonly />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="Category" class="form-control" asp-items="Html.GetEnumSelectList<Category>()" disabled></select>
+                <span asp-validation-for="Category" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsDefaultPlan" /> @Html.DisplayNameFor(model => model.IsDefaultPlan)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="JobVacancyNumber" class="control-label"></label>
+                <input asp-for="JobVacancyNumber" class="form-control" />
+                <span asp-validation-for="JobVacancyNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriorityJobNumber" class="control-label"></label>
+                <input asp-for="PriorityJobNumber" class="form-control" />
+                <span asp-validation-for="PriorityJobNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CanditateMessageNumber" class="control-label"></label>
+                <input asp-for="CanditateMessageNumber" class="form-control" />
+                <span asp-validation-for="CanditateMessageNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCanditateSearch" /> @Html.DisplayNameFor(model => model.IsCanditateSearch)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="PriceOfJobVacancyBonus" class="control-label"></label>
+                <input asp-for="PriceOfJobVacancyBonus" class="form-control" />
+                <span asp-validation-for="PriceOfJobVacancyBonus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <select asp-for="State" class="form-control" asp-items="Html.GetEnumSelectList<State>()"></select>
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-lg-auto">
+                @await Component.InvokeAsync("PlanServicesComponent", new { planId = Model.Id, category = Model.Category })
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewData["Title"] = "Aplicando";
+    Layout = "";
+    int rfet2 = 0;
+    int botonnext = 0;
+    rfet2 = ViewBag._reft;
+    if (rfet2 == 0 || rfet2 == null)
+    {
+        Layout = "";
+        botonnext = 0;
+    }
+    else if (rfet2 > 0)
+    {
+        Layout = "";
+        botonnext = ViewBag._reft;
+    }
+}
+@{
+    if (ViewBag.aplicando == "Exito")
+    {
+        <div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+            <h1 class="title1 text-primary"><i class="fas fa-thumbs-up"></i> Aplicaste a la oferta de empleo</h1>
+            <p class="TextRes">Te deseamos mucha suerte!</p>
+            <br><br>
+            <a href="../Home/Empleos?page=@botonnext" class="btn btn-link" role="button">Continuar <i class="fas fa-chevron-right"></i></a>
+        </div>
+    }
+    else if (ViewBag.aplicando == "Aplicaste")
+    {
+        <div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+            <h1 class="title1 text-secondary"><i class="fas fa-thumbs-up"></i> Ya Aplicaste!</h1>
+            <p class="TextRes">Te deseamos mucha suerte!</p>
+            <br><br>
+            <a href="../Home/Empleos?page=@botonnext" class="btn btn-link" role="button">Continuar <i class="fas fa-chevron-right"></i></a>
+        </div>
+    }
+    else
+    {
+        <div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+            <h1 class="TitleRes3 text-danger"><i class="fas fa-exclamation-triangle"></i> Se produjo un Error, vuelve a intentanrlo en un momento.</h1>
+            <p class="TextRes">Persiste, nunca te rindas!</p>
+            <br><br>
+            <a href="../Home/Empleos?page=@botonnext" class="btn btn-link" role="button">Continuar <i class="fas fa-chevron-right"></i></a>
+        </div>
+    }
+
+}
+

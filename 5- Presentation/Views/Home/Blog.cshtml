@@ -1,0 +1,325 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using System.Security.Claims;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using EmpleosWebMax.Domain.Entity;
+@{
+    TempData["CUT"] = 0;
+    var user = await UserManager.GetUserAsync(User); // ver datos adicionales
+    TempData["CUT"] = TempData["CUT"];//0;
+    int vffsvs = 0;
+}
+@model IEnumerable<ForoDto>
+@{
+    ViewData["Title"] = "Blog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*=========================== If Login ============================================*@
+@{
+
+    int UserLogedIn = 0;
+    int nFollowin = 1;
+
+}
+@if (SignInManager.IsSignedIn(User))
+{
+    UserLogedIn = 1;
+
+
+}
+else
+{
+    UserLogedIn = 2;
+}
+
+@{
+    string xvcvc = TempData["CUT"].ToString();
+    vffsvs = Convert.ToInt32(xvcvc);
+}
+
+@ViewBag.sMensajes
+
+<div class="container">
+    <h1 class="title1">Blog!</h1>
+    <br>
+    @if (ViewBag.ns == 1)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong><i class="fas fa-exclamation-circle"></i></strong> No se pudo enviar el mensaje.
+        </div>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                window.setTimeout(function () {
+                    $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                        $(this).remove();
+                    });
+                }, 5000);
+
+            });
+        </script>
+    }
+    <div class="align-items-md-start">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Blog", "Home", new { page = page }),
+     new X.PagedList.Web.Common.PagedListRenderOptionsBase
+     {
+            //en que pagina estas?
+            DisplayItemSliceAndTotal = true,
+            ContainerDivClasses = new[] { "navigation" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+
+            //ItemSliceAndTotalFormat = "Mostrando {0} a {1} de {2} vacantes.",
+            ItemSliceAndTotalFormat = "{1} de {2}",
+            LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+            LinkToPreviousPageFormat = "<i class='fas fa-angle-left'></i>",
+            LinkToNextPageFormat = "<i class='fas fa-angle-right'></i>",
+            LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>"
+     })
+    </div>
+    <style>
+        .aabb {
+            margin-left: -12px;
+        }
+    </style>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Blog" asp-route-returnUrl="@Context.Request.QueryString">
+            <div class="row form-group">
+                <div class="col-md-6 input-group">
+                    <input type="text" name="buscar" class="form-control aabb" placeholder="buscar posts, ej: entrevista o entrev">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="url1" asp-controller="Home" asp-action="Blog"><i class="fas fa-list-ol"></i> Inicio de Blog!</a>
+                </div>
+                <div class="col-md-3">
+                </div>
+
+            </div>
+        </form>
+    </div>
+    @foreach (var item in Model)
+    {
+        <div class="container mt-3 border border-secondary border-left-0 border-right-0 shadow p-4 mb-4 bg-white">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="~/foro/@item.Foto" class="responsive" height="40">
+                        </div>
+                        <div class="col-md-4">
+                            <p class="letraSmall">Publicado el:</p>
+                            <i class="far fa-clock"></i><p class="TitleRes3 margeno"> @item.Publicado </p>
+                        </div>
+                        <div class="col-md-4">
+                            @{ nFollowin = 1;}
+                            @if (nFollowin == 1)
+                            {
+                                <div tabindex="-1" id="details-follow_@item.Id">
+                                    <div class="validarfollow_@item.Id"></div>
+                                </div>
+                                if (item.Likepost == 5)
+                                {
+                                    <div id="fw_@item.Id">
+                                        <button class="btn btn-link text-primary btn-lg" id="followhere_@item.Id" data-id="@item.Id" data-toggle="" data-target="#details-follow_@item.Id"><i class="far fa-heart"></i>?</button>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#followhere_@item.Id").click(function () {
+                                                $("#fw_@item.Id").hide();
+                                            });
+                                        });
+                                    </script>
+                                }
+                                else if (item.Likepost == 0)
+                                {
+                                    <a href="#" data-toggle="tooltip" title="Ya te gusta este post!"><i class="fas fa-heart"></i><text class="letraSmall text-primary"> Like</text></a>
+                                }
+                                <script>
+                                $(function () {
+                                    $('#followhere_@item.Id').on('click', function () {
+                                        $('.validarfollow_@item.Id').load(`./LikePost?LikeMe=${$(this).data('id')}`);
+                                    });
+                                })
+                                </script>
+                            }
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="letraSmall">Categoria:</p>
+                            <text class="at"> @item.Categoria</text><br>
+                            <br>
+                            <p class="letraSmall">Categoria:</p>
+                            <h1 class="TitleRes3">@item.Titulo</h1>
+                        </div>
+                        <div class="col-sm-6">
+                            <br>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#b_@item.Id"><i class="fas fa-chevron-circle-down"></i> ver más</button>
+                            <button type="button" class="btn btn-sm btn-link">
+                                <i class="fas fa-paper-plane"></i> Compartir
+                            </button>
+                            @if (UserLogedIn == 1)
+                            {
+                                <button type="button" class="btn btn-sm btn-link" data-toggle="modal" data-target="#myMSG-@item.Id">
+                                    <i class="fas fa-comments"></i> Comentar
+                                </button>
+                            }
+                            <button type="button" class="details_@item.Id btn btn-sm btn-link" data-id="@item.Id" data-id2="@item.IdForo" data-id3="@ViewBag.sPagereturnUrl" data-toggle="modal" data-target="#details-modal_@item.Id">
+                                <i class="fas fa-comments"></i> Comentarios
+                            </button>
+
+                            <script>
+                                $(function () {
+                                    $('button.details_@item.Id').on('click', function () {
+                                        $('.modal-body_@item.Id').load(`/Procesos/PostComentarios?Id=@item.Id&Oportunidad=@item.IdForo&RefPage=@ViewBag.sPagereturnUrl`);
+                                    });
+                                })
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @*=============================================================================================================================*@
+        <div id="b_@item.Id" class="collapse">
+
+            <br>
+            <i class="fas fa-pen-alt"></i> Autor:<br><text class="at"> @item.Autor</text><br><br>
+            <i class="fas fa-book-reader"></i> Desarrollo:<br>
+            <p class="TextContenido pl-5 pr-5 text-justify">@Html.Raw(item.Contenido) </p>
+            <hr />
+
+            <br>
+            <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#b_@item.Id"><i class="fas fa-chevron-circle-up"></i> menos</button>
+            <br />
+            <style>
+                div.imagenblog_@item.Id {
+                    width: 100%;
+                    height: 400px;
+                    background-image: url('/foro/@item.Foto');
+                    background-repeat: no-repeat;
+                    background-size: contain;
+                    border: 0px solid red;
+                }
+            </style>
+            <div class="imagenblog_@item.Id"></div>
+        </div>
+
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            @*////////////////////////////////////////////// Fin compartir Empleo ////////////////////////////////////////////////////*@
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+
+            <div class="modal" id="myMSG-@item.Id">
+                <div class="modal-dialog">
+                    <div class="modal-content border border-0">
+
+                        <div class="modal-header">
+                            <div class="row">
+                                <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                <div class="col-12">
+                                    <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-body border border-0">
+                            <form class="" asp-controller="Home" asp-action="MensajePost" asp-route-returnUrl="@Context.Request.QueryString">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Vacante:<br>
+                                                <p class="TextRes">@item.Titulo</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Comentario:<br>
+                                                <textarea class="form-control" name="mensaje_" rows="3"> </textarea>
+                                                <input type="hidden" name="gasvdgavs" value="@item.Id" />
+                                                <input type="hidden" name="RefPage" value="@ViewBag.sPagereturnUrl" />
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="container row">
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-comments"></i> Comentar </button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="modal-footer justify-content-md-center">
+                            <br><br><br>
+                            <p class="TextRes text-black-50">https://www.empleomax.com</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            @*////////////////////////////////////////////// Mensajes ////////////////////////////////////////////////////*@
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            <!-- Button to Open the Modal -->
+            <!-- The Modal -->
+            <div class="modal" id="details-modal_@item.Id">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <div class="row">
+                                <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                <div class="col-12">
+                                    <br>
+                                    <p class="TitleRes3">@item.Titulo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-body_@item.Id">
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            @*//----------------------------------------------------------------------------------------------*@
+
+        </div>
+
+
+    }
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+}

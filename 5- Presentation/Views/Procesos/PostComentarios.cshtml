@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewData["Title"] = "Blog";
+    Layout = "";
+}
+
+<table class="table table-striped">
+    <tbody>
+
+        @foreach (var msg in ViewBag.MSGList)
+        { 
+
+            <tr>
+                <td>
+                    <p class="letraSmall"><b>@msg.UserMsg</b> escribió:</p>
+                    @msg.Mensaje<br>
+                    <p class="letraSmall">Publicado el @msg.PublicadoMsg</p>
+
+                </td>
+            </tr>
+
+        }
+    </tbody>
+
+</table>

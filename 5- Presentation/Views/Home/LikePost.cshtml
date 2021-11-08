@@ -1,0 +1,19 @@
+﻿<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<style>
+    text.letraSmall {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 10px;
+        margin: 0;
+    }
+</style>
+@{
+    Layout = "";
+    string mensaje = @ViewBag.mensajeUserName;
+}
+@if (mensaje == "ab")
+{<a href="#" data-toggle="tooltip" title="Ya estas siguiendo!"><i class="fas fa-heart"></i><text class="letraSmall text-primary"> Like</text></a>
+}
+else
+{
+    <a href="#" data-toggle="tooltip" title="se produjo un error!"><i class="fas fa-exclamation-circle text-warning"><text class="letraSmall text-primary"> error</text></a>
+}

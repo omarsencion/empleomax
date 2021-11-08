@@ -1,0 +1,340 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@using System.Security.Claims;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using EmpleosWebMax.Domain.Entity;
+@model IEnumerable<Ofertas>
+
+@{
+    int CheckUserType = 0;
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await _userManager.GetUserAsync(User); // ver datos adicionales
+        CheckUserType = user.TypeUser;
+    }
+    if (CheckUserType == 69784)
+    {
+    }
+    else
+    {
+        Context.Response.Redirect(Url.Content("~/Aplicaciones/Logout"));
+    }
+}
+
+@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+                if (ViewBag.sPagereturnUrl > 0) { ViewBag.sPagereturnUrl = ViewBag.sPagereturnUrl; }
+            else { ViewBag.sPagereturnUrl = 1; }
+}
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <p class="title1">Empresa</p>
+    <div class="container">
+        <div class="align-items-md-start">
+            @Html.PagedListPager((IPagedList)Model, page => Url.Action("Empresas", "Home", new { page = page }),
+         new X.PagedList.Web.Common.PagedListRenderOptionsBase
+         {
+                //en que pagina estas?
+                DisplayItemSliceAndTotal = true,
+                ContainerDivClasses = new[] { "navigation" },
+                LiElementClasses = new[] { "page-item" },
+                PageClasses = new[] { "page-link" },
+
+                //ItemSliceAndTotalFormat = "Mostrando {0} a {1} de {2} vacantes.",
+                ItemSliceAndTotalFormat = "{1} de {2}",
+                LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+                LinkToPreviousPageFormat = "<i class='fas fa-angle-left'></i>",
+                LinkToNextPageFormat = "<i class='fas fa-angle-right'></i>",
+                LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>"
+         })
+        </div>
+    </div>
+    @**********************************************************************************************************@
+
+
+    <div class="accordion bg-secondary">
+        <div class="bg-light border border-light shadow p-4 mb-2 bg-white">
+            @{
+                int xRegistroEmpresa = @ViewBag.ncontar;
+            }
+
+            @if (@xRegistroEmpresa == 0)
+            {
+                <div class="row">
+                    <div class="col-md-12"><a href="../Empresaperfils/Create" rel="modal:open" role="button" class="url1"><i class="fas fa-folder-plus "></i> Agregar Perfíl de empresa</a></div>
+                    <div class="col-md-12">
+                        Nota: luego de registrar los datos de la empresa, podrá publicar sus ofertas de empleo y recibir solicitudes de empleo.<br>
+                    </div>
+                </div>
+            }
+            else if (@xRegistroEmpresa > 0)
+            {
+                @foreach (var item in ViewBag.companyList)
+                {
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <img src="~/logo/@item.Foto" class="responsive" height="50"><br>
+                            @*//========================================= MODAL ============================================================*@
+                            <button type="button" class="btn btn-link" data-toggle="modal" data-target="#myFoto" data-backdrop="static" data-keyboard="false"><i class="fas fa-cloud-upload-alt"></i> Cambiar foto</button>
+                            <br>
+                            <a class="btn-link" asp-controller="Maintenance" asp-action="UpdForm"><i class="fas fa-key"></i> Cambiar contraseña</a>
+                            <br>
+                            <div class="modal fade" tabindex="-1" role="dialog" id="myFoto">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+
+                                        <div class="modal-header">
+                                            <div class="row">
+                                                <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                                <div class="col-12">
+                                                    <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditLogo" asp-route-returnUrl="@Context.Request.QueryString">
+                                                <div class="form-group">
+                                                    <input type="file" name="file" />
+                                                </div>
+                                                <br><br>
+                                                <div class="form-group container row">
+                                                    <div class="col-sm-6">
+                                                        <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-cloud-upload-alt"></i> subir </button>
+                                                    </div>
+                                                    <div class="col-sm-6">
+                                                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @*//=====================================================================================================*@
+
+                            <p class="TitleRes4"> &nbsp;&nbsp;&nbsp;&nbsp;@item.EmpresaCentro</p>
+                            <text class="TextResCV"> &nbsp;&nbsp;&nbsp;&nbsp;@item.Pais, @item.Ciudad, @item.Direccion</text><br>
+                            <text class="TextResCV"> &nbsp;&nbsp;&nbsp;&nbsp;@item.PhoneNumber <br />&nbsp;&nbsp;&nbsp;&nbsp;@item.Email2</text><br>
+
+                        </div>
+                        <div class="col-sm-4">
+                            @{
+                                var Fechadesde = item.dateadd;
+                                Fechadesde = Fechadesde.ToString("dd MMM yyyy");
+
+                            }
+                            <p class="TextResCV">Fecha de Registro: @Fechadesde<br />RNC/Identificación: @item.RNC <br />Plan: @ViewBag.PlanName</p>  
+                            <a href="../Empresaperfils/Edit/@item.Id" rel="modal:open" class="btn btn-info" role="button">Editar</a>&nbsp;&nbsp;&nbsp;&nbsp;@*<a href="#" rel="modal:open" class="btn btn-danger" role="button">Eliminar</a>*@
+                            <a asp-area="" asp-controller="myTicket" asp-action="Index" class="btn btn-warning" role="button"><i class="far fa-life-ring"></i> HelpDesk</a>
+
+                        </div>
+                    </div>
+                                }
+            }
+
+        </div>
+    </div>
+    <div class="panel"></div>
+    @*====================================================*@
+
+
+<div class="container">
+    <br />
+    @if (@xRegistroEmpresa > 0)
+    {
+            <div class="container">
+                <p class="title1">Ofertas de empleo</p>
+                <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Empresas" asp-route-returnUrl="@Context.Request.QueryString">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <a href="../Empleoofertas/Create" role="button" class="url1"><i class="fas fa-folder-plus "></i> Crear oferta de empleo</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="url1" asp-controller="Home" asp-action="Empresas"><i class="fas fa-list-ol"></i> Mis empleos</a>
+                        </div>
+                        <div class="col-md-6 input-group">
+                            <input type="text" name="buscar" class="form-control" placeholder="busca un empleo, ej: cocinera">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    }
+<br>
+    @foreach (var item in Model)
+{
+
+string sTipoContrato = "";
+int nTipoContrato = item.TipoContrato;
+if (nTipoContrato == 1) { sTipoContrato = "Fijo"; }
+else if (nTipoContrato == 2) { sTipoContrato = "Temporal"; }
+else if (nTipoContrato == 3) { sTipoContrato = "Sin contrato"; }
+else if (nTipoContrato == 4) { sTipoContrato = "Independiente"; }
+else if (nTipoContrato == 5) { sTipoContrato = "Por hora"; }
+else if (nTipoContrato == 6) { sTipoContrato = "A tratar"; }
+else { sTipoContrato = ""; }
+
+var salarhasta = "";
+if (item.Salariohasta > 0) { salarhasta = "a RD$"; }
+
+string sSalariotratar = "";
+if (item.Salariotratar == true) { sSalariotratar = "Sí"; }
+else if (item.Salariotratar == false) { sSalariotratar = "No"; }
+
+string sSexo = "";
+if (item.sexo == 0) { sSexo = "Mujer"; }
+else if (item.sexo == 1) { sSexo = "Hombre"; }
+else if (item.sexo == 3) { sSexo = "Sin preferencia"; }
+
+
+<div class="accordion">
+    @*=====================*@
+    <div class="row border border-secondary border-left-0 border-right-0 shadow p-4 mb-4 bg-white">
+        <div class="col-sm-4">
+            @*---------------*@
+            <div class="row border border-secondary border-left-0 border-top-0 border-bottom-0">
+                <div class="col-4">
+                    <img src="~/logo/@item.Foto" class="responsive" height="40">
+                </div>
+                <div class="col-4"><i class="far fa-clock"></i> Publicado:<text class="at"> @item.dateadd</text></div>
+                <div class="col-4"><i class="fas fa-map-marker-alt"></i> Ciudad:<text class="at"> @item.Ciudadtrabajo</text></div>
+            </div>
+            <div class="row">
+                Aplicaciones: # @item.cantID3<br>
+            </div>
+            <div class="row">
+                <form class="form-inline" asp-controller="Aplicaciones" asp-action="Index">
+                    <input type="hidden" name="Id" class="form-control" value="@item.Id" />
+                    <input type="hidden" name="Oportunidad" class="form-control" value="@item.Job" />
+                    <br>
+                    <button type="submit" class="btn btn-warning"><i class="fas fa-user-check"></i> Ver aplicaciones </button>
+                </form>
+            </div>
+
+            @*---------------*@
+        </div>
+        @********************************@
+        <div class="col-sm-8">
+            <div class="row">
+                <div class="col-sm-6">
+                    <h1 class="TitleRes3">@item.Titulotrabajo</h1>
+                    Contrato: <text class="at"> @sTipoContrato</text><br>
+                    Horario: <text class="at"> @item.diaslaborables, @item.jornadahrs</text><br>
+                    Salario: <text class="at">RD$ @item.Salario @salarhasta @item.Salariohasta, salario a convenir? <b>@sSalariotratar</b></text><br>
+                </div>
+                <div class="col-sm-6">
+                    <br><br>
+                    Edad: <text class="at"> @item.edadminima a @item.edadmaxima</text><br>
+                    Sexo: <text class="at"> @sSexo</text><br>
+                    Idiomas: <text class="at"> @item.idiomas</text><br>
+
+                    <div class="row">
+                        <div class="col-md-2"><button type="button" class="btn text-primary"><i class="fas fa-chevron-circle-down"></i> @*más*@</button></div>
+                        <div class="col-md-3">
+                            <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditVacante" asp-route-returnUrl="@Context.Request.QueryString">
+                                <div class="row">
+                                    <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="St" class="form-control" value="a" />
+                                    <button type="submit" class="btn text-danger">&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-trash-alt"></i> </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-1">
+                            @{if (@item.statusGral == 0)
+                                {
+                                    <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditVacante" asp-route-returnUrl="@Context.Request.QueryString">
+                                        <div class="row">
+
+                                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                            <input type="hidden" name="St" class="form-control" value="r" />
+                                            <button type="submit" class="btn text-success"> <i class="far fa-eye"></i> </button>
+                                        </div>
+                                    </form> }
+                                else if (@item.statusGral == 1)
+                                {
+                                    <form enctype="multipart/form-data" asp-controller="Home" asp-action="EditVacante" asp-route-returnUrl="@Context.Request.QueryString">
+                                        <div class="row">
+
+                                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                            <input type="hidden" name="St" class="form-control" value="x" />
+                                            <button type="submit" class="btn text-danger"> <i class="far fa-eye-slash"></i> </button>
+                                        </div>
+                                    </form>}
+                            }
+
+                        </div>
+
+                        <div class="col-md-3">
+                            <form enctype="multipart/form-data" asp-controller="Empleoofertas" asp-action="Editar" asp-route-returnUrl="@Context.Request.QueryString">
+                                <div class="row">
+                                    <input type="hidden" name="Id" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="gdtdstds" class="form-control" value="@item.Job" />
+                                    <input type="hidden" name="pag" class="form-control" value="@ViewBag.sPagereturnUrl" />
+                                    <input type="hidden" name="buscar" class="form-control" value="@ViewBag.buscar" />
+
+                                    <button type="submit" class="btn text-dark">&nbsp;&nbsp;&nbsp;&nbsp; <i class="far fa-edit"></i> </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*=====================*@
+    </div>
+</div>
+<div class="panel p-1">
+    Publicado por: <p class="TitleRes3"> @item.EmpresaCentro - @item.PhoneNumber</p>
+
+    <h1 class="TitleRes3">Descripción</h1>
+    <p>@Html.Raw(item.Descripciontrabajo) </p>
+    <hr />
+    <h1 class="TitleRes3">Requisitos</h1>
+    <p>@Html.Raw(item.Requisitostrabajo)</p>
+</div>
+}
+
+</div>
+    <div class="divAltoc"></div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+
+    <script>
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + "px";
+                }
+            });
+        }
+    </script>
+}

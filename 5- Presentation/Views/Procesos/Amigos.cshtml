@@ -1,0 +1,292 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+
+@{
+    ViewData["Title"] = "Amigos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<p></p>
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Mis amigos</h1>
+    <p>agregar a un amigo </p>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <i class="fas fa-user-plus"></i> invita a un amigo
+    </button>
+
+    <div class="modal fade" tabindex="-1" role="dialog" id="myModal" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                        <div class="col-12">
+                            <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-controller="Home" asp-action="FriendsMe" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Email2" class="control-label">ingresa el Email a invitar</label>
+                            <input type="text" name="userName" id="username" class="form-control" value="" />
+                        </div>
+                        <div class="validaremail"></div>
+                    </div>
+
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<br><br>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+                <div class="row border-top border-bottom shadow-sm align-items-center h-100">
+
+                    <div class="col-md-1">
+                        <div class="row align-items-center h-100">
+                            <div class="col-12 mx-auto">
+                                @canapl
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <p class="letraSmallA">Amigo</p>
+                        <b>@item.Nombres</b> @item.MailPrincipal
+                        <p class="letraSmallA">Solcitado:@item.amigoStatusFecha</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p class="letraSmallA">Status</p>
+                        @if (item.amigoStatus == 1)
+                        {
+                            <p class="letraSmallA"><i class="fas fa-users"></i> Amigos</p>
+                        }
+                        else if (item.amigoStatus == 2)
+                        {
+                            <p class="letraSmallA"><i class="far fa-user text-light"></i></p>
+                        }
+                        else if (item.amigoStatus == 4)
+                        {
+                            <p class="letraSmallA"><i class="fas fa-paper-plane"></i> Solicitado</p>
+                        }
+                        else
+                        {
+                            <p class="letraSmallA"><i class="fas fa-question-circle"></i> Por verificar</p>
+                        }
+                    </div>
+                    <div class="col-md-2">
+                        <p class="letraSmallA">Tipo usuario</p>
+                        @if (item.TypeUserPrincipal == 11)
+                        {
+                            <p class="small"><i class="far fa-frown"></i> No registrado</p>
+                        }
+                        else if (item.TypeUserPrincipal == 255485)
+                        {
+                            <p class="small"><i class="far fa-user"></i> Candidato</p>
+                        }
+                        else if (item.TypeUserPrincipal == 69784)
+                        {
+                            <p class="small"><i class="fas fa-user-tie"></i> Empresa</p>
+                        }
+                        else
+                        {
+                            <p class="small"><i class="fas fa-question-circle"></i> Por verificar</p>
+                        }
+                    </div>
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                    <div class="row">
+                                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                        <input type="hidden" name="St" class="form-control" value="a" />
+                                        <button type="submit" class="btn text-danger"> <i class="fas fa-trash-alt"></i> </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-sm-6">
+                                @{if (@item.status > 20000 && @item.status < 40000)
+                                    {
+                                        <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                            <div class="row">
+                                                <input type="hiddens" name="gdfsd" class="form-control" value="@item.Id" />
+                                                <input type="hidden" name="St" class="form-control" value="r" />
+                                                <button type="submit" class="btn text-success"> <i class="far fa-eye"></i> </button>
+                                            </div>
+                                        </form> }
+                                    else if (@item.status == 21447)
+                                    {
+                                        <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                            <div class="row">
+                                                <input type="hiddens" name="gdfsd" class="form-control" value="@item.Id" />
+                                                <input type="hidden" name="St" class="form-control" value="x" />
+                                                <button type="submit" class="btn text-danger"> <i class="far fa-eye-slash"></i> </button>
+                                            </div>
+                                        </form>}
+
+                                    else if (@item.status == 3)
+                                    {
+                                        <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                            <div class="row">
+                                                <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                                <input type="hidden" name="St" class="form-control" value="xy" />
+                                                <button type="submit" class="btn text-primary"> <i class="far fa-thumbs-up"></i> </button>
+                                            </div>
+                                        </form>}
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            }
+<br><br>
+
+    <div class="container">
+        Solicitudes de Amistad
+    </div>
+
+            @{int canapl2 = 0; }
+            @foreach (var item in ViewBag.UserxList2)
+            {
+                canapl2++;
+            <div class="row border-top border-bottom shadow-sm align-items-center h-100">
+
+                <div class="col-md-1">
+                    <div class="row align-items-center h-100">
+                        <div class="col-12 mx-auto">
+                            @canapl2
+                        </div>
+                        </div>
+                    </div>
+                <div class="col-md-5">
+                    <p class="letraSmallA">Amigo</p>
+                    <b>@item.Nombres</b> @item.MailPrincipal
+                    <p class="letraSmallA">Solcitado:@item.amigoStatusFecha</p>
+                </div>
+                <div class="col-md-2">
+                    <p class="letraSmallA">Status</p>
+                    @if (item.amigoStatus == 1)
+                    {
+                        <p class="letraSmallA"><i class="fas fa-users"></i> Amigos</p>
+                    }
+                    else if (item.amigoStatus == 2)
+                    {
+                        <p class="letraSmallA"><i class="far fa-user text-light"></i></p>
+                    }
+                    else if (item.amigoStatus == 4)
+                    {
+                        <p class="letraSmallA"><i class="fas fa-paper-plane"></i> Solicitado</p>
+                    }
+                    else
+                    {
+                        <p class="letraSmallA"><i class="fas fa-question-circle"></i> Por verificar</p>
+                    }
+                </div>
+                <div class="col-md-2">
+                    <p class="letraSmallA">Tipo usuario</p>
+                    @if (item.TypeUserPrincipal == 11)
+                    {
+                        <p class="small"><i class="far fa-frown"></i> No registrado</p>
+                    }
+                    else if (item.TypeUserPrincipal == 255485)
+                    {
+                        <p class="small"><i class="far fa-user"></i> Candidato</p>
+                    }
+                    else if (item.TypeUserPrincipal == 69784)
+                    {
+                        <p class="small"><i class="fas fa-user-tie"></i> Empresa</p>
+                    }
+                    else
+                    {
+                        <p class="small"><i class="fas fa-question-circle"></i> Por verificar</p>
+                    }
+                </div>
+                <div class="col-md-2">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                <div class="row">
+                                    <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="St" class="form-control" value="a" />
+                                    <button type="submit" class="btn text-danger"> <i class="fas fa-trash-alt"></i> </button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            @{if (@item.status > 20000 && @item.status < 40000)
+                                {
+                                    <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                        <div class="row">
+                                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                            <input type="hidden" name="St" class="form-control" value="r" />
+                                            <button type="submit" class="btn text-success"> <i class="far fa-eye"></i> </button>
+                                        </div>
+                                    </form> }
+                                else if (@item.status == 21447)
+                                {
+                                    <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                        <div class="row">
+                                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                            <input type="hidden" name="St" class="form-control" value="x" />
+                                            <button type="submit" class="btn text-danger"> <i class="far fa-eye-slash"></i> </button>
+                                        </div>
+                                    </form>}
+
+                                else if (@item.status == 3)
+                                {
+                                    <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="EditUsuario2" asp-route-returnUrl="@Context.Request.Path@Context.Request.QueryString">
+                                        <div class="row">
+                                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                            <input type="hidden" name="St" class="form-control" value="xy" />
+                                            <button type="submit" class="btn text-primary"> <i class="far fa-thumbs-up"></i> </button>
+                                        </div>
+                                    </form>}
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            }
+<br><br><br>
+
+
+    <a href="#" onclick="goBack()" class="btn-event-show-video">
+        <i class="fas fa-chevron-circle-left"></i> Regresar
+    </a>
+    <br><br>
+</div>
+<div class="divAlto"></div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <script type="text/javascript" lang="js">
+        $(function () {
+            $("#username").keyup(function () {
+                var userName = $(this).val();
+                if (userName.length >= 1) {
+                    $('.validaremail').load(`./CheckGuest?username=${userName}`);
+                }
+            });
+        });
+    </script>
+}

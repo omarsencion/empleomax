@@ -1,0 +1,528 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using System.Security.Claims;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+@using EmpleosWebMax.Domain.Entity;
+@{
+    TempData["CUT"] = 0;
+    int vffsvs = 0;
+    var user = await UserManager.GetUserAsync(User); 
+
+}
+@model IEnumerable<Ofertas>
+@{
+    ViewData["Title"] = "Empleos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int UserLogedIn = 0;
+    int nFollowin = 0;
+
+}
+@if (SignInManager.IsSignedIn(User))
+{
+    TempData["CUT"] = TempData["CUT"];//0;
+    UserLogedIn = 1;
+}
+else
+{
+    UserLogedIn = 2;
+    TempData["CUT"] = 0;
+}
+
+@{
+    string xvcvc = TempData["CUT"].ToString();
+    vffsvs = Convert.ToInt32(xvcvc);
+}
+@{
+    long quien = ViewBag.tipoUser;
+}
+
+<div class="container">
+    <h1 class="title1">Empleos disponibles </h1>
+    <br>
+
+    @if (ViewBag.ns == 1)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong><i class="fas fa-exclamation-circle"></i></strong> @ViewBag.mensaje_ns.
+        </div>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                window.setTimeout(function () {
+                    $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                        $(this).remove();
+                    });
+                }, 5000);
+
+            });
+        </script>
+    }
+    <div class="align-items-md-start">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Empleos", "Home", new { page = page }),
+     new X.PagedList.Web.Common.PagedListRenderOptionsBase
+     {
+            DisplayItemSliceAndTotal = true,
+            ContainerDivClasses = new[] { "navigation" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+
+            ItemSliceAndTotalFormat = "{1} de {2}",
+            LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+            LinkToPreviousPageFormat = "<i class='fas fa-angle-left'></i>",
+            LinkToNextPageFormat = "<i class='fas fa-angle-right'></i>",
+            LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>"
+     })
+    </div>
+    <style>
+        .aabb {
+            margin-left: -12px;
+        }
+    </style>
+    <div class="container">
+        <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Empleos" asp-route-returnUrl="@Context.Request.QueryString">
+            <div class="row">
+                <div class="col-md-6 input-group">
+                    <input type="text" name="buscar" class="form-control aabb" placeholder="busca un empleo, ej: abogado">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <a class="url1" asp-controller="Home" asp-action="Empleos"><i class="fas fa-list-ol"></i> Inicio de empleos</a>
+                </div>
+                <div class="col-md-3">
+                </div>
+
+            </div>
+        </form>
+    </div>
+    @foreach (var item in Model)
+    {
+        string sTipoContrato = "";
+        int nTipoContrato = item.TipoContrato;
+        if (nTipoContrato == 1) { sTipoContrato = "Fijo"; }
+        else if (nTipoContrato == 2) { sTipoContrato = "Temporal"; }
+        else if (nTipoContrato == 3) { sTipoContrato = "Sin contrato"; }
+        else if (nTipoContrato == 4) { sTipoContrato = "Independiente"; }
+        else if (nTipoContrato == 5) { sTipoContrato = "Por hora"; }
+        else if (nTipoContrato == 6) { sTipoContrato = "A tratar"; }
+        else { sTipoContrato = ""; }
+
+        var salarhasta = "";
+        if (item.Salariohasta > 0) { salarhasta = "a RD$"; }
+
+        string sSalariotratar = "";
+        if (item.Salariotratar == true) { sSalariotratar = "Sí"; }
+        else if (item.Salariotratar == false) { sSalariotratar = "No"; }
+
+        string sSexo = "";
+        if (item.sexo == 0) { sSexo = "Mujer"; }
+        else if (item.sexo == 1) { sSexo = "Hombre"; }
+        else if (item.sexo == 3) { sSexo = "Sin preferencia"; }
+
+
+        string msgsino = "";
+        string empresa = "";
+        string empresaTelf = "";
+        string empresalogo = "";
+        if (item.publicosino == true)
+        {
+            msgsino = "SI";
+            empresa = item.EmpresaCentro;
+            empresaTelf = item.PhoneNumber;
+            empresalogo = item.Foto;
+            nFollowin = 1;
+        }
+        else
+        {
+            msgsino = "NO";
+            empresa = "Información reservada";
+            empresaTelf = "8*9-***.****";
+            empresalogo = "reservado.png";
+            nFollowin = 0;
+        }
+
+
+        if (ViewBag.sPagereturnUrl > 0) { ViewBag.sPagereturnUrl = ViewBag.sPagereturnUrl; }
+        else { ViewBag.sPagereturnUrl = 1; }
+        <div class="container mt-3 border border-secondary border-left-0 border-right-0 shadow p-4 mb-4 bg-white">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <img src="~/logo/@empresalogo" class="responsive" height="40">
+                        </div>
+                        <div class="col-md-8">
+                            <p class="letraSmall">Publicado por:</p><p class="TitleRes3 margeno"> @empresa </p>
+                            @if (UserLogedIn == 1 && nFollowin == 1)
+                            {
+                                <div tabindex="-1" id="details-follow_@item.Id">
+                                    <div class="validarfollow_@item.Id"></div>
+                                </div>
+                                if (item.isFollow == 5)
+                                {
+                                    <div id="fw_@item.Id">
+                                        <button class="btn btn-link text-primary btn-lg" id="followhere_@item.Id" data-id="@item.Idempresa" data-toggle="" data-target="#details-follow_@item.Id"><i class="fas fa-hand-point-up"></i> seguir</button>
+                                    </div>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#followhere_@item.Id").click(function () {
+                                                $("#fw_@item.Id").hide();
+                                            });
+
+                                        });
+                                    </script>
+                                }
+                                else if (item.isFollow == 0)
+                                {
+                                    <a href="#" data-toggle="tooltip" title="Ya estas siguiendo!"><i class="fas fa-walking text-primary"></i><text class="letraSmall text-primary"> siguiendo</text></a>
+                                }
+                                <script>
+                                $(function () {
+                                    $('#followhere_@item.Id').on('click', function () {
+                                        $('.validarfollow_@item.Id').load(`./FollowMe?followsMe=${$(this).data('id')}`);
+                                    });
+                                })
+                                </script>
+                            }
+
+                            <p class="TitleRes3"><i class="fas fa-phone-square-alt"></i> @empresaTelf</p>
+                            <i class="far fa-clock"></i> Publicado:<text class="at"> @item.dateadd</text><br>
+                        </div>
+                    </div>
+
+                </div>
+                @{
+                    string salbasico = item.Salario.ToString("#,##0.00");
+                    string salhsta = item.Salariohasta.ToString("#,##0.00");
+                }
+                <div class="col-sm-7">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="letraSmall">Vacante:</p>
+                            <h1 class="TitleRes3">@item.Titulotrabajo</h1>
+                            Contrato: <text class="at"> @sTipoContrato</text><br>
+                            Horario: <text class="at"> @item.diaslaborables, @item.jornadahrs</text><br>
+                            Salario: <text class="at">@item.salarioultimoMON @salbasico @if (item.Salariohasta > item.Salario)
+                            {<i class="fas fa-sync"></i> @item.salarioaspiraMON @salhsta}</text>
+                        </div>
+                        <div class="col-sm-6">
+                            <br>
+                            Edad: <text class="at"> @item.edadminima a @item.edadmaxima</text><br>
+                            Sexo: <text class="at"> @sSexo</text><br>
+                            <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#b_@item.Id"><i class="fas fa-chevron-circle-down"></i> más</button>
+
+                            @{
+                                int valor1 = 0;
+                                int valor2 = 0;
+                                int valor3 = 0;
+                                if (UserLogedIn == 1) { valor1 = 1; }
+                                if (item.aplicoaempleosiono == 1) { valor2 = 1; }
+                                valor3 = valor1 + valor2;
+                                string compartido = "";
+
+                            }
+
+
+                            @if (valor3 == 2)
+                            {
+                                <button type="button" class="btn btn-link">Ya aplicaste <i class="fas fa-thumbs-up"></i></button>
+                            }
+                            else
+                            {
+                                @if (quien == 255485)
+                                {
+                                    <button class="btn btn-warning btn-sm details" data-id="@item.Id" data-id2="@item.Job" data-id3="@ViewBag.sPagereturnUrl" data-toggle="modal" data-target="#details-modal_@item.Id"><i class="fas fa-user-check"></i> Aplicar</button>
+
+                                }
+                                else if (quien == 0)
+                                {
+                                    <a href="#" class="btn btn-warning btn-sm" title="Login" data-toggle="popover" data-trigger="hover" data-content="Debes iniciar sesión o registrarte"><i class="fas fa-user-check"></i> Aplicar</a>
+
+
+                                }
+                                else
+                                {
+                                }
+                            }
+
+                            @{
+                                string TituloEmpleo = item.Titulotrabajo;
+                                string TextoEnCompartir = "Oportunidades de trabajo en EmpleoMax";
+                                string urlShare = "https://www.empleomax.com/Home/Empleos?buscar" + @TituloEmpleo;
+
+                            }
+                            @*----------------------------------------------COMPARTIR -------------------------------------------------------------------*@
+                            <ul class="navbar-nav flex-grow-0">
+                                <li class="nav-item dropdown lineagris">
+                                    <a class="nav-link btn-link" href="#" id="navbardrop" data-toggle="dropdown">
+                                        <i class="fas fa-share-alt"></i> Compartir
+                                    </a>
+                                    <div class="dropdown-menu border-secondary" style="background: linear-gradient(#e8f7f6, #a7edf5);">
+                                        <i class="fas fa-chevron-up dropdown-item"></i>
+                                        <a class="dropdown-item  lineagrislink" target="_blank" href="https://www.facebook.com/sharer/sharer.php?title=@TituloEmpleo&u=@urlShare"><i class="fab fa-facebook"></i> Facebook</a>
+                                        <a class="dropdown-item  lineagrislink" target="_blank" href="https://twitter.com/intent/tweet?text=@TituloEmpleo&url=https://espai.es&hashtags=dissenyweb"><i class="fab fa-twitter"></i> Twitter</a>
+                                        <a class="dropdown-item  lineagrislink" target="_blank" href="https://api.whatsapp.com/send?text=@urlShare"><i class="fab fa-whatsapp"></i> Whatsapp</a>
+                                        <a class="dropdown-item  lineagrislink" target="_blank" href="https://www.linkedin.com/sharing/share-offsite/?url=@urlShare"><i class="fab fa-linkedin"></i> Linkedin</a>
+                                    </div>
+
+                                </li>
+                            </ul>
+                            @*-----------------------------------------------------------------------------------------------------------------*@
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            @*////////////////////////////////////////////// Aplicar a Empleo ////////////////////////////////////////////////////////*@
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="details-modal_@item.Id">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content border border-0">
+                        <div class="row pt-0 pl-4 pr-4">
+                            <img src="~/images/EmpleoMax3.png" height="45"><br>
+                            <p class="TextRes text-secondary">
+                                Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.
+                            </p>
+                        </div>
+
+                        <div class="modal-body">
+                            @if (UserLogedIn == 1)
+                            {
+                                <div class="alert alert-warning alert-dismissible fade show">
+                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                    <div class="row">
+                                        <div class="col-sm-10"><strong><i class="fas fa-share"></i></strong> Espere un momento...</div>
+                                        <div class="col-sm-2"><div class="spinner-grow spinner-grow-sm"></div></div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+
+                                    $(document).ready(function () {
+
+                                        window.setTimeout(function () {
+                                            $(".alert").fadeTo(1000, 0).slideUp(1000, function () {
+                                                $(this).remove();
+                                            });
+                                        }, 50000);
+
+                                    });
+                                </script>
+                            }
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" tabindex="-1" role="dialog" id="compartir_@item.Id">
+                <div class="modal-dialog  modal-dialog-centered">
+                    <div class="modal-content border border-0">
+                        <div class="row pt-0 pl-4 pr-4">
+                            <img src="~/images/EmpleoMax3.png" height="45"><br>
+                            <p class="TextRes text-secondary">
+                                Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.
+                            </p>
+                        </div>
+                        <div class="modal-header border border-0 text-center">
+                            <button type="button" class="close text-danger" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body"></div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+            @*////////////////////////////////////////////// Fin compartir Empleo ////////////////////////////////////////////////////*@
+            @*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*@
+
+            <div class="modal" id="myModal-@item.Id">
+                <div class="modal-dialog">
+                    <div class="modal-content border border-0">
+
+                        <div class="modal-header">
+                            <div class="row">
+                                <div class="col-12"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                <div class="col-12">
+                                    <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-body border border-0">
+                            <form class="" asp-controller="Aplicaciones" asp-action="EmailSend2" asp-route-returnUrl="@Context.Request.QueryString">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                Vacante:<br>
+                                                <p class="TextRes">@item.Titulotrabajo</p><br>
+                                                Escribe tu email:<br>
+                                                <input type="text" name="From_" class="form-control" placeholder="@Html.Raw("miCorreo@ejemplo.com")" value="" />
+                                                <input type="hidden" name="RefPage" value="@ViewBag.sPagereturnUrl" />
+                                                <input type="hidden" name="Oportunidad" value="@item.Job" />
+                                                <input type="hidden" name="Id" value="@item.Id" />
+                                                <input type="hidden" name="titulo" value="@item.Titulotrabajo" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Email destinatario:<br>
+                                                <input type="text" name="To_" class="form-control" placeholder="@Html.Raw("aQuien@ejemplo.com")" value="" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Asunto:<br>
+                                                <input type="text" name="Asunto_" class="form-control" placeholder="ej: mira esta vacante, es tu opotunidad!" value="" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Mensaje:<br>
+                                                <textarea class="form-control" name="mensaje_" rows="3"> </textarea>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="container row">
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-user-check"></i> Compartir </button>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+
+                        <div class="modal-footer justify-content-md-center">
+                            <br><br><br>
+                            <p class="TextRes text-black-50">https://www.empleomax.com</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            @*=============================================================================================================================*@
+            <div id="b_@item.Id" class="collapse">
+                <style>
+                    TextContenido {
+                        font-family: 'Arial Narrow', sans-serif;
+                        font-size: 14px;
+                    }
+                </style>
+                <br>
+                <i class="fas fa-map-marker-alt"></i> Ciudad:<text class="at"> @item.Ciudadtrabajo</text><br>
+                <i class="fas fa-globe"></i> Idiomas: <text class="at"> @item.idiomas</text><br>
+                <i class="fas fa-dollar-sign"></i> <text class="at">Salario a tratar? <b>@sSalariotratar</b></text><br>
+                <br>
+                <h1 class="TitleRes3 text-uppercase">Descripción</h1>
+                <p class="TextContenido pl-5 pr-5 text-break text-justify">@Html.Raw(item.Descripciontrabajo) </p>
+                <hr />
+                <h1 class="TitleRes3 text-uppercase">Requisitos</h1>
+                <p class="TextContenido pl-5 pr-5 text-break text-justify">@Html.Raw(item.Requisitostrabajo)</p>
+                <br>
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="collapse" data-target="#b_@item.Id"><i class="fas fa-chevron-circle-up"></i> menos</button>
+
+                @if (vffsvs == 69784) { }
+                else
+                {
+                    <form class="form-inline" asp-controller="Aplicaciones" asp-action="Aplicar" asp-route-returnUrl="@Context.Request.QueryString">
+                        <input type="hidden" name="Id" class="form-control" value="@item.Id" />
+                        <input type="hidden" name="Oportunidad" class="form-control" value="@item.Job" />
+                    </form>
+                }
+            </div>
+        </div>
+    }
+
+    <br><br>
+    <div class="align-items-md-start">
+        @Html.PagedListPager((IPagedList)Model, page => Url.Action("Empleos", "Home", new { page = page }),
+     new X.PagedList.Web.Common.PagedListRenderOptionsBase
+     {
+            //en que pagina estas?
+            DisplayItemSliceAndTotal = true,
+            ContainerDivClasses = new[] { "navigation" },
+            LiElementClasses = new[] { "page-item" },
+            PageClasses = new[] { "page-link" },
+
+            //ItemSliceAndTotalFormat = "Mostrando {0} a {1} de {2} vacantes.",
+            ItemSliceAndTotalFormat = "{1} de {2}",
+            LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>",
+            LinkToPreviousPageFormat = "<i class='fas fa-angle-left'></i>",
+            LinkToNextPageFormat = "<i class='fas fa-angle-right'></i>",
+            LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>"
+     })
+    </div>
+
+</div>
+
+<div class="divAltoc"></div>
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $('ul.pagination > li.disabled > a').addClass('page-link');
+        });
+    </script>
+
+    <script>
+        $(function () {
+            $('button.details').on('click', function () {
+                $('.modal-body').load(`/Procesos/Aplicando?Id=${$(this).data('id')}&Oportunidad=${$(this).data('id2')}&RefPage=${$(this).data('id3')}`);
+            });
+        })
+    </script>
+
+    <script>
+        $(function () {
+            $('button.compartiendopppppp').on('click', function () {
+                $('.modal-body2').load(`/Aplicaciones/EmailSend?Id=${$(this).data('id')}&Oportunidad=${$(this).data('id2')}&RefPage=${$(this).data('id3')}&title=${$(this).data('id4')}`);
+            });
+        })
+    </script>
+
+    <script>
+        $(function () {
+            $('button.compartiendo').on('click', function () {
+                $('.modal-body').load(`/Aplicaciones/EmailSend?Id=${$(this).data('id')}&Oportunidad=${$(this).data('id2')}&RefPage=${$(this).data('id3')}&title=${$(this).data('id4')}`);
+            });
+        })
+    </script>
+
+    <script>
+        $(function () {
+            $('button.details2').on('click', function () {
+                $('.modal-body').load(`/Aplicaciones/EmailSend?Id=${$(this).data('id')}&Oportunidad=${$(this).data('id2')}&RefPage=${$(this).data('id3')}&title=${$(this).data('id4')}`);
+            });
+        })
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+}

@@ -1,0 +1,38 @@
+﻿
+@{
+    ViewData["Title"] = "Existe";
+    int rfet2 = 0;
+    int botonnext = 0;
+    rfet2 = Convert.ToInt32(TempData["_reft"]);
+    if (rfet2 == 0 || rfet2 == null)
+
+    {
+        Layout = "";
+        botonnext = 0;
+    }
+    else if (rfet2 == 1)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        botonnext = 1;
+    }
+
+
+    var fecha = DateTime.Now;
+
+}
+<br>
+
+
+<div class="divAlto"></div>
+
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1 text-danger">
+        <i class="fas fa-exclamation-triangle"></i> Ya aplicaste a esta oferta de empleo
+    </h1>
+    <p class="TextRes">Te deseamos muchas suerte!</p>
+    <br><br>
+    @if(botonnext == 1) { 
+    <a href="../Home/Empleos?page=@ViewBag.npage" class="btn btn-link" role="button">Continuar <i class="fas fa-chevron-right"></i></a>
+    }
+    <div class="divAlto"></div>
+

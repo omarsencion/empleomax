@@ -1,0 +1,21 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using System.Security.Claims;
+@{
+    int CheckUserType = 0;
+    int UserLogedIn = 0;
+    TempData["CUT"] = 0;
+}
+
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User); // ver datos adicionales
+    CheckUserType = user.TypeUser;
+    TempData["CUT"] = CheckUserType;
+    UserLogedIn = 1;
+
+}
+else { 
+    UserLogedIn = 0;
+}

@@ -1,0 +1,92 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@model EmpleosWebMax.Domain.Entity.Experiencias
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+@{
+    var id = _userManager.GetUserId(User);
+    var mail = _userManager.GetUserName(User);
+    ViewBag.id = id;
+    ViewBag.mail = mail;
+    DateTime date = DateTime.Now;
+
+}
+<div class="container-fluid">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header" style="background: linear-gradient(#E2ECF7, #c9d9eb);">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center align-self-center">
+                            <div class="col-md-8 justify-content-center align-self-center"><h1 class="">Editar</h1></div>
+                            <div class="col-md-4 justify-content-center align-self-center"><a href="#close-modal" rel="modal:open">Cerrar <i class="fas fa-times-circle text-danger"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row myModal">
+                        <div class="col-lg-12">
+                            <form asp-action="Edit">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="hidden" asp-for="Id" />
+                                <input type="hidden" asp-for="IdUser" class="form-control" />
+                                <input type="hidden" asp-for="email" class="form-control" />
+                                <input type="hidden" class="form-check-input" asp-for="status" />
+                                <input type="hidden" asp-for="dateadd" class="form-control" value="@date" />
+
+
+                                <div class="form-group">
+                                    <label asp-for="Empresa" class="control-label"></label>
+                                    <input asp-for="Empresa" class="form-control" />
+                                    <span asp-validation-for="Empresa" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Posicion" class="control-label"></label>
+                                    <input asp-for="Posicion" class="form-control" />
+                                    <span asp-validation-for="Posicion" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="FuncionesRol" class="control-label"></label>
+                                    @Html.TextAreaFor(model => model.FuncionesRol, new { @class = "form-control" })
+                                    <span asp-validation-for="FuncionesRol" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Aportes" class="control-label"></label>
+                                    @Html.TextAreaFor(model => model.Aportes, new { @class = "form-control" })
+                                    <span asp-validation-for="Aportes" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="desde" class="control-label"></label>
+                                    <input asp-for="desde" class="form-control" />
+                                    <span asp-validation-for="desde" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="hasta" class="control-label"></label>
+                                    <input asp-for="hasta" class="form-control" />
+                                    <span asp-validation-for="hasta" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div>
+
+
+                    </div>
+
+                </div>
+                <div id="summernote"></div>
+
+                <div class="modal-footer">
+                </div>
+
+            </div>
+    </div>
+</div>

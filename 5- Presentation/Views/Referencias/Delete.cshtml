@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@model EmpleosWebMax.Domain.Entity.Referencias
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_LayoutBlank.cshtml";
+}
+@{
+    var id = _userManager.GetUserId(User);
+    var mail = _userManager.GetUserName(User);
+    ViewBag.id = id;
+    ViewBag.mail = mail;
+    DateTime date = DateTime.Now;
+
+}
+    <div class="container-fluid">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <style>
+                    div.modal-header {
+                        height: 100px;
+                        width: 500px;
+                    }
+                </style>
+                <div class="modal-header" style="background: linear-gradient(#E2ECF7, #c9d9eb);">
+                    <div class="container-fluid">
+                        <div class="row justify-content-center align-self-center">
+                            <div class="col-md-8 justify-content-center align-self-center"><h1 class="TitleRes3">Referencia</h1></div>
+                            <div class="col-md-4 justify-content-center align-self-center"><a href="#close-modal" rel="modal:open">Cerrar <i class="fas fa-times-circle text-danger"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="row myModal">
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Persona)<br>
+                                @Html.DisplayFor(model => model.Persona)
+                            </div>
+
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Empresa)<br>
+                                @Html.DisplayFor(model => model.Empresa)
+                            </div>
+
+
+
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.PhoneNumber)<br>
+                                @Html.DisplayFor(model => model.PhoneNumber)
+                            </div>
+
+                            <div class="form-group">
+                                @Html.DisplayNameFor(model => model.Parentezco)<br>
+                                @Html.DisplayFor(model => model.Parentezco)
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <form asp-action="Delete">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="submit" value="Eliminar" class="btn btn-danger" />
+                        </form>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>

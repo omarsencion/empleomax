@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewData["Title"] = "MensajePost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>MensajePost</h1>
+@foreach (var msg in ViewBag.MSGList)
+{
+    @msg.Mensaje
+    <br>
+
+}

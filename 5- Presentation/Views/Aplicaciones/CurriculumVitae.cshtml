@@ -1,0 +1,224 @@
+﻿
+@{
+    ViewData["Title"] = "Curriculum Detalle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string zSexo = "";
+
+}
+
+<div class="container">
+    <br />
+
+
+    <div class="bg-light border border-light shadow p-4 mb-2 bg-white">
+        @foreach (var item in ViewBag.UserxList)
+        {
+            if (item.Sexo == true)
+            {
+                zSexo = "Hombre";
+            }
+            else if (item.Sexo == false) { zSexo = "Mujer"; }
+            <div class="row">
+                <div class="col-sm-8">
+                    <p class="title1"> @item.FirstName  @item.LastName</p>
+                    <text class="TextRes">@item.Email</text>
+                </div>
+                <hr />
+            </div>
+
+        }
+        @{
+            int candi = 0;
+            string scandi = "";
+        }
+        @foreach (var item in ViewBag.CandidatoList)
+        {
+
+            if (item.Id > 0)
+            {
+                candi = 1;
+                scandi = "Si";
+            }
+            else
+            {
+                candi = 0;
+                scandi = "No";
+            }
+
+        }
+        @if (candi == 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    Nota: El candidato no ha completado el registrao de sus datos.<br>
+                </div>
+            </div>
+        }
+        else
+        {
+            @foreach (var item in ViewBag.CandidatoList)
+            {
+                <style>
+                    .responsive {
+                        max-height: 150px;
+                        width: auto;
+                    }
+                </style>
+                <div class="row border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                    <div class="col-sm-4">
+                        <img src="~/fotos/@item.Foto" class="responsive" height="50"><br>
+                        <text class="TextResCV">@item.DocumentoIDt @item.DocumentoIDn</text><br>
+                        <text class="TextResCV">Sexo: @zSexo.ToUpper()</text>
+                    </div>
+                    <div class="col-sm-4">
+                        <text class="TextResCV">Fecha de nacimiento:<br>@item.nacimiento</text><br><br>
+                        <text class="TextResCV">Nacionalidad:<br>@item.Nacionalidad</text><br><br>
+                        <text class="TextResCV">Estado Civil: @item.Estadocivil</text><br>
+                    </div>
+
+                </div>
+                //-------------------------------------------
+                <div class="row border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                    <div class="col-sm-4">
+                        <text class="TextResCV">Télefono:<br>@item.Telefono2</text><br><br>
+                        <text class="TextResCV">último salario:<br>@item.salarioultimoMON @item.Ultimosalario</text><br><br>
+                        <text class="TextResCV">salario aspira:<br>@item.salarioaspiraMON @item.Salarioaspira</text>
+                    </div>
+                    <div class="col-sm-4">
+                        <text class="TextResCV">País:<br>@item.Pais</text><br><br>
+                        <text class="TextResCV">Ciudad:<br>@item.Ciudad</text><br><br>
+                        <text class="TextResCV">Dirección:<br>@item.Direccion</text>
+                    </div>
+                    <div class="col-sm-4">
+                        <text class="TextResCV">Area de trabajo:<br>@item.Areaprofesional</text><br><br>
+                        <text class="TextResCV">Facebook:<br>@item.Facebook</text><br><br>
+                        <text class="TextResCV">Twitter:<br>@item.Twitter</text>
+                    </div>
+                </div>
+            }
+        }
+        @*---------------------------------------------------------------------------------------------------------*@
+        <div class="m-auto bg-white">
+
+            @foreach (var item in ViewBag.lasexperienciasList)
+            {
+                <h1 class="title1">EXPERIENCIA LABORAL</h1>
+                <div class="CV1 row">
+                    <div class="col-sm-4 border-light border-right border-bottom shadow-sm p-4 mb-4 bg-white">
+                        @{
+                            var fBold = "";
+                            var Fechadesde = item.desde;
+                            Fechadesde = Fechadesde.ToString("dd MMM yyyy");
+                            var Fechahasta = item.hasta;
+                            Fechahasta = Fechahasta.ToString("dd MMM yyyy");
+                            @if (Fechahasta == Fechadesde)
+                            {
+                                Fechahasta = "Actual";
+                                fBold = "font-weight-bold";
+                            }
+                        }
+                        <p class="TextResCV @fBold">Desde: @Fechadesde<br />Hasta: @Fechahasta</p>
+                    </div>
+                    <div class="col-sm-8 border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                        <p class="TitleRes4">@item.Empresa</p>
+                        <text class="TextResCV">@item.Posicion</text><br>
+                        <text class="TextResCV">@item.FuncionesRol</text>
+                        <p class="TextResCV">@item.Aportes</p>
+
+                        <div class="container-fluid">
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+
+        @*======================*@
+        <div class="m-auto bg-white">
+
+            @{ var xInst = "";}
+            @foreach (var item in ViewBag.EducacionList)
+            {
+                <h1 class="title1">EDUCACION</h1>
+
+                xInst = item.Institucion;
+                <div class="CV1 row">
+                    <div class="col-sm-4 border-light border-right border-bottom shadow-sm p-4 mb-4 bg-white">
+                        @{
+                            var Fechadesde = item.desde;
+                            Fechadesde = Fechadesde.ToString("dd MMM yyyy");
+                            var Fechahasta = item.hasta;
+                            Fechahasta = Fechahasta.ToString("dd MMM yyyy");
+                        }
+                        <p class="TextResCV">Desde: @Fechadesde<br />Hasta: @Fechahasta</p>
+                    </div>
+                    <div class="col-sm-8 border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                        @{
+                            int tipoe = item.tipoestudio;
+                            var tipotex = "";
+
+                            if (tipoe == 2) { tipotex = "Básica/Primaria"; }
+                            else if (tipoe == 3) { tipotex = "Liceo/Secundaria"; }
+                            else if (tipoe == 6) { tipotex = "Curso"; }
+                            else if (tipoe == 9) { tipotex = "Técnico"; }
+                            else if (tipoe == 12) { tipotex = "Diplomado"; }
+                            else if (tipoe == 19) { tipotex = "Universidad"; }
+                            else if (tipoe == 22) { tipotex = "Maestría"; }
+                            else if (tipoe == 24) { tipotex = "Doctorado"; }
+                            else if (tipoe == 12) { tipotex = "Diplomado"; }
+                            else if (tipoe == 30) { tipotex = "Habilidades"; }
+                            else if (tipoe == 35) { tipotex = "Reconocimientos"; }
+                        }
+
+
+
+                        <p class="TitleRes3">@tipotex</p>
+                        <p class="TitleRes4">@item.Institucion</p>
+                        <text class="TextResCV">@item.Titulo</text><br>
+                        <text class="TextResCV">@item.InstitucionLugar</text>
+                        <p class="TextResCV">@item.Descripcion</p>
+                        <div class="container-fluid">
+
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (xInst == "")
+            {
+                <br /><br /><br />
+            }
+        </div>
+        @*=========================*@
+
+        <div class="m-auto bg-white">
+
+            @foreach (var item in ViewBag.ReferenciaList)
+            {
+                <h1 class="title1">REFERENCIAS</h1>
+
+                <div class="CV1 row">
+                    <div class="col-sm-4 border-light border-right border-bottom shadow-sm p-4 mb-4 bg-white">
+                    </div>
+                    <div class="col-sm-8 border-light border-bottom shadow-sm p-4 mb-4 bg-white rounded-bottom">
+                        <p class="TitleRes4">@item.Persona</p>
+                        <text class="TextResCV">@item.Empresa</text><br>
+                        <text class="TextResCV">@item.PhoneNumber</text>
+                        <text class="TextResCV">@item.Parentezco</text>
+                        <p class="TextResCV">@item.Email2</p>
+
+                        <div class="container-fluid">
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @*======================*@
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

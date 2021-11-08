@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/png" href="~/Images/favicon.ico" sizes="32x32" />
+    <title>EmpleoMax.com</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Gelasio&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Madurai&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital@1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js" integrity="sha512-EanukVTZc4W9tUCLnDl069Izidg49PcNRKO1upLzKt9ajq66i+bXOtlzXcIbRhb6vVEGF6BCc8wQi5T1ztCpTQ==" crossorigin="anonymous"></script>
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/General.css" />
+    <link rel="stylesheet" href="~/css/Web.css" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="https://cdn.tiny.cloud/1/dlsu3dlpd3725sghrysuuo7dwt1hjy7p0nc2j22ns9dlvqbd/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <!-- JS & CSS library of MultiSelect plugin -->
+    <script src="~/js/jquery.multiselect.js"></script>
+    <link rel="stylesheet" href="~/css/jquery.multiselect.css">
+    <style>
+        .container-fluid {
+            padding-left: 0;
+            padding-right: 0;
+            margin: 0;
+        }
+    </style>
+    <style>
+        .bs-inicio {
+            margin: 0px;
+        }
+    </style>
+
+    <style>
+        html, body {
+            width: 100%;
+            height: 90%;
+            margin: 0;
+        }
+
+        main {
+            height: 100%;
+        }
+
+
+        .bootstrap-select .hidden {
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+    <header>
+        <div class="bs-inicio">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a asp-controller="Home" asp-action="Index">
+                    <img src="~/images/EmpleoMax3.png" height="40" alt="">&nbsp;&nbsp;&nbsp;&nbsp;
+                    </a>
+                    <button type="button" class="navbar-toggler border-0" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon border-0"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarCollapse">
+                        <div class="navbar-nav">
+                            <partial name="_Login" />
+                            @{
+                                string xvcvc = TempData["CUT"].ToString();
+                                int vffsvs = Convert.ToInt32(xvcvc);
+                                int MenuxUsuario = 0;
+                                if (vffsvs == 255485) { MenuxUsuario = 25; }
+                                else if (vffsvs == 69784) { MenuxUsuario = 69; }
+                                else if (vffsvs == 987541254)
+                                {
+                                    MenuxUsuario = 11;
+                                    Context.Response.Redirect("./Aplicaciones/Logout");
+                                }
+                                else { MenuxUsuario = MenuxUsuario; }
+                            }
+                        <ul class="navbar-nav flex-grow-0">
+                            <li class="nav-item lineagris">
+                                <form class="form-inline" asp-controller="Home" asp-action="Empleos">
+                                    <button type="submit" class="nav-link btn btn-link text-white">Empleos&nbsp;&nbsp;</button>
+                                </form>
+                            </li>
+
+                            @{ @if (MenuxUsuario == 0 || MenuxUsuario == 69)
+                            {
+                                    <li class="nav-item dropdown lineagris">
+                                        <a class="nav-link text-white" href="#" id="navbardrop" data-toggle="dropdown">
+                                            @if (vffsvs == 69784)
+                                            {<i class="fas fa-bars"></i>} Empresas&nbsp;&nbsp;
+                                    </a>
+
+                                    <div class="dropdown-menu border-secondary" style="background: linear-gradient(#a3a4a5, #d3d5d5);">
+                                        <i class="fas fa-chevron-up dropdown-item"></i>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Home" asp-action="Empresas">Mis Opciones</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Aplicaciones" asp-action="VerAplicaciones">Seguimiento a Vacantes</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Aplicaciones" asp-action="eMensajes">Mensajes</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Procesos" asp-action="Amigos"><i class="fas fa-user-friends"></i> Amigos</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="myTicket" asp-action="Index"><i class="far fa-life-ring"></i> HelpDesk</a>
+                                        @if (vffsvs == 255485 || vffsvs == 69784) { }
+                                        else
+                                        {
+
+                                            <a class="dropdown-item  lineagrislink" asp-controller="Procesos" asp-action="BusinessRegister"><i class="fas fa-user-tie"></i> Registrate!</a>
+                                        }
+
+                                    </div>
+
+                                </li>
+                            }
+                            }
+
+                            @{ @if (MenuxUsuario == 0 || MenuxUsuario == 25)
+                            {
+                                    <li class="nav-item dropdown lineagris">
+                                        <a class="nav-link text-white" href="#" id="navbardrop" data-toggle="dropdown">
+                                            @if (vffsvs == 255485)
+                                            {<i class="fas fa-bars"></i>} Candidatos&nbsp;&nbsp;
+                                    </a>
+                                    <div class="dropdown-menu border-secondary" style="background: linear-gradient(#a3a4a5, #d3d5d5);">
+                                        <i class="fas fa-chevron-up dropdown-item"></i>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Home" asp-action="Candidatos">Mis Opciones</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Home" asp-action="VerAplicaciones">Seguimiento a Vacantes</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Procesos" asp-action="VerDocumentos">Documentos</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Aplicaciones" asp-action="Mensajes">Mensajes de vacantes</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="Procesos" asp-action="Amigos"><i class="fas fa-user-friends"></i> Amigos</a>
+                                        <a class="dropdown-item  lineagrislink" asp-controller="myTicket" asp-action="Index"><i class="far fa-life-ring"></i> HelpDesk</a>
+
+                                        @{ if (vffsvs == 255485 || vffsvs == 69784) { }
+                                            else
+                                            {
+
+                                                <a class="dropdown-item  lineagrislink" asp-controller="Procesos" asp-action="UserRegister"><i class="fas fa-user-plus"></i> Registrate!</a>
+
+                                            }
+                                        }
+                                    </div>
+                                </li>
+                                            }
+
+                            }
+                            @{if (User.Identity.IsAuthenticated)
+                                {
+                                                        <li class="nav-item lineagris">
+                                                            <form class="form-inline" asp-controller="Subscription" asp-action="index">
+                                                                <button type="submit" class="nav-link btn btn-link text-white">Suscripcion&nbsp;&nbsp;</button>
+                                                            </form>
+                                                        </li>
+                                } 
+                              }
+                            <li class="nav-item lineagris">
+                                <form class="form-inline" asp-controller="Home" asp-action="Blog">
+                                    <button type="submit" class="nav-link btn btn-link text-white">Blog&nbsp;&nbsp;</button>
+                                </form>
+                            </li>
+                        </ul>
+                        </div>
+                        <div class="navbar-nav bg-dark ml-auto">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>@**************@
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container-fluid SizeContenido bgimage">
+        <main role="main" class="h-100 pb-0 pr-0">
+            @RenderBody()
+        </main>
+    </div>
+        <div class="container-fluid bg-dark text-center text-white-50" ><i class="fas fa-chevron-down"></i></div> 
+        <div class="row pt-md-3 pl-md-5 pr-md-5 pb-md-5 text-white" style="background: linear-gradient(#645F58, #89837b);">
+            <div class="col-sm-4 px-md-5 pt-2 pl-5 pr-5">
+                <h1 class="Texttitulo text-white">EmpleoMax</h1>
+                <p class="TextGral text-white-50">
+                    Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.
+                </p>
+            </div>
+            <div class="col-sm-4 px-md-5 pt-2 pl-5 pr-5">
+                <h1 class="Texttitulo text-white">Contáctenos</h1>
+                <p class="TextGral text-white-50">
+                    <i class="fas fa-phone-volume"></i> &ensp;809-123-4455<br>
+                    <i class="far fa-envelope"></i> &ensp;info@empleomax.com<br>
+                    <i class="fas fa-map-marker-alt"></i> &ensp;Oficina princiaal, Av. Nombre de av, Edif, Santo Domingo D.N.<br><br>
+                    Síguenos en nuestras redes sociales, comparte vacantes y capacitaciones con los tuyos.<br>
+                    <i class="fab fa-facebook"></i> <a class="text-white-50" target="_blank" href="https://www.facebook.com/empleomax">empleomax</a><br>
+                    <i class="fab fa-twitter"></i> <a class="text-white-50" target="_blank" href="https://twitter.com/empleomax01">empleomax01</a><br>
+                    <i class="fab fa-instagram"></i> <a class="text-white-50" target="_blank" href="https://www.instagram.com/empleomax/?igshid=195u6qjv36mst">empleomax</a><br>
+                </p>
+            </div>
+            <div class="col-sm-4 px-md-5 pt-2 pl-5 pr-5">
+                <h1 class="Texttitulo text-white">Información</h1>
+                <p class="TextGral text-white-50">
+                    - <a class="text-white-50" asp-controller="Home" asp-action="Legal"> Aviso Legal</a><br>
+                    - <a class="text-white-50" asp-controller="Home" asp-action="PropiedadIntelectual"> Propiedad Intelectual</a><br>
+                    - <a class="text-white-50" asp-controller="Home" asp-action="Terminos">Términos y Condiciones</a><br>
+                    - <a class="text-white-50" asp-controller="Home" asp-action="Politicas">Política de Privacidad</a><br>
+                    - <a class="text-white-50" asp-controller="Home" asp-action="Responsabilidades">Responsabilidades</a><br>
+
+
+                </p>
+            </div>
+        </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

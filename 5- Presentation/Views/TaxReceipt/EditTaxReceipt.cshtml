@@ -1,0 +1,76 @@
+﻿@model EmpleosWebMax.Domain.Dtos.TaxReceiptDto
+
+@{
+    ViewData["Title"] = "Editar Comprobante fiscal";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Editar Comprobante fiscal</h1>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditTaxReceipt">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Code" class="control-label"></label>
+                <input asp-for="Code" class="form-control" readonly />
+                <span asp-validation-for="Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Prefix" class="control-label"></label>
+                <input asp-for="Prefix" class="form-control" />
+                <span asp-validation-for="Prefix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SequenceFrom" class="control-label"></label>
+                <input asp-for="SequenceFrom" class="form-control" />
+                <span asp-validation-for="SequenceFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SequenceTo" class="control-label"></label>
+                <input asp-for="SequenceTo" class="form-control" />
+                <span asp-validation-for="SequenceTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SequenceActual" class="control-label"></label>
+                <input asp-for="SequenceActual" class="form-control" />
+                <span asp-validation-for="SequenceActual" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCompany" /> @Html.DisplayNameFor(model => model.IsCompany)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsCanditate" /> @Html.DisplayNameFor(model => model.IsCanditate)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsInternationalCompany" /> @Html.DisplayNameFor(model => model.IsInternationalCompany)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Id" class="control-label" hidden></label>
+                <input asp-for="Id" class="form-control" hidden />
+                <span asp-validation-for="Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

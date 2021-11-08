@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "change";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>change</h1>
+
+<div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="row">
+            <div class="col-md-6">
+                <form asp-controller="Aplicaciones" asp-action="OnPostAsync">
+
+                    <div class="form-group">
+                        <label for="OldPassword"></label>
+                        <input name="OldPassword" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="NewPassword"></label>
+                        <input name="NewPassword" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label for="ConfirmPassword"></label>
+                        <input name="ConfirmPassword" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update password</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,247 @@
+﻿.form-control::-webkit-input-placeholder {
+    color: #f1a0a0;
+}
+
+@media screen and (min-width: 601px) {
+
+    .SizeContenido {
+        min-height: 700px;
+        margin: 0px;
+        width:100%;
+    }
+
+    .bgimage {
+        background-image: url(../images/bgblue2.jpg);
+        width: 100%;
+        height: auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-color: #ffffff !important;
+    }
+
+    p.margeno {
+        margin: 0;
+    }
+
+    .imgDIV-responsive5 {
+        height: 700px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-right: 0px;
+        margin-left: 0px;
+        background-image: url(../images/home_web9.png) !important;
+        background-repeat: no-repeat !important;
+        background-attachment: scroll !important;
+        background-position: center center !important;
+        z-index: auto;
+        background-size: cover !important;
+        -webkit-background-size: cover !important;
+        -moz-background-size: cover !important;
+        -o-background-size: cover !important;
+    }
+    .imagenHome {
+        height: auto !important;
+        max-width: 800px !important;
+        width: 100% !important;
+    }
+
+    h1.Texttitulo {
+        font-family: 'Archivo', sans-serif;
+        font-size: 1vw;
+    }
+
+
+    p.TextRes {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 1vw;
+    }
+    h1.TitleRes3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1vw;
+    }
+    .Textinicio {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 3vw;
+    }
+    .TitleHome {
+        font-family: 'Shadows Into Light Two';
+        font-size: 2vw;
+        color: #505152;
+    }
+    p.TextGral {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 1vw;
+    }
+
+
+    h1.Texttitulo {
+        font-family: 'Archivo', sans-serif;
+        font-size: 1vw;
+    }
+
+    p.TextGral {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 1vw;
+    }
+
+    .mainPadding {
+        padding-top:50px;
+    }
+
+    div.div30 {
+
+        height: 150px;
+    }
+
+    div.divAlto {
+        height: 100px;
+    }
+    .lineagrislink {
+        border-bottom: 1px solid #808080;
+    }
+
+    p.letraSmall {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 8px;
+        margin: 0;
+    }
+    p.TextA {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 15px;
+        margin: 0;
+    }
+    p.letraSmallA {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 11px;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    .Logotop {
+        margin: 5px;
+    }
+    .responsive {
+        max-height: 120px;
+        width: auto;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .SizeContenido {
+        min-height: 300px;
+        margin: 0px;
+        width:100%;
+
+    }
+    .bgimage {
+        background-image: url(../images/bgblue.jpg);
+        width: 100%;
+        height: auto;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: cover;
+        background-color: #ffffff !important;
+    }
+
+    .imgDIV-responsive5 {
+        height: 350px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        margin-right: 0px;
+        margin-left: 0px;
+        background-image: url(../images/home_web5.png) !important;
+        background-repeat: no-repeat !important;
+        background-attachment: scroll !important;
+        background-position: center center !important;
+        z-index: auto;
+        background-size: cover !important;
+        -webkit-background-size: cover !important;
+        -moz-background-size: cover !important;
+        -o-background-size: cover !important;
+    }
+
+    .imagenHome {
+        height: auto !important;
+        max-width: 150px !important;
+        width: 100% !important;
+    }
+
+    div.div30 {
+        height: 0px;
+    }
+
+    div.divAlto {
+        height: 20px;
+    }
+
+    div.divAltoc {
+        height: 60px;
+    }
+
+    .Textinicio {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 8vw;
+    }
+
+    .TitleHome {
+        font-family: 'Shadows Into Light Two';
+        font-size: 5vw;
+        color: #505152;
+    }
+
+    div.HomeSearch {
+        padding-top: 20px;
+        padding-right: 00px;
+        padding-bottom: 00px;
+        padding-left: 00px;
+    }
+    h1.Texttitulo {
+        font-family: 'Archivo', sans-serif;
+        font-size: 4vw;
+    }
+
+    p.TextRes {
+        font-family: 'PT Sans', sans-serif;
+        font-size: 2vw;
+    }
+
+    h1.TitleRes3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 3vw;
+    }
+    p.TextGral {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 4vw;
+    }
+
+    .mainPadding {
+        padding-top: 30px;
+    }
+
+    li.lineagris {
+        border-bottom: 1px solid #abafb1;
+    }
+
+    .lineagrislink {
+        border-bottom: 1px solid #636667;
+    }
+    p.TextA {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    p.letraSmallA {
+        font-family: 'Hind Madurai', sans-serif;
+        font-size: 11px;
+        margin-top: 5px;
+        margin-bottom: 0;
+    }
+    .responsive {
+        max-height: 50px;
+        width: auto;
+    }
+}
+

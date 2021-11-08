@@ -1,0 +1,71 @@
+﻿@model IEnumerable<EmpleosWebMax.Domain.Entity.ForoCategorias>
+
+@{
+    ViewData["Title"] = "Categorias";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+    <div class="container">
+        <h1 class="title1">Categorias de Foros</h1>
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="CrearCatg" asp-route-returnUrl="@Context.Request.QueryString">
+                    <div class="col-md-6 input-group">
+                        <input type="text" name="Categoria_" class="form-control" placeholder="Agrega una categoria al foro">
+                        <div class="input-group-append">
+                            <button class="btn btn-secondary" type="submit">
+                                <i class="fas fa-chevron-circle-right"></i> Crear Categoria
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br>
+        <table class="table">
+            <thead>
+
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Categoria)
+                    </td>
+                    <td>
+                        <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="EditCategoria" asp-route-returnUrl="@Context.Request.QueryString">
+                            <div class="row">
+                                <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                <input type="hidden" name="St" class="form-control" value="a" />
+                                <button type="submit" class="btn bg-white text-danger"> <i class="fas fa-trash-alt"></i> </button>
+                            </div>
+                        </form>
+                    </td>
+                    <td>
+                        @{if (@item.StatusForoCategoria == 0)
+                            {
+                                <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="EditCategoria" asp-route-returnUrl="@Context.Request.QueryString">
+                                    <div class="row">
+                                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                        <input type="hidden" name="St" class="form-control" value="r" />
+                                        <button type="submit" class="btn bg-white text-success"> <i class="far fa-eye"></i> </button>
+                                    </div>
+                                </form> }
+                            else if (@item.StatusForoCategoria == 1)
+                            {
+                                <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="EditCategoria" asp-route-returnUrl="@Context.Request.QueryString">
+                                    <div class="row">
+                                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                        <input type="hidden" name="St" class="form-control" value="x" />
+                                        <button type="submit" class="btn bg-white text-danger"> <i class="far fa-eye-slash"></i> </button>
+                                    </div>
+                                </form>}
+                        }
+
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>

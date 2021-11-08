@@ -1,0 +1,73 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+
+@{
+    ViewData["Title"] = "Candidatos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="container">
+        <p class="title1">Aplicaciones a ofertas de trabajo</p>
+        <div class="bg-light border border-light shadow p-4 mb-2 bg-white">
+            @foreach (var item in ViewBag.UserxList)
+            {
+                <div class="row">
+                    <div class="col-sm-8">
+                        <p class="title1"> @item.FirstName  @item.LastName</p>
+                        <text class="TextRes">@item.Email</text>
+                    </div>
+                    <hr />
+                </div>
+
+            }
+        </div>
+
+
+        @foreach (var item in ViewBag.Empleox)
+        {
+            string sTipoContrato = "";
+            int nTipoContrato = item.TipoContrato;
+            if (nTipoContrato == 1) { sTipoContrato = "Fijo"; }
+            else if (nTipoContrato == 2) { sTipoContrato = "Temporal"; }
+            else if (nTipoContrato == 3) { sTipoContrato = "Sin contrato"; }
+            else if (nTipoContrato == 4) { sTipoContrato = "Independiente"; }
+            else if (nTipoContrato == 5) { sTipoContrato = "Por hora"; }
+            else if (nTipoContrato == 6) { sTipoContrato = "A tratar"; }
+            else { sTipoContrato = ""; }
+            <div class="row border border-secondary border-left-0 border-right-0 shadow p-4 mb-4 bg-white">
+                <div class="col-sm-4">
+                    @*---------------*@
+                    <div class="row border border-secondary border-left-0 border-top-0 border-bottom-0">
+                        <div class="col-4">
+                            <img src="~/images/logocompany.jpg" alt="Logo" class="responsive" height="40">
+                        </div>
+                        <div class="col-4"><i class="far fa-clock"></i> Publicado:<text class="at"> @item.fechaagregado</text></div>
+                        <div class="col-4"><i class="fas fa-map-marker-alt"></i> Ciudad:<text class="at"> @item.Ciudadtrabajo</text></div>
+                    </div>
+                    @*---------------*@
+                </div>
+                @********************************@
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h1 class="title1">@item.EmpresaCentro</h1>
+                            RNC: <text class="at"> @item.RNC</text><br>
+                            Contrato: <text class="at"> @sTipoContrato</text><br>
+                        </div>
+                        <div class="col-sm-6">
+                            <text class="text-danger">Vacante:</text><br>
+                            <h1 class="TitleRes3">@item.Titulotrabajo</h1>
+                            Area de trabajo: <text class="at"> @item.Areaprofesional</text><br>
+                            Contrato: <text class="at"> @sTipoContrato</text><br>
+                            <text class="at display text-danger"><h1>Status:  @item.Tracking</h1></text><br>
+                        </div>
+                    </div>
+                </div>
+                @*=====================*@
+            </div>
+        }
+
+
+    </div>

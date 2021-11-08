@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@using Microsoft.AspNetCore.Mvc;
+
+@{
+    var user = await _userManager.GetUserAsync(User); // ver datos adicionales
+    int CheckUserType = user.TypeUser;
+    string fName = user.FirstName;
+    string lName = user.LastName;
+    if (CheckUserType == 69784)
+    {
+    }
+    else
+    {
+        Context.Response.Redirect(Url.Content("~/Identity/Account/Logout"));
+    }
+}
+
+@{
+    ViewData["Title"] = "VerAplicaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    Hola!, <h1 class="title1">@fName @lName</h1>
+    <h3 class="TitleRes">Aplicaciones a ofertas de empleo</h3>
+    <p>Usted podrá ver un listado de todos los candidatos que apliquen a esta vacante:</p>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Candidato</th>
+                <th>Oportunidad</th>
+                <th>Status</th>
+                <th>Curriculum</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+                <tr>
+                    <td>@canapl</td>
+                    <td>@item.FirstName @item.LastName</td>
+                    <td>@item.Titulotrabajo</td>
+                    <td>@item.Tracking</td>
+                    <td>
+                        <form class="form-inline" asp-controller="Aplicaciones" asp-action="CurriculumDetalle">
+                            <input type="hidden" name="fgdgdfgttfdrd" class="form-control" value="@item.IdUser" />
+                            <input type="hidden" name="Oportunidad" class="form-control" value="@item.Job" />
+                            <input type="hidden" name="Id" class="form-control" value="@item.IdJob" />
+                            <input type="hidden" name="hdwdewttweggew" class="form-control" value="@item.IdEmpresa" />
+                            <br>
+                            <button type="submit" class="btn btn-warning"><i class="fas fa-user-check"></i> Ver </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+
+    <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Empresas">Mi Empresa</a>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".hBack").on("click", function (e) {
+            e.preventDefault();
+            window.history.back();
+        });
+    </script>
+}

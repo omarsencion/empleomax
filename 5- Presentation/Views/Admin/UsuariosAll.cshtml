@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+
+    string bgcol1 = "";
+    string bgcol2 = "";
+    string bgcol3 = "";
+    string bgcol4 = "";
+    string bgcol5 = "";
+
+    if (ViewBag.q == 1)
+    {
+        bgcol1 = "bg-warning";
+    }
+    else if (ViewBag.q == 2)
+    {
+        bgcol2 = "bg-warning";
+    }
+    else if (ViewBag.q == 3)
+    {
+        bgcol3 = "bg-warning";
+    }
+    else if (ViewBag.q == 4)
+    {
+        bgcol4 = "bg-warning";
+    }
+    else if (ViewBag.q == 5)
+    {
+        bgcol5 = "bg-warning";
+    }
+}
+
+<p>Buscar</p>
+<div class="container-fluid">
+    <form class="form-inline" asp-controller="Admin" asp-action="UsuariosAll" asp-route-returnUrl="@Context.Request.QueryString">
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label name="buscarNombre" class="control-label">Nombre</label>
+                <input name="buscarNombre" class="form-control" placeholder="ej: Carlos" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label name="buscarApellido" class="control-label">Apellido</label>
+                <input name="buscarApellido" class="form-control" placeholder="ej: Abreu" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label name="buscarApellido" class="control-label">Buscar</label>
+                <button type="submit" class="btn btn-warning"><i class="fas fa-search"></i> Buscar </button>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+<div class="container-fluid bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Busqueda de Candidatos</h1>
+    <p>empresas:</p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Candidato</th>
+                <th>Estado Laboral</th>
+                <th>Email</th>
+                <th>Pais</th>
+                <th>Ciudad</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+            <tr>
+                <td>@canapl</td>
+                <td class="@bgcol1">@item.FirstName @item.LastName</td>
+                <td class="@bgcol2">@item.Estadolaboral</td>
+                <td class="@bgcol5">@item.UserName</td>
+                <td class="@bgcol3">@item.Pais</td>
+                <td class="@bgcol4">@item.Ciudad</td>
+                <td><img src="~/fotos/@item.Foto" class="responsive" height="20"><br></td>
+
+                <td>
+                    <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditUsuario" asp-route-returnUrl="@Context.Request.QueryString">
+                        <div class="row">
+                            <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                            <input type="hidden" name="St" class="form-control" value="a" />
+                            <button type="submit" class="btn text-danger"> <i class="fas fa-trash-alt"></i> </button>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    @{if (@item.StatusGeneral > 0 && @item.StatusGeneral <3)
+                        {
+                            <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditUsuario" asp-route-returnUrl="@Context.Request.QueryString">
+                                <div class="row">
+
+                                    <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="St" class="form-control" value="r" />
+                                    <button type="submit" class="btn text-success"> <i class="far fa-eye"></i> </button>
+                                </div>
+                            </form> }
+                        else if (@item.StatusGeneral == 4)
+                        {
+                            <form enctype="multipart/form-data" asp-controller="Admin" asp-action="EditUsuario" asp-route-returnUrl="@Context.Request.QueryString">
+                                <div class="row">
+
+                                    <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                    <input type="hidden" name="St" class="form-control" value="x" />
+                                    <button type="submit" class="btn text-danger"> <i class="far fa-eye-slash"></i> </button>
+                                </div>
+                            </form>}
+                    }
+
+                </td>
+            </tr>
+
+
+            }
+        </tbody>
+    </table>
+    <br><br>
+</div>
+
+<div class="divAlto"></div>

@@ -1,0 +1,242 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<div class="container-fluid">
+    <form method="post" enctype="multipart/form-data" asp-controller="Home" asp-action="Empleos">
+
+        <div class="row">
+
+            <div class="col-md-6 HomeSearch">
+                <div class="div30"></div>
+                <div class="pt-1 pl-5 pr-5 pb-2 text-center">
+                    <p class="TitleHome">Te conectamos con tu<br>siguiente empleo.</p>
+                    <h1 class="Textinicio">¿Que trabajo buscas?</h1><br>
+                <div class="row">
+                        <div class="col-md-6">
+                            <select class="form-control" name="Areaprofesional" data-live-search="true">
+                                <option value="all">Cualquier categoría</option>
+                                <option>Abogado Consultor Jurídico</option>
+                                <option>Administración Agraria</option>
+                                <option>Administración de Empresas</option>
+                                <option>Administración Rural</option>
+                                <option>Aeronáutica </option>
+                                <option>Agrimensura</option>
+                                <option>Agronomía Agricultura</option>
+                                <option>Análisis Ambiental</option>
+                                <option>Análisis de Sistemas</option>
+                                <option>Análisis Químicos y Bromatológicos</option>
+                                <option>Arquitectura Construcción</option>
+                                <option>Artes gráficas</option>
+                                <option>Atención al Cliente</option>
+                                <option>Banca Servicios Financieros</option>
+                                <option>Biblioteconomía Documentación</option>
+                                <option>Bioimágenes</option>
+                                <option>Bioinformática</option>
+                                <option>Bioingeniería  Bioquímica</option>
+                                <option>Biología</option>
+                                <option>Biotecnología</option>
+                                <option>Bromatología</option>
+                                <option>Ciencias Ambientales</option>
+                                <option>Ciencias Básicas</option>
+                                <option>Ciencias de la Atmósfera</option>
+                                <option>Ciencias de la Computación</option>
+                                <option>Ciencias de la Información</option>
+                                <option>Ciencias de los Alimentos</option>
+                                <option>Ciencias del Ambiente</option>
+                                <option>Ciencias Económicas</option>
+                                <option>Ciencias Empresariales</option>
+                                <option>Ciencias Geológicas</option>
+                                <option>Ciencias Oceanográficas</option>
+                                <option>Ciencias Sociales</option>
+                                <option>Ciencias y Tecnología de los Alimentos</option>
+                                <option>Comercio electrónico</option>
+                                <option>Comercio exterior</option>
+                                <option>Compras </option>
+                                <option>Computación</option>
+                                <option>Comunicación Publicidad Medios</option>
+                                <option>Confección industrial</option>
+                                <option>Consultoría Análisis Consultoría</option>
+                                <option>Contabilidad </option>
+                                <option>Creatividad Diseño Multimedia</option>
+                                <option>Cuidado de niños y mayores </option>
+                                <option>Derecho </option>
+                                <option>Desabolladura de vehículos</option>
+                                <option>Diagnóstico por Imágenes</option>
+                                <option>Diagnóstico y Gestión Ambiental</option>
+                                <option>Dirección de arte </option>
+                                <option>Diseño de Indumentaria</option>
+                                <option>Diseño Industrial</option>
+                                <option>Diseño Multimedial  Ecología</option>
+                                <option>Diseño y decorador (a) de interiores</option>
+                                <option>Diseño y desarrollo de aplicaciones</option>
+                                <option>Dropshiping</option>
+                                <option>Ebanistería</option>
+                                <option>Ecología Urbana</option>
+                                <option>Economía Industrial</option>
+                                <option>Electricidad automotriz</option>
+                                <option>Electricidad Electrónica</option>
+                                <option>Electrónica industrial</option>
+                                <option>Energías Renovables</option>
+                                <option>Enología</option>
+                                <option>Estadística</option>
+                                <option>Esteticista</option>
+                                <option>Estilista</option>
+                                <option>Farmacia </option>
+                                <option>Finanzas </option>
+                                <option>Física </option>
+                                <option>Física Médica</option>
+                                <option>Formación Docencia Formación</option>
+                                <option>Genética</option>
+                                <option>Geofísica</option>
+                                <option>Geología</option>
+                                <option>Geoquímica</option>
+                                <option>Gestión Ambiental</option>
+                                <option>Gestión Alta Dirección</option>
+                                <option>Guiones para medios audiovisuales</option>
+                                <option>Hidrogeología</option>
+                                <option>Hidrología</option>
+                                <option>Higiene y Seguridad</option>
+                                <option>Impuestos </option>
+                                <option>Industria Producción Calidad</option>
+                                <option>Información Ambiental</option>
+                                <option>Informática Sistemas Internet</option>
+                                <option>Ingeniería Aeronáutica</option>
+                                <option>Ingeniería Agroindustrial</option>
+                                <option>Ingeniería Agronómica</option>
+                                <option>Ingeniería Agropecuaria</option>
+                                <option>Ingeniería Ambiental</option>
+                                <option>Ingeniería Ambiental</option>
+                                <option>Ingeniería Azucarera</option>
+                                <option>Ingeniería Biomédica</option>
+                                <option>Ingeniería Civil Estructural</option>
+                                <option>Ingeniería Eléctrica</option>
+                                <option>Ingeniería Electromecánica</option>
+                                <option>Ingeniería Electrónica</option>
+                                <option>Ingeniería Electrónica</option>
+                                <option>Ingeniería Electrotécnica</option>
+                                <option>Ingeniería en Alimentos</option>
+                                <option>Ingeniería en Automatización y Control Industrial</option>
+                                <option>Ingeniería en Biotecnología</option>
+                                <option>Ingeniería en Computación</option>
+                                <option>Ingeniería en Geografía</option>
+                                <option>Ingeniería en Industrias de la Madera</option>
+                                <option>Ingeniería en Industrias Forestales</option>
+                                <option>Ingeniería en Materiales</option>
+                                <option>Ingeniería en Mecatrónica</option>
+                                <option>Ingeniería en Minas</option>
+                                <option>Ingeniería en Paisajes</option>
+                                <option>Ingeniería en Perforaciones</option>
+                                <option>Ingeniería en Petróleo</option>
+                                <option>Ingeniería en Producción</option>
+                                <option>Ingeniería en Propulsión Naval</option>
+                                <option>Ingeniería en Recursos Hídricos</option>
+                                <option>Ingeniería en Recursos Naturales</option>
+                                <option>Ingeniería en Sistemas de la Información</option>
+                                <option>Ingeniería en Sonido</option>
+                                <option>Ingeniería en Telecomunicaciones</option>
+                                <option>Ingeniería Forestal</option>
+                                <option>Ingeniería Geodésica y Geofísica</option>
+                                <option>Ingeniería Hidráulica</option>
+                                <option>Ingeniería Industrial</option>
+                                <option>Ingeniería Informática</option>
+                                <option>Ingeniería Mecánica</option>
+                                <option>Ingeniería Mecatrónica</option>
+                                <option>Ingeniería Metalúrgica</option>
+                                <option>Ingeniería Montes Caminos</option>
+                                <option>Ingeniería Naval</option>
+                                <option>Ingeniería Nuclear</option>
+                                <option>Ingeniería Pesquera</option>
+                                <option>Ingeniería Química</option>
+                                <option>Ingeniería Sanitaria Ambiental</option>
+                                <option>Ingeniería Sistemas</option>
+                                <option>Ingeniería Telecomunicaciones</option>
+                                <option>Ingeniería Textil</option>
+                                <option>Ingeniería Vial</option>
+                                <option>Ingeniería Zootecnista</option>
+                                <option>Instalación y mantenimiento eléctrico industrial</option>
+                                <option>Investigación de Mercado</option>
+                                <option>Investigación y Desarrollo</option>
+                                <option>Letras Humanidades Filosofía</option>
+                                <option>Logística Distribución</option>
+                                <option>Marketing </option>
+                                <option>Masaje corporal y terapéutico</option>
+                                <option>Matemática</option>
+                                <option>Mecánica automotriz</option>
+                                <option>Mecánica industrial y de mantenimiento</option>
+                                <option>Medio Ambiente</option>
+                                <option>Oceanografía</option>
+                                <option>Oficios diversos</option>
+                                <option>Óptica Ocular y Optometría</option>
+                                <option>Organización Industrial</option>
+                                <option>Ortesis y Prótesis</option>
+                                <option>Panadería</option>
+                                <option>Personal de limpieza conserjería</option>
+                                <option>Pintura de vehículos</option>
+                                <option>Producción Animal</option>
+                                <option>Producción de Bioimágenes</option>
+                                <option>Producción Vegetal</option>
+                                <option>Producción/realización para televisión</option>
+                                <option>Profesor Maestro Facilitador</option>
+                                <option>Psicología </option>
+                                <option>Psicología Industrial</option>
+                                <option>Química</option>
+                                <option>Química Biología</option>
+                                <option>Recepción Centralita</option>
+                                <option>RRHH</option>
+                                <option>Recursos Naturales</option>
+                                <option>Redes de Comunicaciones</option>
+                                <option>Redes y comunicación de datos </option>
+                                <option>Reparación de equipos de audio y video</option>
+                                <option>Reparación de equipos de refrigeración  y a/a</option>
+                                <option>Repostería</option>
+                                <option>Salud Medicina</option>
+                                <option>Saneamiento y Protección Ambiental</option>
+                                <option>Secretariado </option>
+                                <option>Seguridad y Salud Ocupacional </option>
+                                <option>Seguros </option>
+                                <option>Servicio Doméstico</option>
+                                <option>Servicio/Soporte Técnico</option>
+                                <option>Sin clasificar</option>
+                                <option>Tapicería</option>
+                                <option>Tecnología Ambiental</option>
+                                <option>Tecnología de los Alimentos</option>
+                                <option>Tecnología Minera</option>
+                                <option>Tecnologías de la Información y Comunicación</option>
+                                <option>Telecomunicaciones </option>
+                                <option>Telefonía y planta externa</option>
+                                <option>Telemarketing Help Desk</option>
+                                <option>Teletrabajo </option>
+                                <option>Terminación de muebles</option>
+                                <option>Topografía</option>
+                                <option>Trabajo Social</option>
+                                <option>Traducción Interpretación Idiomas</option>
+                                <option>Transporte </option>
+                                <option>Turismo Hostelería</option>
+                                <option>Ventas </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 input-group">
+                            <input type="text" name="buscar" class="form-control" placeholder="busca tu siguiente empleo, ej: cocinera">
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary" type="submit">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                </div>
+                    </div>
+                </div>
+
+            <div class="col-md-6">
+                <div class="container-fluid text-center" >
+                    <img src="~/images/home_web5.png" alt="" height="" width="" class="imagenHome" />
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+        $(function() {
+  $('.selectpicker').selectpicker();
+});
+</script>

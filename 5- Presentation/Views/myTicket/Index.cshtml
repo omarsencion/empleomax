@@ -1,0 +1,218 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+
+
+@{
+    ViewData["Title"] = "HelpDesk";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p></p>
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    <h1 class="title1">Tickets de ayuda</h1>
+    <p>Usted puede enviar y recibir mensajes de ayuda o soporte técnico del equipo de EMPLEOMAX:</p>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <i class="far fa-edit"></i> Crear Ticket
+    </button>
+
+    <div class="modal" id="myModal">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <div class="row">
+                        <div class="col-sm-6"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                        </div>
+                        <div class="col-12">
+                            <p class="TextRes text-secondary">Es un portal web gestionado por Proceso Óptimo Consultoría Y Capacitación COYCAPEM SRL.</p>
+                            <br>
+                            TICKET DE SOPORTE:<br>
+                            <p class="TextRes"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-body border border-0">
+                    <form class="" asp-controller="myTicket" asp-action="TicketPost" asp-route-returnUrl="@Context.Request.QueryString">
+                        <table class="table table-borderless container-fluid">
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-group">
+
+                                            <label for="sel1">Seleccione una Categoría:</label>
+                                            <select class="form-control" name="Categoria">
+                                                <option value="Otro">Seleccione una categoría</option>
+                                                <option value="Error Web">Error en el portal Web</option>
+                                                <option value="Usuario">Problema con mi correo</option>
+                                                <option value="Curriculum">Problema con mi CV</option>
+                                                <option value="Otro">Otro</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="Titulo" class="control-label">Titulo:</label>
+                                            <input name="Titulo" class="form-control" />
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        Mensaje:<br>
+                                        <textarea class="form-control" name="Mensaje" rows="3"> </textarea>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="container row">
+                            <div class="col-sm-6">
+                                <button type="submit" class="btn btn-warning btn-block"><i class="far fa-paper-plane"></i> Enviar </button>
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <br />
+    <div class="container text-xl-right"><i class="far fa-comment-dots text-primary"></i> Mensaje visto | <i class="fas fa-comment-dots text-danger"></i> Mensaje Nuevo </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Orden</th>
+                <th>Para:</th>
+                <th>Tema</th>
+                <th>Detalles</th>
+                <th>Status</th>
+                <th>Cerrar</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{int canapl = 0; }
+            @foreach (var item in ViewBag.UserxList)
+            {
+
+                canapl++;
+
+                <tr>
+                    <td>@canapl</td>
+                    <td>@item.NameTo_</td>
+                    <td>
+                        @item.Titulo
+                        <p class="letraSmallA">Categoria: @item.Categoria</p>
+                        <p class="letraSmallA"><b>Fecha: @item.FechaTicket</p>
+                    </td>
+
+                    <td>
+                        <button type="button" class="details_@item.Id btn btn-sm btn-link" data-id="@item.Id" data-id2="@item.TicketNumber" data-id3="@ViewBag.sPagereturnUrl" data-toggle="modal" data-target="#details-modal_@item.Id">
+                            <i class="fas fa-comments"></i> Ver Mensajes
+                        </button>
+                        <script>
+                                $(function () {
+                                    $('button.details_@item.Id').on('click', function () {
+                                        $('.modal-body_@item.Id').load(`/Procesos/TicketComentarios?Id=@item.StatusTicket&Oportunidad=@item.TicketNumber&RefPage=@ViewBag.sPagereturnUrl`);
+                                    });
+                                })
+                        </script>
+
+                        <div class="modal" id="details-modal_@item.Id">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+
+                                    <div class="modal-header">
+                                        <div class="row">
+                                            <div class="col-sm-6"><img src="~/images/EmpleoMax3.png" height="45"></div>
+                                            <div class="col-sm-6">
+                                                <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"><i class="far fa-times-circle"></i> Cerrar</button>
+                                            </div>
+                                            <div class="col-12">
+                                                <br>
+                                                <p class="TitleRes3">@item.Titulo</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body_@item.Id modal-dialog-scrollable">
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        @*//----------------------------------------------------------------------------------------------*@
+                    </td>
+                    <td>
+                        @{if (@item.StatusTicket == 0)
+                            {
+                                <form enctype="multipart/form-data" asp-controller="myTicket" asp-action="Index" asp-route-returnUrl="@Context.Request.QueryString">
+                                    <div class="row">
+                                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                        <input type="hidden" name="St" class="form-control" value="r" />
+                                        <button type="button" class="btn btn-link text-danger"> <i class="fas fa-comment-dots"></i> </button>
+                                    </div>
+                                </form> }
+                            else if (@item.StatusTicket == 1)
+                            {
+                                <form enctype="multipart/form-data" asp-controller="myTicket" asp-action="Index" asp-route-returnUrl="@Context.Request.QueryString">
+                                    <div class="row">
+                                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                        <input type="hidden" name="St" class="form-control" value="x" />
+                                        <button type="button" class="btn btn-link text-primary"> <i class="far fa-comment-dots"></i> </button>
+                                    </div>
+                                </form>}
+                        }
+                    </td>
+                    <td>
+                        @{if (@item.StatusTicket == 20)
+                            {
+                                <button type="button" class="btn text-danger"> <i class="far fa-eye-slash"></i> Ticket Cerrado</button>
+
+                            }
+                            else
+                            {
+
+                                <form enctype="multipart/form-data" asp-controller="Procesos" asp-action="Ticketstatus" asp-route-returnUrl="@Context.Request.QueryString">
+                                    <div class="row">
+                                        <input type="hidden" name="gdfsd" class="form-control" value="@item.Id" />
+                                        <input type="hidden" name="St" class="form-control" value="a" />
+                                        <button type="submit" class="btn btn-link text-dark">&nbsp;&nbsp;&nbsp;&nbsp; <i class="fas fa-sign-out-alt"></i> Finalizar </button>
+                                    </div>
+                                </form>
+                            }
+                        }
+                    </td>
+
+                </tr>
+
+
+            }
+        </tbody>
+
+    </table>
+
+
+
+    <a href="#" onclick="goBack()" class="btn-event-show-video">
+        <i class="fas fa-chevron-circle-left"></i> Regresar
+    </a>
+    <br><br>
+</div>
+<div class="divAlto"></div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+}

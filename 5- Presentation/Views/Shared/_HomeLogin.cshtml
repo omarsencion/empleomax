@@ -1,0 +1,77 @@
+﻿@model EmpleosWebMax.Domain.Entity.LoginViewModel
+@{
+    ViewData["Title"] = "Login Procesos";
+    Layout = "";
+
+}
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="icon" type="image/png" href="~/Images/favicon.ico" sizes="32x32" />
+<title>EmpleoMax.com</title>
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" id="bootstrap-css" />
+<link rel="stylesheet" href="~/css/site.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gelasio&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Hind+Madurai&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital@1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo&display=swap" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js" integrity="sha512-EanukVTZc4W9tUCLnDl069Izidg49PcNRKO1upLzKt9ajq66i+bXOtlzXcIbRhb6vVEGF6BCc8wQi5T1ztCpTQ==" crossorigin="anonymous"></script>
+<script src="~/js/snippet-javascript-console.min.js?v=1"></script>
+
+<!-- jQuery Modal -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+<link rel="stylesheet" href="~/css/General.css" />
+<link rel="stylesheet" href="~/css/Web.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<script src="https://cdn.tiny.cloud/1/ne17sckxx03oeirry22akhqbvzamcxsmdz1py8ouk0fk5mf0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+
+<div class="divAlto"></div>
+<div class="container h-auto">
+
+    <br><br>
+    <a asp-controller="Home" asp-action="Index">
+        <img src="~/images/EmpleoMax3.png" height="40" alt="">&nbsp;&nbsp;&nbsp;&nbsp;
+    </a>
+    <h1 class="title1">Login In</h1>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-controller="Admin" asp-action="Login" asp-route-returnUrl="@Context.Request.QueryString">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <div class="custom-control custom-checkbox">
+                        <input asp-for="RememberMe" type="checkbox" class="custom-control-input">
+                        <label class="custom-control-label" asp-for="RememberMe">@Html.DisplayNameFor(m => m.RememberMe)</label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+
+            </form>
+
+        </div>
+    </div>
+</div>

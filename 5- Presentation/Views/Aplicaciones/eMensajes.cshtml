@@ -1,0 +1,181 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@using Microsoft.AspNetCore.Mvc;
+
+@{
+    var user = await _userManager.GetUserAsync(User); // ver datos adicionales
+    int CheckUserType = user.TypeUser;
+    string fName = user.FirstName;
+    string lName = user.LastName;
+    string sCandidato = "";
+    var usuarioguid2 = user.Id;
+    Guid usuarioguid = new Guid(usuarioguid2);
+    if (CheckUserType == 69784)
+    {
+    }
+    else
+    {
+        Context.Response.Redirect(Url.Content("~/Identity/Account/Logout"));
+    }
+}
+
+@{
+    ViewData["Title"] = "VerAplicaciones";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .tooltip-inner {
+        color: #000;
+        font-weight: 400;
+        background-color: #94C120;
+    }
+
+    .tooltip.bs-tooltip-auto[x-placement^=right] .arrow::before, .tooltip.bs-tooltip-right .arrow::before {
+        border-right-color: #94C120;
+    }
+</style>
+<div class="container bg-light border border-light shadow p-4 mb-2 bg-white">
+    Hola!, <h1 class="title1">@fName @lName</h1>
+    <h3 class="TitleRes">Mensajes de empleo</h3>
+    <p>Usted podrá ver sus mensajes:</p>
+    <br>
+
+    @{int canapl = 0;
+        string bgDiv = "bg-white";}
+    @foreach (var item in ViewBag.MsgList)
+    {
+        canapl++;
+        int nMsg = 1;
+        string empresa = "";
+        Int64 QuienUser = item.Vistopor;
+        string deQuien = "";
+        string aQuien = "";
+        string aQuien2 = "";
+
+        if (item.publicosino == true)
+        {
+            empresa = item.EmpresaCentro;
+            aQuien2 = empresa;
+        }
+        else if (item.publicosino == false)
+        {
+            empresa = item.EmpresaCentro;
+            aQuien2 = empresa;
+        }
+
+        if (QuienUser == 255485)
+        {
+            if (usuarioguid == item.From_) { empresa = sCandidato; } else { empresa = "Candidato"; }
+        }
+        else if (QuienUser == 69784)
+        {
+            if (usuarioguid == item.From_) { empresa = empresa; } else { empresa = "Se produjo un error"; }
+        }
+
+        if (canapl == 0 || canapl == 1) { bgDiv = "bg-white"; }
+        if (bgDiv == "bg-white") { bgDiv = "bg-light"; } else { bgDiv = "bg-white"; }
+
+        if (item.To_ == usuarioguid) { aQuien = sCandidato; } else { aQuien = aQuien2; }
+
+        <div class="Containe row shadow-sm p-0 mb-1 @bgDiv">
+            <div class="col-sm-1">
+                <p class="TextA">
+                    <br>
+                    <span class="badge badge-pill badge-secondary">
+                        @canapl
+                    </span>
+                </p>
+            </div>
+            <div class="col-sm-4">
+                <p class="letraSmallA">De:</p>
+                <p class="TextA">@item.elCandidato</p>
+                <p class="letraSmallA">Vacante: </p>
+                <p class="TextA">@item.Titulotrabajo</p>
+            </div>
+
+            <div class="col-sm-3">
+                <br>
+                <p class="TextA">@item.TrackingAdd</p>
+                <p class="TextA"><b>@item.Tracking_title</b></p>
+            </div>
+            <div class="col-sm-2">
+                <p class="letraSmallA">Recibido:</p>
+                <p class="TextA">
+
+                    <a href="#" data-toggle="collapse" data-target="#b2_@item.Id">
+                        @if (nMsg == 1)
+                        {
+                            @Html.Raw("<img src='../images/email-receive-icon.png'  height='35px'>");
+
+                        }
+                        else { }
+                    </a>
+                </p>
+            </div>
+            <div class="col-sm-2">
+                <p class="letraSmallA">Enviar:</p>
+                <p class="TextA">
+                    <a href="#" data-toggle="collapse" data-target="#b_@item.Id">
+                        @if (nMsg == 1)
+                        {
+                            @Html.Raw("<img src='../images/email-send-icon.png'  height='35px'>");
+
+                        }
+                        else { }
+                    </a>
+                </p>
+            </div>
+
+        </div>
+
+        <div id="b2_@item.Id" class="container collapse p-4 bg-primary text-white">
+            <div class="row">
+                <div class="col-sm-12">
+                    <p class="letraSmallA">Asunto: </p>
+                    <p class="TextA"><b>@item.Tracking_title</b></p>
+                    <p class="letraSmallA">Mensaje: </p>
+                    <p class="TextA">@item.Msg</p>
+                </div>
+            </div>
+        </div>
+        <div id="b_@item.Id" class="container collapse bg-light p-0">
+            <form class="" asp-controller="Aplicaciones" asp-action="EnviarMensajeE">
+                <input type="hidden" name="sdhtrtggwe" class="form-control" value="@item.Tracking" />
+                <input type="hidden" name="sdhggwe" class="form-control" value="@item.Id" />
+                <input type="hidden" name="Oportunidad" class="form-control" value="@item.Job" />
+                <input type="hidden" name="Id" class="form-control" value="@item.IdEmppleoAdd" />
+                <input type="hidden" name="Idfscd" class="form-control" value="@item.IdUserCandidato" />
+                <input type="hidden" name="hdwdewttweggew" class="form-control" value="@item.IdUserEmpresa" />
+                <div class="container row">
+                    <div class="col-sm-12">
+                        <p class="letraSmallA">Titulo:</p>
+                        <input type="text" name="titulo" class="form-control" placeholder="ej: información" />
+                    </div>
+                </div>
+
+                <div class="container row">
+                    <div class="col-sm-12">
+                        <p class="letraSmallA">Mensaje:</p>
+                        <textarea name="dfgfdgd2244" class="form-control" placeholder="ej: Puede por favor decirme si es necesario licencia de conducir:"></textarea>
+
+                    </div>
+                    <div class="col-sm-12">
+                        <p class="letraSmallA"> Enviar:</p>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-circle-right"></i> Enviar Mensaje</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    }
+
+    <br>
+    <a class="btn btn-outline-danger" asp-controller="Home" asp-action="Empresas">Mi Empresa</a>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $('[data-toggle="popover"]').popover();
+    });
+</script>

@@ -1,0 +1,113 @@
+﻿@model IEnumerable<EmpleosWebMax.Domain.Entity.Experiencias>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="container">
+        <p class="TitleHome">Index</p>
+        <a asp-action="Create">Crear nueva experiencia laboral</a>
+        <br>
+        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Candidatos">Mi Curriculum</a>
+
+
+        @foreach (var item in Model)
+        {
+            <div class="bg-light border border-primary shadow-lg p-4 mb-4 bg-white">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <b> @Html.DisplayFor(modelItem => item.Empresa)</b><br>
+                        @Html.DisplayFor(modelItem => item.Posicion)
+                    </div>
+                    <div class="col-sm-4">
+                        Desde: @Html.DisplayFor(modelItem => item.desde)<br>
+                        Hasta: @Html.DisplayFor(modelItem => item.hasta)
+                    </div>
+                    <div class="col-12">
+                        @Html.DisplayFor(modelItem => item.FuncionesRol)<br>
+                        @Html.DisplayFor(modelItem => item.Aportes)
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdUser)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Empresa)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Posicion)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FuncionesRol)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Aportes)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.desde)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.hasta)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.status)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.dateadd)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Empresa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Posicion)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FuncionesRol)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Aportes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.desde)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.hasta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateadd)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>

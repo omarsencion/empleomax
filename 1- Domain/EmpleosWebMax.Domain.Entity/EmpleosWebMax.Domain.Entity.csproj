@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="5.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\6- Common\EmpleosWebMax.Common\EmpleosWebMax.Common.csproj" />
+    <ProjectReference Include="..\EmpleosWebMax.Domain.Core\EmpleosWebMax.Domain.Core.csproj" />
+  </ItemGroup>
+
+</Project>

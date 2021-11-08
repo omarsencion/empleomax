@@ -1,0 +1,39 @@
+﻿
+@{
+    //ViewData["Title"] = "Select";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="divAlto"></div>
+
+<div class="container p-4">
+
+    <div class="row borde border-light  shadow-lg p-4 mb-4 bg-white">
+        <div class="col-sm-6 border-right border-light">
+            <p style="margin-left: 30px; margin-top: 0; margin-bottom: 0">
+                <img src="~/images/912318.svg" height="50" class="img-responsive">
+            </p>
+            <h1 class="title1" style="margin-left: 30px; margin-top: 5; margin-bottom: 5">Candidatos</h1>
+            <p class="TextRes" style="margin-left: 30px; margin-top: 5; margin-bottom: 5">
+                Registrate gratis en Empleomax.com y crea tu currículum.<br><br>
+                Después de eso, ¡hacemos todo el trabajo para conectarte con oportunidades laborales.<br>
+                <a class="btn btn-outline-primary " asp-controller="Procesos" asp-action="UserRegister"><i class="fas fa-user-plus"></i> Registrate!</a>
+
+            </p>
+        </div>
+        <div class="col-sm-6">
+            <p style="margin-left: 30px; margin-top: 0; margin-bottom: 0">
+                <img src="~/images/2083337.png" height="50" class="img-responsive">
+            </p>
+            <h1 class="title1" style="margin-left: 30px; margin-top: 5; margin-bottom: 5">Empresas</h1>
+            <p class="TextRes" style="margin-left: 30px; margin-top: 5; margin-bottom: 5">
+                Registra a tu empresa, publica las vacantes disponibles y selecciona a los mejores candidatos para lograr las metas de tu empresa.<br><br>
+                <a class="btn btn-outline-danger" asp-controller="Procesos" asp-action="BusinessRegister"><i class="fas fa-user-tie"></i> Registrate!</a>
+            </p>
+
+        </div>
+    </div>
+
+</div>
+@section Scripts {
+
+}

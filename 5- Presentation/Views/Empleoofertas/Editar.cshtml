@@ -1,0 +1,391 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@model EmpleosWebMax.Domain.Entity.Empleo
+
+@{
+    if (ViewBag.sPagereturnUrl > 0) { ViewBag.sPagereturnUrl = ViewBag.sPagereturnUrl; }
+    else { ViewBag.sPagereturnUrl = 1; }
+}
+<div class="container align-content-center">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form class="" asp-controller="Empleoofertas" asp-action="EditarbyE" asp-route-returnUrl="@Context.Request.QueryString">
+    <input type="hidden" name="pag" class="form-control" value="@ViewBag.sPagereturnUrl" />
+    <input type="hidden" asp-for="Id" class="form-control" />
+    <input type="hidden" name="buscar" value="@ViewBag.buscar" />
+    <input type="hidden" name="vc" value="@(Model.Job)" class="form-control" />
+    <h1 class="title1">Crear oferta de empleo</h1>
+
+    @*----------------------TEXTO ENRIQUECIDO ----------------------------------------*@
+    <div>
+        <script>
+            tinymce.init({
+                selector: '.mytextarea',
+                menubar: 'edit view',
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage',
+            });
+        </script>
+    </div>
+    @**********************************************************************************@
+    <div class="row border border-light shadow-lg p-4 mb-4 bg-white">
+        <div class="col-md-4" style="background-color:#F4F4F4;">
+            <div class="form-group">
+                <br>
+                <label asp-for="Titulotrabajo" class="control-label"></label>
+                <input asp-for="Titulotrabajo" class="form-control" placeholder="Ej: Abogado Sr" />
+                <span asp-validation-for="Titulotrabajo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ciudadtrabajo" class="control-label"></label>
+                <input asp-for="Ciudadtrabajo" class="form-control" placeholder="Santiago" />
+                <span asp-validation-for="Ciudadtrabajo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-control form-check-label">
+                    <input class="form-check-input" asp-for="Salariotratar" /> @Html.DisplayNameFor(model => model.Salariotratar)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salario" class="control-label"></label>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <select asp-for="salarioultimoMON" class="form-control">
+                            <option value="@(Model.salarioultimoMON)" selected>@(Model.salarioultimoMON)</option>
+                            <option value="RD$">RD$</option>
+                            <option value="USD$">USD$</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6"><input asp-for="Salario" class="form-control" /></div>
+                </div>
+                <span asp-validation-for="Salario" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Salariohasta" class="control-label"></label>
+                <div class="row">
+                    <div class="col-sm-4">
+                        <select asp-for="salarioaspiraMON" class="form-control">
+                            <option value="@(Model.salarioaspiraMON)" selected>@(Model.salarioaspiraMON)</option>
+                            <option value="RD$">RD$</option>
+                            <option value="USD$">USD$</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-6"><input asp-for="Salariohasta" class="form-control" /></div>
+                </div>
+                <span asp-validation-for="Salariohasta" class="text-danger"></span>
+            </div>
+        </div>
+        @*---------------------*@
+
+        <div class="col-md-4 border-light border" style="background-color:#f9F9F9;">
+            <div class="form-group">
+                <br>
+                <label asp-for="idiomas" class="control-label"></label>
+                <input asp-for="idiomas" class="form-control" placeholder="ej: ingles, frances..." />
+                <span asp-validation-for="idiomas" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="form-control form-check-label">
+                    <input class="form-check-input" asp-for="publicosino" /> @Html.DisplayNameFor(model => model.publicosino)
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TipoContrato" class="control-label"></label>
+                <select asp-for="TipoContrato" class="form-control" style="width:150px;">
+                    <option value="1">Fijo</option>
+                    <option value="2">Temporal</option>
+                    <option value="3">Sin contrato</option>
+                    <option value="4">Independiente</option>
+                    <option value="5">Por hora</option>
+                    <option value="6">A tratar</option>
+                </select>
+                <span asp-validation-for="TipoContrato" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="jornadahrs" class="control-label"></label>
+                <input asp-for="jornadahrs" class="form-control" placeholder="ej: 8 horas/día" />
+                <span asp-validation-for="jornadahrs" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="diaslaborables" class="control-label"></label>
+                <input asp-for="diaslaborables" class="form-control" placeholder="ej: de Lunes a Viernes" />
+                <span asp-validation-for="diaslaborables" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-4" style="background-color:#F4F4F4;">
+            <div class="form-group">
+                <br>
+                <div class="form-group">
+                    <label asp-for="edadminima" class="control-label"></label>
+                    <div class="row h-100 justify-content-start align-items-center">
+                        <div class="col-sm-2"><input asp-for="edadminima" class="form-control" placeholder="18" style="width:60px;" /></div>
+                        <div class="col-sm-1"> a</div>
+                        <div class="col-sm-2"><input asp-for="edadmaxima" class="form-control" placeholder="60" style="width:60px;" /></div>
+                        <div class="col-sm-2"> años</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group border border-dark border-left-0 border-right-0">
+                <label asp-for="sexo" class="control-label bg-light"></label>
+                <br>
+                <div class="form-check-inline bg-light">
+                    <label class="form-check-label" for="radio1">
+                        <input type="radio" asp-for="sexo" id="Sexo" value="1">  Hombre
+                    </label>
+                </div>
+                <div class="form-check-inline bg-light">
+                    <label class="form-check-label" for="radio2">
+                        <input type="radio" asp-for="sexo" Id="Sexor" value="0">  Mujer
+                    </label>
+                </div>
+
+                <div class="form-check-inline bg-light">
+                    <label class="form-check-label" for="radio3">
+                        <input type="radio" asp-for="sexo" Id="Sexod" value="3">  Sin preferencia
+                    </label>
+                </div>
+                <span asp-validation-for="sexo" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="desde" class="control-label"></label>
+                <input asp-for="desde" class="form-control" style="width:250px;" />
+                <span asp-validation-for="desde" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="hasta" class="control-label"></label>
+                <input asp-for="hasta" class="form-control" style="width:250px;" />
+                <span asp-validation-for="hasta" class="text-danger"></span>
+            </div>
+            <style>
+                ul, li {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                }
+
+                .xcontainer {
+                    padding: 20px;
+                    position: relative;
+                }
+            </style>
+
+            <div class="form-group">
+                <label asp-for="Areaprofesional" class="control-label"></label><br />
+                <select asp-for="Areaprofesional" name="Areaprofesional" multiple id="Areaprofesional">
+                    <option value="Abogado">&nbsp;&nbsp;Abogado</option>
+                    <option value="Actor">&nbsp;&nbsp;Actor</option>
+                    <option value="Administración">&nbsp;&nbsp;Administración</option>
+                    <option value="Agente de Aduanas">&nbsp;&nbsp;Aduanas</option>
+                    <option value="Agronomía">&nbsp;&nbsp;Agronomía</option>
+                    <option value="Almacén Logistica">&nbsp;&nbsp;Almacén Logistica</option>
+                    <option value="Arquitectura">&nbsp;&nbsp;Arquitectura</option>
+                    <option value="Artistas">&nbsp;&nbsp;Artistas</option>
+                    <option value="Asistente ejecutiva">&nbsp;&nbsp;Asistente ejecutiva</option>
+                    <option value="Auditor">&nbsp;&nbsp;Auditor</option>
+                    <option value="Automotriz">&nbsp;&nbsp;Automotriz</option>
+                    <option value="Alimentos y bebidas">&nbsp;&nbsp;Alimentos y bebidas</option>
+                    <option value="Bancos">&nbsp;&nbsp;Bancos</option>
+                    <option value="Barbero">&nbsp;&nbsp;Barbero</option>
+                    <option value="Bioanalista">&nbsp;&nbsp;Bioanalista</option>
+                    <option value="Bordador">&nbsp;&nbsp;Bordador</option>
+                    <option value="Caja">&nbsp;&nbsp;Caja</option>
+                    <option value="Call Center">&nbsp;&nbsp;Call Center</option>
+                    <option value="Camareros">Camareros</option>
+                    <option value="Camillero">&nbsp;&nbsp;Camillero</option>
+                    <option value="Carnicero">&nbsp;&nbsp;Carnicero</option>
+                    <option value="Chef">&nbsp;&nbsp;Chef</option>
+                    <option value="Choferes">&nbsp;&nbsp;Choferes</option>
+                    <option value="Cobros">&nbsp;&nbsp;Cobros</option>
+                    <option value="Cocinero">&nbsp;&nbsp;Cocinero</option>
+                    <option value="Comercial">&nbsp;&nbsp;Comercial</option>
+                    <option value="Community">&nbsp;&nbsp;Community</option>
+                    <option value="Compras">&nbsp;&nbsp;Compras</option>
+                    <option value="Comunicacion">&nbsp;&nbsp;Comunicacion</option>
+                    <option value="Conserjes">&nbsp;&nbsp;Conserjes</option>
+                    <option value="Consultor">&nbsp;&nbsp;Consultor</option>
+                    <option value="Contabilidad">&nbsp;&nbsp;Contabilidad</option>
+                    <option value="Cotizador">&nbsp;&nbsp;Cotizador</option>
+                    <option value="Créditos">&nbsp;&nbsp;Créditos</option>
+                    <option value="Delicatesse">&nbsp;&nbsp;Delicatesse</option>
+                    <option value="Delivery">&nbsp;&nbsp;Delivery</option>
+                    <option value="Dentista">&nbsp;&nbsp;Dentista</option>
+                    <option value="Developer">&nbsp;&nbsp;Developer</option>
+                    <option value="Diagramador">&nbsp;&nbsp;Diagramador</option>
+                    <option value="Dibujante">&nbsp;&nbsp;Dibujante</option>
+                    <option value="Digitador">&nbsp;&nbsp;Digitador</option>
+                    <option value="Diseñador">&nbsp;&nbsp;Diseñador</option>
+                    <option value="Diseño ,Gráfico">&nbsp;&nbsp;Diseño ,Gráfico</option>
+                    <option value="Doctor">&nbsp;&nbsp;Doctor</option>
+                    <option value="Domestica">&nbsp;&nbsp;Domestica</option>
+                    <option value="Economista">&nbsp;&nbsp;Economista</option>
+                    <option value="eléctrico">&nbsp;&nbsp;eléctrico</option>
+                    <option value="Electromecánico">&nbsp;&nbsp;Electromecánico</option>
+                    <option value="Electronica">&nbsp;&nbsp;Electronica</option>
+                    <option value="Empacador">&nbsp;&nbsp;Empacador</option>
+                    <option value="Encuestadores">&nbsp;&nbsp;Encuestadores</option>
+                    <option value="Enfermera">&nbsp;&nbsp;Enfermera</option>
+                    <option value="Entrenador">&nbsp;&nbsp;Entrenador</option>
+                    <option value="Entretenimiento">&nbsp;&nbsp;Entretenimiento</option>
+                    <option value="Esteticista">&nbsp;&nbsp;Esteticista</option>
+                    <option value="Estilistas">&nbsp;&nbsp;Estilistas</option>
+                    <option value="Estudiantes">&nbsp;&nbsp;Estudiantes</option>
+                    <option value="Farmacia">&nbsp;&nbsp;Farmacia</option>
+                    <option value="Finanzas">&nbsp;&nbsp;Finanzas</option>
+                    <option value="Fotógrafo">&nbsp;&nbsp;Fotógrafo</option>
+                    <option value="Fumigador">&nbsp;&nbsp;Fumigador</option>
+                    <option value="Gerente">&nbsp;&nbsp;Gerente</option>
+                    <option value="Gestor">&nbsp;&nbsp;Gestor</option>
+                    <option value="Gondolero">&nbsp;&nbsp;Gondolero</option>
+                    <option value="Hostess">&nbsp;&nbsp;Hostess</option>
+                    <option value="Hoteles">&nbsp;&nbsp;Hoteles</option>
+                    <option value="Industrial">&nbsp;&nbsp;Industrial</option>
+                    <option value="Informática">&nbsp;&nbsp;Informática</option>
+                    <option value="Inspector">&nbsp;&nbsp;Inspector</option>
+                    <option value="Instalador">&nbsp;&nbsp;Instalador</option>
+                    <option value="Instructor">&nbsp;&nbsp;Instructor</option>
+                    <option value="Instrumentista">&nbsp;&nbsp;Instrumentista</option>
+                    <option value="Inventario">&nbsp;&nbsp;Inventario</option>
+                    <option value="Laboratorio ,Clinico">&nbsp;&nbsp;Laboratorio ,Clinico</option>
+                    <option value="Leyes ,/ ,Abogados">&nbsp;&nbsp;Leyes ,/ ,Abogados</option>
+                    <option value="Limpieza">&nbsp;&nbsp;Limpieza</option>
+                    <option value="Locutor">&nbsp;&nbsp;Locutor</option>
+                    <option value="Maitre">&nbsp;&nbsp;Maitre</option>
+                    <option value="Manicurista">&nbsp;&nbsp;Manicurista</option>
+                    <option value="Mantenimiento">&nbsp;&nbsp;Mantenimiento</option>
+                    <option value="402 ,Manufactura">&nbsp;&nbsp;402 ,Manufactura</option>
+                    <option value="Maquillista">&nbsp;&nbsp;Maquillista</option>
+                    <option value="Marketing">&nbsp;&nbsp;Marketing</option>
+                    <option value="Masajista">&nbsp;&nbsp;Masajista</option>
+                    <option value="Mecánico">&nbsp;&nbsp;Mecánico</option>
+                    <option value="Mecatrónico">&nbsp;&nbsp;Mecatrónico</option>
+                    <option value="Medicina">&nbsp;&nbsp;Medicina</option>
+                    <option value="Médicos">&nbsp;&nbsp;Médicos</option>
+                    <option value="Mensajero">&nbsp;&nbsp;Mensajero</option>
+                    <option value="Mercadeo">&nbsp;&nbsp;Mercadeo</option>
+                    <option value="Mercaderista">&nbsp;&nbsp;Mercaderista</option>
+                    <option value="Mercadotecnia">&nbsp;&nbsp;Mercadotecnia</option>
+                    <option value="Merchandiser">&nbsp;&nbsp;Merchandiser</option>
+                    <option value="Microbiologo">&nbsp;&nbsp;Microbiologo</option>
+                    <option value="Modelos">&nbsp;&nbsp;Modelos</option>
+                    <option value="Modista">&nbsp;&nbsp;Modista</option>
+                    <option value="Monitor">&nbsp;&nbsp;Monitor</option>
+                    <option value="Montacargas">&nbsp;&nbsp;Montacargas</option>
+                    <option value="Negocios">&nbsp;&nbsp;Negocios</option>
+                    <option value="Nómina">&nbsp;&nbsp;Nómina</option>
+                    <option value="Noticias">&nbsp;&nbsp;Noticias</option>
+                    <option value="Odontólogos">&nbsp;&nbsp;Odontólogos</option>
+                    <option value="Operadores">&nbsp;&nbsp;Operadores</option>
+                    <option value="Optometra">&nbsp;&nbsp;Optometra</option>
+                    <option value="Pantrista">&nbsp;&nbsp;Pantrista</option>
+                    <option value="Pasantes">&nbsp;&nbsp;Pasantes</option>
+                    <option value="Periodista">&nbsp;&nbsp;Periodista</option>
+                    <option value="Planificador">&nbsp;&nbsp;Planificador</option>
+                    <option value="Planner">&nbsp;&nbsp;Planner</option>
+                    <option value="Planta">&nbsp;&nbsp;Planta</option>
+                    <option value="Poligrafista">&nbsp;&nbsp;Poligrafista</option>
+                    <option value="Prensista">&nbsp;&nbsp;Prensista</option>
+                    <option value="Productor">&nbsp;&nbsp;Productor</option>
+                    <option value="Profesores">&nbsp;&nbsp;Profesores</option>
+                    <option value="Programador">&nbsp;&nbsp;Programador</option>
+                    <option value="Promotores">&nbsp;&nbsp;Promotores</option>
+                    <option value="Proyectos">&nbsp;&nbsp;Proyectos</option>
+                    <option value="Psicólogos">&nbsp;&nbsp;Psicólogos</option>
+                    <option value="Publicidad">&nbsp;&nbsp;Publicidad</option>
+                    <option value="Quimico">&nbsp;&nbsp;Quimico</option>
+                    <option value="Recepcionista">&nbsp;&nbsp;Recepcionista</option>
+                    <option value="Recibidor">&nbsp;&nbsp;Recibidor</option>
+                    <option value="Reclamaciones">&nbsp;&nbsp;Reclamaciones</option>
+                    <option value="Reclutamiento">&nbsp;&nbsp;Reclutamiento</option>
+                    <option value="Recursos ,Humanos">&nbsp;&nbsp;Recursos ,Humanos</option>
+                    <option value="Redactor">&nbsp;&nbsp;Redactor</option>
+                    <option value="Refrigeración">&nbsp;&nbsp;Refrigeración</option>
+                    <option value="Repostero">&nbsp;&nbsp;Repostero</option>
+                    <option value="Restaurante">&nbsp;&nbsp;Restaurante</option>
+                    <option value="Rotulador">&nbsp;&nbsp;Rotulador</option>
+                    <option value="Secretaria">&nbsp;&nbsp;Secretaria</option>
+                    <option value="Seguridad">&nbsp;&nbsp;Seguridad</option>
+                    <option value="Serigrafo">&nbsp;&nbsp;Serigrafo</option>
+                    <option value="Servicio al Cliente">&nbsp;&nbsp;Servicio al Cliente</option>
+                    <option value="Sin categoría">&nbsp;&nbsp;Sin categoría</option>
+                    <option value="Sistemas">&nbsp;&nbsp;Sistemas</option>
+                    <option value="Soldador">&nbsp;&nbsp;Soldador</option>
+                    <option value="Sonografista">&nbsp;&nbsp;Sonografista</option>
+                    <option value="Soporte">&nbsp;&nbsp;Soporte</option>
+                    <option value="Steward">&nbsp;&nbsp;Steward</option>
+                    <option value="Superintendente">&nbsp;&nbsp;Superintendente</option>
+                    <option value="Supermercados">&nbsp;&nbsp;Supermercados</option>
+                    <option value="Tasador">&nbsp;&nbsp;Tasador</option>
+                    <option value="Técnicos">&nbsp;&nbsp;Técnicos</option>
+                    <option value="Tecnología">&nbsp;&nbsp;Tecnología</option>
+                    <option value="Tecnólogo">&nbsp;&nbsp;Tecnólogo</option>
+                    <option value="Terapeuta">&nbsp;&nbsp;Terapeuta</option>
+                    <option value="Tesorería">&nbsp;&nbsp;Tesorería</option>
+                    <option value="Tienda">&nbsp;&nbsp;Tienda</option>
+                    <option value="Topografo">&nbsp;&nbsp;Topografo</option>
+                    <option value="Tornero">&nbsp;&nbsp;Tornero</option>
+                    <option value="Traductor">&nbsp;&nbsp;Traductor</option>
+                    <option value="Trafficker">&nbsp;&nbsp;Trafficker</option>
+                    <option value="Trafico">&nbsp;&nbsp;Trafico</option>
+                    <option value="Transporte">&nbsp;&nbsp;Transporte</option>
+                    <option value="Utility">&nbsp;&nbsp;Utility</option>
+                    <option value="Varios">&nbsp;&nbsp;Varios</option>
+                    <option value="Ventas">&nbsp;&nbsp;Ventas</option>
+                    <option value="Veterinario">&nbsp;&nbsp;Veterinario</option>
+                    <option value="Visitador">&nbsp;&nbsp;Visitador</option>
+                    <option value="Web">&nbsp;&nbsp;Web</option>
+                </select>
+
+                <script>
+                    $('#Areaprofesional').multiselect(
+                        {
+                            columns: 1,
+                            placeholder: 'Selecciona todas tus áreas'
+                        }
+                    );
+                </script>
+                <span asp-validation-for="Areaprofesional" class="text-danger"></span>
+            </div>
+
+        </div>
+    </div> inicio form
+    @**********************************************************************************@
+    <div class="row shadow-lg p-4 mb-4 bg-white">
+        @*--------------------------------------------------------------*@
+        <div class="col-md-12 border border-light" style="background-color:#EEEEEE;">
+            <div class="form-group">
+                <label asp-for="Descripciontrabajo" class="control-label"></label>
+                @Html.TextAreaFor(m => m.Descripciontrabajo, new { @class = "mytextarea form-control" })
+                <span asp-validation-for="Descripciontrabajo" class="text-danger"></span>
+            </div>
+        </div>
+        @*--------------------------------------------------------------*@
+    </div>
+    <div class="row shadow-lg p-4 mb-4 bg-white">
+        @*--------------------------------------------------------------*@
+        <div class="col-md-12 border border-light" style="background-color:#F4F4F4;">
+            <div class="form-group">
+                <label asp-for="Requisitostrabajo" class="control-label"></label>
+                @Html.TextAreaFor(m => m.Requisitostrabajo, new { @class = "mytextarea form-control" })
+                <span asp-validation-for="Requisitostrabajo" class="text-danger"></span>
+            </div>
+        </div>
+        @*--------------------------------------------------------------*@
+    </div>
+    <div class="row border-light shadow-lg p-4 mb-4 bg-white">
+        <div class="col-md-12 divAltoc" style="background-color:#EEEEEE;">
+            <br>
+            <input type="submit" value="Actualizar oferta de empleo" class="btn btn-primary btn-block" />
+        </div>
+    </div>
+</form>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function myFunction() {
+            document.getElementById("Sexor").checked = false;
+            document.getElementById("Sexod").checked = false;
+        }
+    </script>
+}

@@ -1,0 +1,68 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager
+@model EmpleosWebMax.Domain.Entity.ForoDto
+@{
+    ViewData["Title"] = "GoPost";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<br>
+<h1 class="title1">Crear Post</h1>
+<br>
+<div class="container-fluid row">
+    <div class="col-md-8">
+        <form enctype="multipart/form-data" asp-controller="Forosall" asp-action="NewPostgo" asp-route-returnUrl="@Context.Request.QueryString">
+
+            <input type="hidden" name="IdCategoria" class="form-control" value="@ViewBag.nId_" />
+            <div class="form-group">
+                <label name="Titulo" class="control-label">Titulo</label>
+                <input name="Titulo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label name="Autor" class="control-label">Autor</label>
+                <input name="Autor" class="form-control" />
+            </div>
+
+            @*--------------------------------------------------------------*@
+            <script>
+                tinymce.init({
+                    selector: '.mytextarea',
+                    menubar: 'edit view',
+                    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | print preview media fullpage',
+                });
+            </script>
+            <div class="form-group">
+                <label for="Contenido" class="control-label">Contenido</label>
+                <textarea class="mytextarea form-control" name="Contenido" id="Contenido" rows="8"></textarea>
+            </div>
+            @*--------------------------------------------------------------*@
+            <div class="form-group">
+
+                <div class="form-group">
+                    @*<label asp-for="Foto" class="control-label"></label>*@
+                    <div class="form-group">
+                        <input type="file" name="file" />
+
+                        @*<input asp-for="Foto" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Choose file</label>*@
+                    </div>
+                    <span asp-validation-for="Foto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $(".custom-file-input").on("change", function () {
+            var fileName = $(this).val().split("\\").pop();
+            $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+    </script>
+}
+<script src="~/lib/jquery/dist/jquery.min.js"></script>

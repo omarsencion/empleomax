@@ -1,0 +1,162 @@
+﻿@model IEnumerable<EmpleosWebMax.Domain.Entity.Empleo>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Job)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idnumempresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Idempresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titulotrabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripciontrabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Requisitostrabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ciudadtrabajo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salariotratar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Salariohasta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.publicosino)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.desde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.hasta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoContrato)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.jornadahrs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.diaslaborables)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.edadminima)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.edadmaxima)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sexo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateadd)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Job)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Idnumempresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Idempresa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titulotrabajo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripciontrabajo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Requisitostrabajo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ciudadtrabajo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salariotratar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salariohasta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.publicosino)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.desde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.hasta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoContrato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.jornadahrs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.diaslaborables)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edadminima)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edadmaxima)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.sexo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.dateadd)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,132 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@using System.Security.Claims;
+@model IEnumerable<Ofertas>
+@{
+    ViewData["Title"] = "Empleos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+        int nFollowin = 0;
+
+}
+
+    <div class="container">
+        <h1 class="title1">Empleos que aplicaste</h1>
+
+        <br>
+
+
+        @foreach (var item in Model)
+        {
+            string sTipoContrato = "";
+            int nTipoContrato = item.TipoContrato;
+            if (nTipoContrato == 1) { sTipoContrato = "Fijo"; }
+            else if (nTipoContrato == 2) { sTipoContrato = "Temporal"; }
+            else if (nTipoContrato == 3) { sTipoContrato = "Sin contrato"; }
+            else if (nTipoContrato == 4) { sTipoContrato = "Independiente"; }
+            else if (nTipoContrato == 5) { sTipoContrato = "Por hora"; }
+            else if (nTipoContrato == 6) { sTipoContrato = "A tratar"; }
+            else { sTipoContrato = ""; }
+
+            var salarhasta = "";
+            if (item.Salariohasta > 0) { salarhasta = "a RD$"; }
+
+            string sSalariotratar = "";
+            if (item.Salariotratar == true) { sSalariotratar = "Sí"; }
+            else if (item.Salariotratar == false) { sSalariotratar = "No"; }
+
+            string sSexo = "";
+            if (item.sexo == 0) { sSexo = "Mujer"; }
+            else if (item.sexo == 1) { sSexo = "Hombre"; }
+            else if (item.sexo == 3) { sSexo = "Sin preferencia"; }
+
+            //=============== empresa publica si o no
+                        //string msgsino = "";
+            //if (item.publicosino == true) { msgsino = "SI"; }
+            //else { msgsino = "NO";}
+            string msgsino = "";
+            string empresa = "";
+            string empresaTelf = "";
+            string empresalogo = "";
+            if (item.publicosino == true)
+            {
+                msgsino = "SI";
+                empresa = item.EmpresaCentro;
+                empresaTelf = item.PhoneNumber;
+                empresalogo = item.Foto;
+                nFollowin = 1;
+            }
+            else
+            {
+                msgsino = "NO";
+                empresa = "Información reservada";
+                empresaTelf = "8*9-***.****";
+                empresalogo = "reservado.png";
+                nFollowin = 0;
+            }
+
+
+    <div class="container mt-3 border border-secondary border-left-0 border-right-0 shadow p-4 mb-4 bg-white">
+        <div class="row">
+            <div class="col-sm-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="~/logo/@empresalogo" class="responsive" height="40">
+                    </div>
+                    <div class="col-md-8">
+                        <p class="letraSmall">Publicado por:</p><p class="TitleRes3 margeno"> @empresa </p>
+                        <p class="TitleRes3"><i class="fas fa-phone-square-alt"></i> @empresaTelf</p>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-7">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p class="letraSmall">Vacante:</p>
+                        <h1 class="TitleRes3">@item.Titulotrabajo</h1>
+                        Contrato: <text class="at"> @sTipoContrato</text><br>
+                        Horario: <text class="at"> @item.diaslaborables, @item.jornadahrs</text><br>
+                        Salario: <text class="at">RD$ @item.Salario @salarhasta @item.Salariohasta</text>
+                    </div>
+                    <div class="col-sm-6">
+                        <br>
+                        Edad: <text class="at"> @item.edadminima a @item.edadmaxima</text><br>
+                        Sexo: <text class="at"> @sSexo</text><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="b_@item.Id" class="collapse show">
+
+            <br>
+            <i class="far fa-clock"></i> Publicado:<text class="at"> @item.dateadd</text><br>
+            <i class="fas fa-map-marker-alt"></i> Ciudad:<text class="at"> @item.Ciudadtrabajo</text><br>
+            <i class="fas fa-globe"></i> Idiomas: <text class="at"> @item.idiomas</text><br>
+            <i class="fas fa-dollar-sign"></i> <text class="at">Salario a tratar? <b>@sSalariotratar</b></text><br>
+            <br>
+            <h1 class="TitleRes3">Descripción</h1>
+            <p class="TextContenido pl-5 pr-5 text-justify">@Html.Raw(item.Descripciontrabajo) </p>
+            <hr />
+            <h1 class="TitleRes3">Requisitos</h1>
+            <p class="TextContenido pl-5 pr-5 text-justify">@Html.Raw(item.Requisitostrabajo)</p>
+
+        </div>
+        <br>
+        <button class="btn btn-outline-danger hBack" type="button"><i class="fas fa-arrow-circle-left"></i> Regresar</button>
+        <br><br>
+    </div>
+        }
+
+    </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(".hBack").on("click", function (e) {
+            e.preventDefault();
+            window.history.back();
+        });
+    </script>
+}

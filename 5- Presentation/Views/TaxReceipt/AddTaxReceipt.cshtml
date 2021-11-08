@@ -1,0 +1,73 @@
+﻿@model EmpleosWebMax.Application.ViewModels.TaxReceiptViewModel
+
+@{
+    ViewData["Title"] = "Agregar Comprobante fiscal";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Agregar Comprobante fiscal</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddTaxReceipt">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="TaxReceiptDto.Code" class="control-label"></label>
+                <input asp-for="TaxReceiptDto.Code" class="form-control" readonly />
+                <span asp-validation-for="TaxReceiptDto.Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxReceiptDto.Name" class="control-label"></label>
+                <input asp-for="TaxReceiptDto.Name" class="form-control" />
+                <span asp-validation-for="TaxReceiptDto.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxReceiptDto.Prefix" class="control-label"></label>
+                <input asp-for="TaxReceiptDto.Prefix" class="form-control" />
+                <span asp-validation-for="TaxReceiptDto.Prefix" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxReceiptDto.SequenceFrom" class="control-label"></label>
+                <input asp-for="TaxReceiptDto.SequenceFrom" class="form-control" />
+                <span asp-validation-for="TaxReceiptDto.SequenceFrom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxReceiptDto.SequenceTo" class="control-label"></label>
+                <input asp-for="TaxReceiptDto.SequenceTo" class="form-control" />
+                <span asp-validation-for="TaxReceiptDto.SequenceTo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxReceiptDto.SequenceActual" class="control-label"></label>
+                <input asp-for="TaxReceiptDto.SequenceActual" class="form-control" />
+                <span asp-validation-for="TaxReceiptDto.SequenceActual" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TaxReceiptDto.IsCompany" /> @Html.DisplayNameFor(model => model.TaxReceiptDto.IsCompany)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TaxReceiptDto.IsCanditate" /> @Html.DisplayNameFor(model => model.TaxReceiptDto.IsCanditate)
+                </label>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="TaxReceiptDto.IsInternationalCompany" /> @Html.DisplayNameFor(model => model.TaxReceiptDto.IsInternationalCompany)
+                </label>
+            </div>
+
+            <input asp-for="ModuleSequenceDto.Module" class="form-control" hidden />
+            <input asp-for="ModuleSequenceDto.Id" class="form-control" hidden />
+            <input asp-for="ModuleSequenceDto.Sequence" class="form-control" hidden />
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-danger">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

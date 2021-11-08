@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmpleosWebMax.Infrastructure.Core\EmpleosWebMax.Infrastructure.Core.csproj" />
+    <ProjectReference Include="..\EmpleosWebMax.Infrastructure.Interface\EmpleosWebMax.Infrastructure.Interface.csproj" />
+  </ItemGroup>
+
+</Project>
