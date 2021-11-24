@@ -735,6 +735,102 @@ namespace EmpleosWebMax.Infrastructure.Core.Migrations
                     b.ToTable("friendsall");
                 });
 
+            modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Invoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ApplicationUserId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Discount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NoteToRecipient")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("SubscriptionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Subtotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TaxAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId1");
+
+                    b.HasIndex("SubscriptionId")
+                        .IsUnique();
+
+                    b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("EmpleosWebMax.Domain.Entity.InvoiceLine", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("PlanId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Quantity")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("ServiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("TaxAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.HasIndex("PlanId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("InvoiceLines");
+                });
+
             modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Miscelaneos", b =>
                 {
                     b.Property<int>("Id")
@@ -1351,6 +1447,50 @@ namespace EmpleosWebMax.Infrastructure.Core.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Invoice", b =>
+                {
+                    b.HasOne("EmpleosWebMax.Domain.Entity.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId1");
+
+                    b.HasOne("EmpleosWebMax.Domain.Entity.Subscription", "Subscription")
+                        .WithOne("Invoice")
+                        .HasForeignKey("EmpleosWebMax.Domain.Entity.Invoice", "SubscriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Subscription");
+                });
+
+            modelBuilder.Entity("EmpleosWebMax.Domain.Entity.InvoiceLine", b =>
+                {
+                    b.HasOne("EmpleosWebMax.Domain.Entity.Invoice", "Invoice")
+                        .WithMany("InvoiceLines")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EmpleosWebMax.Domain.Entity.Plan", "Plan")
+                        .WithMany("InvoiceLines")
+                        .HasForeignKey("PlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EmpleosWebMax.Domain.Entity.Service", "Service")
+                        .WithMany("InvoiceLine")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+
+                    b.Navigation("Plan");
+
+                    b.Navigation("Service");
+                });
+
             modelBuilder.Entity("EmpleosWebMax.Domain.Entity.PlanService", b =>
                 {
                     b.HasOne("EmpleosWebMax.Domain.Entity.Plan", "Plans")
@@ -1443,8 +1583,15 @@ namespace EmpleosWebMax.Infrastructure.Core.Migrations
                     b.Navigation("Subscriptions");
                 });
 
+            modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Invoice", b =>
+                {
+                    b.Navigation("InvoiceLines");
+                });
+
             modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Plan", b =>
                 {
+                    b.Navigation("InvoiceLines");
+
                     b.Navigation("PlanServices");
 
                     b.Navigation("Subscriptions");
@@ -1452,7 +1599,14 @@ namespace EmpleosWebMax.Infrastructure.Core.Migrations
 
             modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Service", b =>
                 {
+                    b.Navigation("InvoiceLine");
+
                     b.Navigation("PlanServices");
+                });
+
+            modelBuilder.Entity("EmpleosWebMax.Domain.Entity.Subscription", b =>
+                {
+                    b.Navigation("Invoice");
                 });
 #pragma warning restore 612, 618
         }
