@@ -2,11 +2,10 @@
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 @{
-    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<link href="~/css/StyleSheet.css" rel="stylesheet" />
+<link href="~/css/InvoiceIndex.css" rel="stylesheet" />
 <div id="container" class="InvoicePS">
     <section class="content">
         <div class="container-fluid">
@@ -56,7 +55,7 @@
                             </div>
                             <!-- /.col -->
                             <div class="col-sm-4 invoice-col">
-                                <b>Invoice: #@Model.InvoiceNumber</b><br>
+                                <b>Numero de factura: #@Model.InvoiceNumber</b><br>
                                 <br>
                                 <b>Order ID:</b> 4F3S8J<br>
                                 <b>Plan Vence:</b>  @Model.DateFinishPlan.ToShortDateString()<br>
@@ -168,10 +167,10 @@
                         <!-- this row will not appear when printing -->
                         <div class="row no-print">
                             <div class="col-12">
-                              @*  <button asp-action="Detail" type="button" class="btn btn-success float-right">
-                                    <i class="fas fa-info-circle"></i> Detalle
-                                </button>
-*@
+                                @*  <button asp-action="Detail" type="button" class="btn btn-success float-right">
+                                        <i class="fas fa-info-circle"></i> Detalle
+                                    </button>
+                                *@
                                 <a asp-action="Detail" class="btn btn-success float-right">
                                     <i class="fas fa-info-circle"></i> Detalle
 
@@ -194,6 +193,3 @@
 <!-- /.content -->
 <!-- /.content-wrapper -->
 <!-- /.control-sidebar -->
-
-
-
